@@ -1,0 +1,22 @@
+# narayan-designer(1) completion
+_have narayan-designer &&
+_narayan_designer()
+{
+    local cur prev opts
+
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts="-h --help -v --version"
+
+    # TODO: Figure out how to get = to not print escaped as \=
+    if [[ ${cur} == -* ]] ; then
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        return 0
+    fi
+}
+
+# Complete the narayan-designer command with the _narayan_designer function
+#  above...
+complete -f -F _narayan_designer narayan-designer
+

@@ -1,0 +1,17 @@
+2017-06-28  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Macros/gettext.m4: New file, from gettext-0.19.8.1.
+	* Macros/iconv.m4: New file, from gettext-0.19.8.1.
+	* Macros/lib-ld.m4: New file, from gettext-0.19.8.1.
+	* Macros/lib-link.m4: New file, from gettext-0.19.8.1.
+	* Macros/lib-prefix.m4: New file, from gettext-0.19.8.1.
+	* Macros/nls.m4: New file, from gettext-0.19.8.1.
+	* Macros/po.m4: New file, from gettext-0.19.8.1.
+	* Macros/progtest.m4: New file, from gettext-0.19.8.1.
+	* configure.ac (AM_GNU_GETTEXT_VERSION): Bump to 0.19.8.
+
+2017-06-28  Kip Warner  <kip@thevertigo.com>
+
+    * All: Initial arborescence.
+
+

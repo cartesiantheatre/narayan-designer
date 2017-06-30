@@ -1,0 +1,32 @@
+# Please keep this list sorted alphabetically.
+# Full list of all POSIX locale codes here:
+#   <https://www.iana.org/assignments/language-subtag-registry>
+#
+
+# English, as spoken in Canada...
+#en_CA
+
+# English, as spoken in the UK...
+#en_GB
+
+# Filipino...
+#fil
+
+# French...
+#fr
+
+# Italian...
+#it
+
+# Russian...
+#ru
+
+# Ukranian...
+#uk
+
+# Chinese, as spoken in China...
+#zh_CN
+
+# Chinese, as spoken in Taiwan...
+#zh_TW
+

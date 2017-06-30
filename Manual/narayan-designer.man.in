@@ -1,0 +1,38 @@
+.TH @PACKAGE@ 1 "June 2017" "Version @PACKAGE_VERSION@"
+.SH NAME
+narayan-designer
+
+.SH SYNOPSIS
+Narayan Designer, a modelling tool for the Narayan simulation engine.
+
+.SH DESCRIPTION
+Narayan Designer is a portable design tool used to create agent based simulation
+models for the Narayan simulation engine. The latter can be embedded within a
+variety of creative applications. These might range from urban dynamic
+simulators assisting city planners manage a real city all the way to a science
+fiction metropolis city builder social simulation on another planet.
+
+Narayan Designer uses a graphical Gtk+ based user interface. Models define
+agents, resources, maps, units, globals, and simulation rules. 
+
+Simulation rules are written using Narayan Logic. Narayan Logic is an easy to 
+use stateless declarative language. Simulation rules are executed atomically at
+regular cycle intervals to update the state of the simulation.
+
+.SH AUTHOR
+\fI@PACKAGE_BUGREPORT@\fR
+
+.SH REPORTING BUGS
+Report bugs to \fI@PACKAGE_BUGREPORT@\fR
+
+.SH COPYRIGHT
+@COPYRIGHT_NOTICE@
+
+.SH SEE ALSO
+\fBavaneya\fR(1)
+
+\fIhttps://www.cartesiantheatre.com\fR
+
+\fIhttps://www.avaneya.com\fR
+.br
+

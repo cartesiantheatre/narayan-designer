@@ -1,0 +1,23 @@
+ReadMe
+======
+
+    Narayan Designer is a portable design tool used to create agent based
+    simulation models for the Narayan simulation engine. The latter can be
+    embedded within a variety of creative applications. These might range from
+    urban dynamic simulators assisting city planners manage a real city all the
+    way to a science fiction metropolis city builder social simulation on
+    another planet.
+
+    Narayan Designer uses a graphical Gtk+ based user interface. Models define
+    agents, resources, maps, units, globals, and simulation rules. 
+
+    Simulation rules are written using Narayan Logic. Narayan Logic is an easy
+    to use stateless declarative language. Simulation rules are executed
+    atomically at regular cycle intervals to update the state of the simulation.
+
+    Visit us on the web at:
+
+        <https://www.cartesiantheatre.com>
+
+    Copyright (C) 2017 Cartesian Theatre. All rights reserved.
+

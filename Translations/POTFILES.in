@@ -1,0 +1,7 @@
+./Source/CommandLineOptions.cpp
+./Source/Main.cpp
+./Source/CommandLineOptions.h
+./Source/ExplicitSingleton.h
+./Source/gettext.h
+./Source/config.h.in
+./Source/Version.h.in
