@@ -14,11 +14,11 @@ SUBDIRS = Translations
 bin_PROGRAMS = narayan-designer
 
 # Get build flags...
-narayan_designer_CFLAGS = $(AM_CFLAGS)
-narayan_designer_CXXFLAGS = $(AM_CXXFLAGS)
-narayan_designer_CPPFLAGS = -DSYSCONFDIR='"$(sysconfdir)"' -I$(srcdir)/Source $(AM_CPPFLAGS)
-narayan_designer_LDFLAGS = $(AM_LDFLAGS)
-narayan_designer_LDADD = $(AM_LDFLAGS)
+narayan_designer_CFLAGS     = $(AM_CFLAGS)
+narayan_designer_CXXFLAGS   = $(AM_CXXFLAGS)
+narayan_designer_CPPFLAGS   = -DSYSCONFDIR='"$(sysconfdir)"' -I$(srcdir)/Source $(AM_CPPFLAGS)
+narayan_designer_LDFLAGS    = $(AM_LDFLAGS)
+narayan_designer_LDADD      = $(AM_LDFLAGS)
 
 # Preprocessor definitions to pass down to the compiler...
 DEFS=
@@ -29,6 +29,14 @@ localedir = $(datadir)/locale
 
 # These files must exist before anything is compiled. Can be machine generated...
 BUILT_SOURCES =                                 \
+    Source/NarayanLogicLexerBase.h              \
+    Source/NarayanLogicLexer.h                  \
+    Source/NarayanLogicLexer.ih                 \
+    Source/NarayanLogicLexerBase.cpp            \
+    Source/NarayanLogicParserBase.h             \
+    Source/NarayanLogicParser.h                 \
+    Source/NarayanLogicParser.ih                \
+    Source/NarayanLogicParser.cpp               \
     Source/Version.h
 #    Tests/...
 
@@ -38,11 +46,26 @@ narayan_designer_SOURCES =                      \
     Source/CommandLineOptions.h                 \
     Source/ExplicitSingleton.h                  \
     Source/gettext.h                            \
-    Source/Main.cpp
+    Source/Main.cpp                             \
+    Source/NarayanLogicLexerBase.h              \
+    Source/NarayanLogicLexer.h                  \
+    Source/NarayanLogicLexer.ih                 \
+    Source/NarayanLogicLexerBase.cpp            \
+    Source/NarayanLogicParserBase.h             \
+    Source/NarayanLogicParser.h                 \
+    Source/NarayanLogicParser.ih                \
+    Source/NarayanLogicParser.cpp
 
 # List of files to clean up during clean target...
 CLEANFILES =                                    \
-	Source/Version.h                            \
+    Source/NarayanLogicLexerBase.h              \
+    Source/NarayanLogicLexer.h                  \
+    Source/NarayanLogicLexer.ih                 \
+    Source/NarayanLogicLexerBase.cpp            \
+    Source/NarayanLogicParserBase.h             \
+    Source/NarayanLogicParser.h                 \
+    Source/NarayanLogicParser.ih                \
+    Source/NarayanLogicParser.cpp               \
 	Tests/Runtime_Sane.sh                       \
 	Translations/*.gmo
 
@@ -93,6 +116,8 @@ endif
 # Manually add these things to distribution package when dist target is run...
 EXTRA_DIST =                                    \
 	Manual/narayan-designer                     \
+    Source/NarayanLogicLexer.lpp                \
+    Source/NarayanLogicParser.ypp               \
     Authors                                     \
     ChangeLog                                   \
     Copying                                     \
@@ -109,6 +134,16 @@ check_SCRIPTS =                                 \
 #if VALGRIND_ENABLED
 #check_SCRIPTS += Tests/Valgrind.sh
 #endif
+
+# Extend silent mode for flexc++(1) inputs per Automake manual §21.3...
+AX_V_FLEXCPP = $(AX_V_FLEXCPP_@AM_V@)
+AX_V_FLEXCPP_ = $(AX_V_FLEXCPP_@AM_DEFAULT_V@)
+AX_V_FLEXCPP_0 = @echo "  FLEXCPP $@";
+
+# Extend silent mode for bisonc++(1) inputs per Automake manual §21.3...
+AX_V_BISONCPP = $(AX_V_BISONCPP_@AM_V@)
+AX_V_BISONCPP_ = $(AX_V_BISONCPP_@AM_DEFAULT_V@)
+AX_V_BISONCPP_0 = @echo "  BISONCPP $@";
 
 # GCS § 7.2.6 requires a check target. Targets to execute for check target...
 TESTS = $(check_SCRIPTS)
@@ -132,6 +167,19 @@ dist-hook:
 # Maintainer clean local hook to remove Autotools configuration output files...
 maintainer-clean-local:
 	$(RM) -r '$(srcdir)/Auxiliary'
+
+# Generate the Narayan Logic lexer source from its regular expression token
+#  descriptions via flexc++, using that file as a witness...
+Source/NarayanLogicLexerBase.h Source/NarayanLogicLexer.h Source/NarayanLogicLexer.ih: Source/NarayanLogicLexerBase.cpp
+Source/NarayanLogicLexerBase.cpp: Source/NarayanLogicLexer.lpp
+	$(AX_V_FLEXCPP)$(FLEXCPP) --target-directory=$(top_builddir)/Source $< ; \
+	$(SED) -i '/#include "NarayanLogicLexer.ih"/a #include "NarayanLogicParserBase.h" \/\/ Added manually...' $(top_builddir)/Source/NarayanLogicLexerBase.cpp
+
+# Generate the Narayan Logic parser source from its Backus-Naur grammar rules
+#  via bisonc++, using that file as a witness...
+Source/NarayanLogicParserBase.h Source/NarayanLogicParser.h Source/NarayanLogicParser.ih: Source/NarayanLogicParser.cpp
+Source/NarayanLogicParser.cpp: Source/NarayanLogicParser.ypp
+	$(AX_V_BISONCPP)$(BISONCPP) --target-directory=$(top_builddir)/Source $<
 
 # Rule to create test script to verify the runtime works by just testing to see
 #  it compiled and linked correctly...

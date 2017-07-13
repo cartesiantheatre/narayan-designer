@@ -1,0 +1,37 @@
+/*
+    Narayan Designer, a modelling tool for the Narayan simulation engine.
+    Copyright (C) 2017 Cartesian Theatre. All rights reserved.
+*/
+
+/*
+    Invocation: $ flexc++ --show-filenames NarayanLogicLexer.lpp
+
+    Generates:
+
+        Baseclass header:                   NarayanLogicLexerBase.h
+        Class header:                       NarayanLogicLexer.h
+        Implementation header:              NarayanLogicLexer.ih
+        Lexer implementation:               NarayanLogicLexerBase.cpp
+*/
+
+// Definition section is ommitted when using flexc++(1) because it has no need
+//  for them, unlike like flex(1)...
+
+    // Define the class name...
+    %class-name         = "NarayanLogicLexer"
+    
+    // Define the base class header file name...
+    %baseclass-header   = "NarayanLogicLexerBase.h"
+    
+    // Define the file name containing the lexer implementation...
+    %lex-source         = "NarayanLogicLexerBase.cpp"
+
+// A list of regular expressions used to identify every possible terminal token
+//  that can be returned by the lexer...
+%%
+[ \t\n]+                            /* skip white space chars. */
+[0-9]+                              return NarayanLogicParser::NUMBER;
+[[:alpha:]_][[:alpha:][:digit:]_]*  return NarayanLogicParser::IDENTIFIER;
+
+%%
+

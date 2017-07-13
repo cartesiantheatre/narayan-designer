@@ -112,19 +112,21 @@ fi
 
     # Bison C++ parser generator...
     AX_PROG_BISONCPP([5.02])
+    AC_PATH_PROG([BISONCPP], [bisonc++])
 
     # chmod...
     AC_PATH_PROG([CHMOD], [chmod])
 
     # C++14 compiler with strict conformance required...
     AC_PROG_CXX
-    AX_CXX_COMPILE_STDCXX_14([noext],[mandatory])
+    AX_CXX_COMPILE_STDCXX_14([noext], [mandatory])
 
     # C++ preprocessor...
     AC_PROG_CXXCPP
 
     # Flex C++ lexer generator...
     AX_PROG_FLEXCPP([2.05])
+    AC_PATH_PROG([FLEXCPP], [flexc++])
 
     # Grep required for test suite...
     AC_PROG_GREP
@@ -253,6 +255,9 @@ AC_LANG([C++])
 
     # Endianness...
     AC_C_BIGENDIAN
+    
+    # Signedness of char...
+    AC_C_CHAR_UNSIGNED
 
     # Fixed width primitives...
     AC_TYPE_INT8_T
@@ -274,7 +279,7 @@ AC_LANG([C++])
 # Set additional compilation flags...
 
     # Enable all warnings and treat them as errors...
-    CXXFLAGS="$CXXFLAGS -Wall -Werror -Wshadow -Wextra"
+    CXXFLAGS="$CXXFLAGS -Wall -Werror -Wshadow -Wextra -Wno-unused-parameter"
 
 # Generate makefiles from templates containing Autoconf substitution variables
 #  for root makefile...

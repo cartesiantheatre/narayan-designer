@@ -1,0 +1,153 @@
+/*
+    Narayan Designer, a modelling tool for the Narayan simulation engine.
+    Copyright (C) 2017 Cartesian Theatre. All rights reserved.
+*/
+
+/*
+    Invocation: $ bisonc++ --show-filenames --thread-safe NarayanLogicParser.ypp
+
+    Generates:
+
+        Baseclass header:                   NarayanLogicParserBase.h
+        Class header:                       NarayanLogicParser.h
+        Implementation header:              NarayanLogicParser.ih
+        Parser Implementation:              NarayanLogicParser.cpp
+*/
+
+// Prologue contains macro definitions and declarations of functions and
+//  variables used in the actions in the grammar rules which are copied into
+//  the parser implementation. Unlike Bison, Bisonc++ doesn't require them...
+/*%{
+    // Includes...
+
+        // Provided by Autoconf...
+        #include <config.h>
+        
+        // Standard C++ and POSIX system headers...
+        #include <iostream>
+        
+        // Lexer...
+        #include "NarayanLogicLexer.h"
+
+        // i18n...
+        #include "gettext.h"
+        #define _(str) gettext (str)
+        #define N_(str) gettext_noop (str)
+
+    // Using the standard namespace...
+    using namespace std;
+%}*/
+
+// Bison declarations section contains declarations that define parser settings,
+//  terminal and nonterminal symbols, their precedence and associativity, and so
+//  forth...
+
+    // Where to find the lexer...
+    %scanner                    "NarayanLogicLexer.h"
+
+    // What to call our lexer when it is declared...
+    %scanner-class-name         NarayanLogicLexer
+    
+    // Lexer's method to tokenize...
+    %scanner-token-function     d_scanner.lex()
+
+    // What to name the parser class which contains the lexer as a member...
+    %class-name                 NarayanLogicParser
+
+    // Terminal tokens with associativity which determines how repeated uses of
+    //  the given symbol nest, provided in order from lowest to highest
+    //  precedence...
+    %left                       '-' '+'
+    %left                       '*' '/'
+    %left                       '%'
+    %right                      '^'         /* Exponentiation operator */
+    %right                      UNARY       /* Positive or negation unary operator */
+
+    // Define semantic value types using polymorphism instead of traditional
+    //  union interface. This was added in bisonc++(1) in 2007, whereas bison(1)
+    //  / POSIX yacc(1) were limited to type unsafe %union mechanism...
+    %polymorphic                IDENTIFIER: std::string; NUMBER: int;
+
+    // Terminal tokens without associativity or precedence...
+    %token IDENTIFIER NUMBER
+
+    // Set the starting symboling. After the Bison parser's bottom up algorithm
+    //  reduces each previous shift (push of a token or grouping to parser
+    //  stack), the final reduction should contain none other than the original
+    //  start symbol...
+    %start                      input
+
+    // Warn whenever the default action is used for a production rule missing
+    //  an explicit semantic...
+//    %default-actions            warn
+
+    // Add the standard location stack to the generated parser so we can track
+    //  locations...
+    %lsp-needed
+    
+    // Define the parser's base class header file containing the parser's
+    //  symbolic tokens...
+    %baseclass-header           NarayanLogicParserBase.h
+
+    // Define the name of source file containing the parser implementation...
+    %parsefun-source            NarayanLogicParser.cpp
+
+    // Increase the usefulness of error messages passed to the error reporting
+    //  function...
+    %error-verbose
+    
+    %no-lines
+    
+    // Ensure that each thread's polymorphic code is thread safe. All this
+    //  effectively does at this time is ensure the parser accesses its error
+    //  counter data member in a thread safe manner. Not available until version
+    //  6.00.00. In mean time, specify --thread-safe instead for same effect...
+    //%thread-safe
+
+// Grammar rules section contains machine readable Backus-Naur form with
+//  intended actions (semantics) to perform...
+%%
+
+input:
+    /* empty */
+  | input line
+  ;
+
+line: 
+    '\n' ;/*
+  | statement '\n'                  { $$ = $1;                              }
+  ;
+
+statement:
+    expression ';'                  { $$ = $1;                              }
+  | IDENTIFIER
+  ;
+
+expression:
+    expression '+' expression       { $$ = $1 + $3;                         }
+  | expression '-' expression       { $$ = $1 - $3;                         }
+  | expression '*' expression       { $$ = $1 * $3;                         }
+  | expression '/' expression       
+    {
+        if($3)
+            $$ = $1 / $3;
+        else
+        {
+            $$ = 1;
+            std::cerr << @3.first_line << ": division by zero" << std::endl;
+            ABORT();
+        }
+    }
+  | expression '%' expression       { $$ =   $1 % $3;                       }
+  | '-' expression %prec UNARY      { $$ =  -$2;                            }
+  | '+' expression %prec UNARY      { $$ =   $2;                            }
+  | expression '^' expression       { $$ = ::pow($1, $3);                   }
+  | '(' expression ')'              { $$ =   $2;                            }
+  | NUMBER                          { $$ = std::stoul(d_scanner.matched()); }
+  ;*/
+
+// The epilogue section is copied verbatim into the parser implementation file,
+//  like the prologue section, only it is appended to the end rather than
+//  inserted into the beginning. Bisonc++ doesn't require them...
+// %%
+

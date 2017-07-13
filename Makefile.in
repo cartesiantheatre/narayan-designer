@@ -124,7 +124,9 @@ PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_narayan_designer_OBJECTS =  \
 	Source/narayan_designer-CommandLineOptions.$(OBJEXT) \
-	Source/narayan_designer-Main.$(OBJEXT)
+	Source/narayan_designer-Main.$(OBJEXT) \
+	Source/narayan_designer-NarayanLogicLexerBase.$(OBJEXT) \
+	Source/narayan_designer-NarayanLogicParser.$(OBJEXT)
 narayan_designer_OBJECTS = $(am_narayan_designer_OBJECTS)
 narayan_designer_DEPENDENCIES =
 narayan_designer_LINK = $(CXXLD) $(narayan_designer_CXXFLAGS) \
@@ -489,6 +491,7 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+BISONCPP = @BISONCPP@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -515,6 +518,7 @@ ENABLE_VALGRIND_helgrind = @ENABLE_VALGRIND_helgrind@
 ENABLE_VALGRIND_memcheck = @ENABLE_VALGRIND_memcheck@
 ENABLE_VALGRIND_sgcheck = @ENABLE_VALGRIND_sgcheck@
 EXEEXT = @EXEEXT@
+FLEXCPP = @FLEXCPP@
 GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
@@ -650,6 +654,14 @@ narayan_designer_LDADD = $(AM_LDFLAGS)
 
 # These files must exist before anything is compiled. Can be machine generated...
 BUILT_SOURCES = \
+    Source/NarayanLogicLexerBase.h              \
+    Source/NarayanLogicLexer.h                  \
+    Source/NarayanLogicLexer.ih                 \
+    Source/NarayanLogicLexerBase.cpp            \
+    Source/NarayanLogicParserBase.h             \
+    Source/NarayanLogicParser.h                 \
+    Source/NarayanLogicParser.ih                \
+    Source/NarayanLogicParser.cpp               \
     Source/Version.h
 
 #    Tests/...
@@ -660,12 +672,27 @@ narayan_designer_SOURCES = \
     Source/CommandLineOptions.h                 \
     Source/ExplicitSingleton.h                  \
     Source/gettext.h                            \
-    Source/Main.cpp
+    Source/Main.cpp                             \
+    Source/NarayanLogicLexerBase.h              \
+    Source/NarayanLogicLexer.h                  \
+    Source/NarayanLogicLexer.ih                 \
+    Source/NarayanLogicLexerBase.cpp            \
+    Source/NarayanLogicParserBase.h             \
+    Source/NarayanLogicParser.h                 \
+    Source/NarayanLogicParser.ih                \
+    Source/NarayanLogicParser.cpp
 
 
 # List of files to clean up during clean target...
 CLEANFILES = \
-	Source/Version.h                            \
+    Source/NarayanLogicLexerBase.h              \
+    Source/NarayanLogicLexer.h                  \
+    Source/NarayanLogicLexer.ih                 \
+    Source/NarayanLogicLexerBase.cpp            \
+    Source/NarayanLogicParserBase.h             \
+    Source/NarayanLogicParser.h                 \
+    Source/NarayanLogicParser.ih                \
+    Source/NarayanLogicParser.cpp               \
 	Tests/Runtime_Sane.sh                       \
 	Translations/*.gmo
 
@@ -715,6 +742,8 @@ man1_MANS = \
 # Manually add these things to distribution package when dist target is run...
 EXTRA_DIST = \
 	Manual/narayan-designer                     \
+    Source/NarayanLogicLexer.lpp                \
+    Source/NarayanLogicParser.ypp               \
     Authors                                     \
     ChangeLog                                   \
     Copying                                     \
@@ -732,6 +761,16 @@ check_SCRIPTS = \
 #if VALGRIND_ENABLED
 #check_SCRIPTS += Tests/Valgrind.sh
 #endif
+
+# Extend silent mode for flexc++(1) inputs per Automake manual §21.3...
+AX_V_FLEXCPP = $(AX_V_FLEXCPP_@AM_V@)
+AX_V_FLEXCPP_ = $(AX_V_FLEXCPP_@AM_DEFAULT_V@)
+AX_V_FLEXCPP_0 = @echo "  FLEXCPP $@";
+
+# Extend silent mode for bisonc++(1) inputs per Automake manual §21.3...
+AX_V_BISONCPP = $(AX_V_BISONCPP_@AM_V@)
+AX_V_BISONCPP_ = $(AX_V_BISONCPP_@AM_DEFAULT_V@)
+AX_V_BISONCPP_0 = @echo "  BISONCPP $@";
 
 # GCS § 7.2.6 requires a check target. Targets to execute for check target...
 TESTS = $(check_SCRIPTS)
@@ -844,6 +883,10 @@ Source/narayan_designer-CommandLineOptions.$(OBJEXT):  \
 	Source/$(am__dirstamp) Source/$(DEPDIR)/$(am__dirstamp)
 Source/narayan_designer-Main.$(OBJEXT): Source/$(am__dirstamp) \
 	Source/$(DEPDIR)/$(am__dirstamp)
+Source/narayan_designer-NarayanLogicLexerBase.$(OBJEXT):  \
+	Source/$(am__dirstamp) Source/$(DEPDIR)/$(am__dirstamp)
+Source/narayan_designer-NarayanLogicParser.$(OBJEXT):  \
+	Source/$(am__dirstamp) Source/$(DEPDIR)/$(am__dirstamp)
 
 narayan-designer$(EXEEXT): $(narayan_designer_OBJECTS) $(narayan_designer_DEPENDENCIES) $(EXTRA_narayan_designer_DEPENDENCIES) 
 	@rm -f narayan-designer$(EXEEXT)
@@ -858,6 +901,8 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@Source/$(DEPDIR)/narayan_designer-CommandLineOptions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Source/$(DEPDIR)/narayan_designer-Main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Source/$(DEPDIR)/narayan_designer-NarayanLogicLexerBase.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Source/$(DEPDIR)/narayan_designer-NarayanLogicParser.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -902,6 +947,34 @@ Source/narayan_designer-Main.obj: Source/Main.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/Main.cpp' object='Source/narayan_designer-Main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-Main.obj `if test -f 'Source/Main.cpp'; then $(CYGPATH_W) 'Source/Main.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/Main.cpp'; fi`
+
+Source/narayan_designer-NarayanLogicLexerBase.o: Source/NarayanLogicLexerBase.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-NarayanLogicLexerBase.o -MD -MP -MF Source/$(DEPDIR)/narayan_designer-NarayanLogicLexerBase.Tpo -c -o Source/narayan_designer-NarayanLogicLexerBase.o `test -f 'Source/NarayanLogicLexerBase.cpp' || echo '$(srcdir)/'`Source/NarayanLogicLexerBase.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-NarayanLogicLexerBase.Tpo Source/$(DEPDIR)/narayan_designer-NarayanLogicLexerBase.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/NarayanLogicLexerBase.cpp' object='Source/narayan_designer-NarayanLogicLexerBase.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-NarayanLogicLexerBase.o `test -f 'Source/NarayanLogicLexerBase.cpp' || echo '$(srcdir)/'`Source/NarayanLogicLexerBase.cpp
+
+Source/narayan_designer-NarayanLogicLexerBase.obj: Source/NarayanLogicLexerBase.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-NarayanLogicLexerBase.obj -MD -MP -MF Source/$(DEPDIR)/narayan_designer-NarayanLogicLexerBase.Tpo -c -o Source/narayan_designer-NarayanLogicLexerBase.obj `if test -f 'Source/NarayanLogicLexerBase.cpp'; then $(CYGPATH_W) 'Source/NarayanLogicLexerBase.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/NarayanLogicLexerBase.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-NarayanLogicLexerBase.Tpo Source/$(DEPDIR)/narayan_designer-NarayanLogicLexerBase.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/NarayanLogicLexerBase.cpp' object='Source/narayan_designer-NarayanLogicLexerBase.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-NarayanLogicLexerBase.obj `if test -f 'Source/NarayanLogicLexerBase.cpp'; then $(CYGPATH_W) 'Source/NarayanLogicLexerBase.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/NarayanLogicLexerBase.cpp'; fi`
+
+Source/narayan_designer-NarayanLogicParser.o: Source/NarayanLogicParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-NarayanLogicParser.o -MD -MP -MF Source/$(DEPDIR)/narayan_designer-NarayanLogicParser.Tpo -c -o Source/narayan_designer-NarayanLogicParser.o `test -f 'Source/NarayanLogicParser.cpp' || echo '$(srcdir)/'`Source/NarayanLogicParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-NarayanLogicParser.Tpo Source/$(DEPDIR)/narayan_designer-NarayanLogicParser.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/NarayanLogicParser.cpp' object='Source/narayan_designer-NarayanLogicParser.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-NarayanLogicParser.o `test -f 'Source/NarayanLogicParser.cpp' || echo '$(srcdir)/'`Source/NarayanLogicParser.cpp
+
+Source/narayan_designer-NarayanLogicParser.obj: Source/NarayanLogicParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-NarayanLogicParser.obj -MD -MP -MF Source/$(DEPDIR)/narayan_designer-NarayanLogicParser.Tpo -c -o Source/narayan_designer-NarayanLogicParser.obj `if test -f 'Source/NarayanLogicParser.cpp'; then $(CYGPATH_W) 'Source/NarayanLogicParser.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/NarayanLogicParser.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-NarayanLogicParser.Tpo Source/$(DEPDIR)/narayan_designer-NarayanLogicParser.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/NarayanLogicParser.cpp' object='Source/narayan_designer-NarayanLogicParser.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-NarayanLogicParser.obj `if test -f 'Source/NarayanLogicParser.cpp'; then $(CYGPATH_W) 'Source/NarayanLogicParser.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/NarayanLogicParser.cpp'; fi`
 install-man1: $(man1_MANS)
 	@$(NORMAL_INSTALL)
 	@list1='$(man1_MANS)'; \
@@ -1620,6 +1693,19 @@ dist-hook:
 # Maintainer clean local hook to remove Autotools configuration output files...
 maintainer-clean-local:
 	$(RM) -r '$(srcdir)/Auxiliary'
+
+# Generate the Narayan Logic lexer source from its regular expression token
+#  descriptions via flexc++, using that file as a witness...
+Source/NarayanLogicLexerBase.h Source/NarayanLogicLexer.h Source/NarayanLogicLexer.ih: Source/NarayanLogicLexerBase.cpp
+Source/NarayanLogicLexerBase.cpp: Source/NarayanLogicLexer.lpp
+	$(AX_V_FLEXCPP)$(FLEXCPP) --target-directory=$(top_builddir)/Source $< ; \
+	$(SED) -i '/#include "NarayanLogicLexer.ih"/a #include "NarayanLogicParserBase.h" \/\/ Added manually...' $(top_builddir)/Source/NarayanLogicLexerBase.cpp
+
+# Generate the Narayan Logic parser source from its Backus-Naur grammar rules
+#  via bisonc++, using that file as a witness...
+Source/NarayanLogicParserBase.h Source/NarayanLogicParser.h Source/NarayanLogicParser.ih: Source/NarayanLogicParser.cpp
+Source/NarayanLogicParser.cpp: Source/NarayanLogicParser.ypp
+	$(AX_V_BISONCPP)$(BISONCPP) --target-directory=$(top_builddir)/Source $<
 
 # Rule to create test script to verify the runtime works by just testing to see
 #  it compiled and linked correctly...
