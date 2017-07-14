@@ -14,30 +14,6 @@
         Parser Implementation:              NarayanLogicParser.cpp
 */
 
-// Prologue contains macro definitions and declarations of functions and
-//  variables used in the actions in the grammar rules which are copied into
-//  the parser implementation. Unlike Bison, Bisonc++ doesn't require them...
-/*%{
-    // Includes...
-
-        // Provided by Autoconf...
-        #include <config.h>
-        
-        // Standard C++ and POSIX system headers...
-        #include <iostream>
-        
-        // Lexer...
-        #include "NarayanLogicLexer.h"
-
-        // i18n...
-        #include "gettext.h"
-        #define _(str) gettext (str)
-        #define N_(str) gettext_noop (str)
-
-    // Using the standard namespace...
-    using namespace std;
-%}*/
-
 // Bison declarations section contains declarations that define parser settings,
 //  terminal and nonterminal symbols, their precedence and associativity, and so
 //  forth...
@@ -63,6 +39,10 @@
     %right                      '^'         /* Exponentiation operator */
     %right                      UNARY       /* Positive or negation unary operator */
 
+    // Various dependencies external to the parser, besides the lexer, that it
+    //  may need...
+    %baseclass-preinclude       "NarayanLogicParserPreinclude.h"
+
     // Define semantic value types using polymorphism instead of traditional
     //  union interface. This was added in bisonc++(1) in 2007, whereas bison(1)
     //  / POSIX yacc(1) were limited to type unsafe %union mechanism...
@@ -70,6 +50,8 @@
 
     // Terminal tokens without associativity or precedence...
     %token IDENTIFIER NUMBER
+    
+    %type <NUMBER> expression 
 
     // Set the starting symboling. After the Bison parser's bottom up algorithm
     //  reduces each previous shift (push of a token or grouping to parser
@@ -96,7 +78,7 @@
     //  function...
     %error-verbose
     
-    %no-lines
+//    %no-lines
     
     // Ensure that each thread's polymorphic code is thread safe. All this
     //  effectively does at this time is ensure the parser accesses its error
@@ -114,7 +96,7 @@ input:
   ;
 
 line: 
-    '\n' ;/*
+    '\n'
   | statement '\n'                  { $$ = $1;                              }
   ;
 
@@ -124,7 +106,8 @@ statement:
   ;
 
 expression:
-    expression '+' expression       { $$ = $1 + $3;                         }
+    NUMBER                          { $$ = std::stoi(d_scanner.matched());  }
+  | expression '+' expression       { $$ = $1 + $3;                         }
   | expression '-' expression       { $$ = $1 - $3;                         }
   | expression '*' expression       { $$ = $1 * $3;                         }
   | expression '/' expression       
@@ -141,13 +124,7 @@ expression:
   | expression '%' expression       { $$ =   $1 % $3;                       }
   | '-' expression %prec UNARY      { $$ =  -$2;                            }
   | '+' expression %prec UNARY      { $$ =   $2;                            }
-  | expression '^' expression       { $$ = ::pow($1, $3);                   }
+//  | expression '^' expression       { $$ = ::pow($1, $3);                   }
   | '(' expression ')'              { $$ =   $2;                            }
-  | NUMBER                          { $$ = std::stoul(d_scanner.matched()); }
-  ;*/
-
-// The epilogue section is copied verbatim into the parser implementation file,
-//  like the prologue section, only it is appended to the end rather than
-//  inserted into the beginning. Bisonc++ doesn't require them...
-// %%
+  ;
 

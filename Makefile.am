@@ -54,7 +54,8 @@ narayan_designer_SOURCES =                      \
     Source/NarayanLogicParserBase.h             \
     Source/NarayanLogicParser.h                 \
     Source/NarayanLogicParser.ih                \
-    Source/NarayanLogicParser.cpp
+    Source/NarayanLogicParser.cpp               \
+    Source/NarayanLogicParserPreinclude.h
 
 # List of files to clean up during clean target...
 CLEANFILES =                                    \
@@ -138,7 +139,7 @@ check_SCRIPTS =                                 \
 # Extend silent mode for flexc++(1) inputs per Automake manual §21.3...
 AX_V_FLEXCPP = $(AX_V_FLEXCPP_@AM_V@)
 AX_V_FLEXCPP_ = $(AX_V_FLEXCPP_@AM_DEFAULT_V@)
-AX_V_FLEXCPP_0 = @echo "  FLEXCPP $@";
+AX_V_FLEXCPP_0 = @echo "  FLEXCPP  $@";
 
 # Extend silent mode for bisonc++(1) inputs per Automake manual §21.3...
 AX_V_BISONCPP = $(AX_V_BISONCPP_@AM_V@)
@@ -179,7 +180,7 @@ Source/NarayanLogicLexerBase.cpp: Source/NarayanLogicLexer.lpp
 #  via bisonc++, using that file as a witness...
 Source/NarayanLogicParserBase.h Source/NarayanLogicParser.h Source/NarayanLogicParser.ih: Source/NarayanLogicParser.cpp
 Source/NarayanLogicParser.cpp: Source/NarayanLogicParser.ypp
-	$(AX_V_BISONCPP)$(BISONCPP) --target-directory=$(top_builddir)/Source $<
+	$(AX_V_BISONCPP)$(BISONCPP) --thread-safe --target-directory=$(top_builddir)/Source $<
 
 # Rule to create test script to verify the runtime works by just testing to see
 #  it compiled and linked correctly...
