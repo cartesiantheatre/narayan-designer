@@ -1,0 +1,22 @@
+--- a/Source/Compiler/NarayanLogicLexer.h
++++ b/Source/Compiler/NarayanLogicLexer.h
+@@ -54,7 +54,7 @@ inline void NarayanLogicLexer::preCode()
+     // optionally replace by your own code
+ }
+ 
+-inline void NarayanLogicLexer::postCode(PostEnum__ type) 
++inline void NarayanLogicLexer::postCode(PostEnum__ /*type*/)
+ {
+     // optionally replace by your own code
+ }
+--- a/Source/Compiler/NarayanLogicLexerBase.cpp
++++ b/Source/Compiler/NarayanLogicLexerBase.cpp
+@@ -160,7 +160,7 @@ void NarayanLogicLexerBase::switchOstrea
+ }
+ 
+ // $insert debugFunctions
+-void NarayanLogicLexerBase::setDebug(bool onOff)
++void NarayanLogicLexerBase::setDebug(bool /*onOff*/)
+ {}
+ 
+ bool NarayanLogicLexerBase::debug() const

@@ -15,8 +15,6 @@
     // Standard C++ / POSIX system headers...
     #include <cmath>
     #include <string>
-    #include <utility>
-    #include <type_traits>
 
 // Multiple include protection...
 #endif

@@ -13,7 +13,7 @@
     #include <config.h>
 
     // Our headers...
-    #include "ExplicitSingleton.h"
+    #include "Patterns/ExplicitSingleton.h"
 
     // GLibC option parsing...
     #include <getopt.h>

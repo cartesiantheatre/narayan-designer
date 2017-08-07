@@ -8,10 +8,23 @@
 
     Generates:
 
-        Baseclass header:                   NarayanLogicParserBase.h
-        Class header:                       NarayanLogicParser.h
-        Implementation header:              NarayanLogicParser.ih
-        Parser Implementation:              NarayanLogicParser.cpp
+        Baseclass header defining, among other things, the grammatical tokens
+        to be used by the externally defined lexical scanner:
+
+            NarayanLogicParserBase.h
+
+        Class header providing the parser class definition:
+
+            NarayanLogicParser.h
+
+        Implementation header is an internal header file to be included by any
+        implementation of the parser class' members:
+
+            NarayanLogicParser.ih
+
+        Parser implementation:
+
+            NarayanLogicParser.cpp
 */
 
 // Bison declarations section contains declarations that define parser settings,
@@ -43,15 +56,27 @@
     //  may need...
     %baseclass-preinclude       "NarayanLogicParserPreinclude.h"
 
+    // Define the parser's base class header file containing the parser's
+    //  symbolic tokens...
+    %baseclass-header           NarayanLogicParserBase.h
+
+    // Define the name of source file containing the parser implementation...
+    %parsefun-source            NarayanLogicParser.cpp
+
     // Define semantic value types using polymorphism instead of traditional
     //  union interface. This was added in bisonc++(1) in 2007, whereas bison(1)
     //  / POSIX yacc(1) were limited to type unsafe %union mechanism...
-    %polymorphic                IDENTIFIER: std::string; NUMBER: int;
+    %polymorphic                STRING: std::string; NUMBER: int;
+
+    // Parser will verify that the polymorphic tag used when calling semantic
+    //  value's get() method matches the actual tag of the semantic value...
+    %tag-mismatches             on
 
     // Terminal tokens without associativity or precedence...
     %token IDENTIFIER NUMBER
     
-    %type <NUMBER> expression 
+    %type <STRING>              identifier
+    %type <NUMBER>              expression, number
 
     // Set the starting symboling. After the Bison parser's bottom up algorithm
     //  reduces each previous shift (push of a token or grouping to parser
@@ -67,24 +92,17 @@
     //  locations...
     %lsp-needed
     
-    // Define the parser's base class header file containing the parser's
-    //  symbolic tokens...
-    %baseclass-header           NarayanLogicParserBase.h
-
-    // Define the name of source file containing the parser implementation...
-    %parsefun-source            NarayanLogicParser.cpp
-
     // Increase the usefulness of error messages passed to the error reporting
     //  function...
     %error-verbose
     
-//    %no-lines
+    %no-lines
     
     // Ensure that each thread's polymorphic code is thread safe. All this
     //  effectively does at this time is ensure the parser accesses its error
     //  counter data member in a thread safe manner. Not available until version
     //  6.00.00. In mean time, specify --thread-safe instead for same effect...
-    //%thread-safe
+    %thread-safe
 
 // Grammar rules section contains machine readable Backus-Naur form with
 //  intended actions (semantics) to perform...
@@ -101,13 +119,13 @@ line:
   ;
 
 statement:
-    expression ';'                  { $$ = $1;                              }
-  | IDENTIFIER
+    expression ';'
+  | identifier ';'
   ;
 
 expression:
-    NUMBER                          { $$ = std::stoi(d_scanner.matched());  }
-  | expression '+' expression       { $$ = $1 + $3;                         }
+    number
+  | expression '+' expression       { $$ = $1;                              }
   | expression '-' expression       { $$ = $1 - $3;                         }
   | expression '*' expression       { $$ = $1 * $3;                         }
   | expression '/' expression       
@@ -124,7 +142,16 @@ expression:
   | expression '%' expression       { $$ =   $1 % $3;                       }
   | '-' expression %prec UNARY      { $$ =  -$2;                            }
   | '+' expression %prec UNARY      { $$ =   $2;                            }
-//  | expression '^' expression       { $$ = ::pow($1, $3);                   }
+  | expression '^' expression       { $$ = static_cast<int>(::pow($1, $3)); }
   | '(' expression ')'              { $$ =   $2;                            }
   ;
+
+identifier:
+    IDENTIFIER                      { $$ = d_scanner.matched();             }
+  ;
+
+number:
+    NUMBER                          { $$ = std::stoi(d_scanner.matched());  }
+  ;
+
 

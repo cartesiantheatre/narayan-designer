@@ -51,9 +51,17 @@ AC_SUBST([COPYRIGHT_NOTICE], [$copyright_notice])
 
 # Initialize Automake...
 
-    # Setup flags...
-    AM_INIT_AUTOMAKE([color-tests dist-bzip2 no-dist-gzip silent-rules \
-        subdir-objects tar-pax -Wall -Werror foreign])
+    # Setup flags. Add std-options later...
+    AM_INIT_AUTOMAKE([
+        color-tests     \
+        dist-bzip2      \
+        foreign         \
+        no-dist-gzip    \
+        silent-rules    \
+        subdir-objects  \
+        tar-pax         \
+        -Wall           \
+        -Werror])
 
     # Set by default to use silent build rules...
     AM_SILENT_RULES([yes])
@@ -66,13 +74,13 @@ AC_CANONICAL_HOST
 # Sanity check to ensure generated ./configure script knows the directory on
 #  which it is being executed is actually the project directory by providing any
 #  unique source file...
-AC_CONFIG_SRCDIR([Source/Main.cpp])
+AC_CONFIG_SRCDIR([Source/Main/Main.cpp])
 
 # Configure config.h...
 
     # Location to generate headers from templates containing Autoconf
     #  substitution variables...
-    AC_CONFIG_HEADERS([Source/config.h])
+    AC_CONFIG_HEADERS([Source/Main/config.h])
 
 # Check for command-line options...
 
@@ -111,7 +119,7 @@ fi
 # Checks for programs needed to build everything and perform unit tests...
 
     # Bison C++ parser generator...
-    AX_PROG_BISONCPP([5.02])
+    AX_PROG_BISONCPP([6.00.00])
     AC_PATH_PROG([BISONCPP], [bisonc++])
 
     # chmod...
@@ -125,7 +133,7 @@ fi
     AC_PROG_CXXCPP
 
     # Flex C++ lexer generator...
-    AX_PROG_FLEXCPP([2.05])
+    AX_PROG_FLEXCPP([2.06.02])
     AC_PATH_PROG([FLEXCPP], [flexc++])
 
     # Grep required for test suite...
@@ -142,6 +150,29 @@ fi
     if test "x$MKTEMP" = "x"; then
         AC_MSG_ERROR([mktemp tool is required to perform test suite...])
     fi
+
+    # Readlink with -f support necessary in various places...
+    AC_CHECK_PROG([READLINK_F_CHECK], readlink -f ., yes, no)
+    if test "x${READLINK_F_CHECK}" != "xyes"; then
+        AC_MSG_ERROR([readlink -f required, but unavailable...])
+    else
+        AC_PATH_PROG([READLINK_F], [readlink -f])
+    fi
+
+    # Quilt necessary to patch some flexc++(1) and bisonc++(1) derived files, or
+    #  at least until upstream merges our proposed fixes:
+    #  <https://github.com/fbb-git/bisoncpp/pull/10>
+
+        # Find it...
+        AC_PATH_PROG([QUILT], [quilt])
+        if test "x$QUILT" = "x"; then
+            AC_MSG_ERROR([quilt required, but unavailable...])
+        fi
+
+        # Prepare its environment...
+        QUILT_PATCHES=$(readlink -f $srcdir/Patches)
+        export QUILT_PATCHES
+        AC_SUBST(QUILT_PATCHES)
 
     # Sed tool...
     AC_PROG_SED
@@ -168,7 +199,7 @@ AC_LANG([C++])
     AC_CONFIG_FILES([Manual/narayan-designer.man])
 
     # Update version string...
-    AC_CONFIG_FILES([Source/Version.h])
+    AC_CONFIG_FILES([Source/Main/Version.h])
 
 # Checks for system headers and features...
 
@@ -189,6 +220,9 @@ AC_LANG([C++])
     AC_CHECK_HEADERS(
         [cassert cerrno cstddef cctype iostream stdexcept memory],
         [], [AC_MSG_ERROR([missing some required standard C++ headers...])])
+
+    # Check for thread local storage...
+    AX_TLS([], [AC_MSG_ERROR([thread local storage is not available on your compiler...])])
 
     # POSIX headers for all sub-projects...
     AC_LANG_PUSH([C])
@@ -279,12 +313,14 @@ AC_LANG([C++])
 # Set additional compilation flags...
 
     # Enable all warnings and treat them as errors...
-    CXXFLAGS="$CXXFLAGS -Wall -Werror -Wshadow -Wextra -Wno-unused-parameter"
+    CXXFLAGS="$CXXFLAGS -Wall -Werror -Wshadow -Wextra"
 
 # Generate makefiles from templates containing Autoconf substitution variables
 #  for root makefile...
 AC_CONFIG_FILES([               \
     Makefile                    \
+    Source/Makefile             \
+    Tests/Makefile              \
     Translations/Makefile.in])
 
 # Generates config.status which generates all files from templates...

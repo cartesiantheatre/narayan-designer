@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: narayan-designer 0.0.0\n"
 "Report-Msgid-Bugs-To: \"Cartesian Theatre <info@cartesiantheatre.com>\"\n"
-"POT-Creation-Date: 2017-06-29 22:13-0700\n"
+"POT-Creation-Date: 2017-08-04 20:33-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,54 +17,54 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Source/CommandLineOptions.cpp:171
+#: Source/Main/CommandLineOptions.cpp:171
 msgid "need input file, see man page"
 msgstr ""
 
-#: Source/CommandLineOptions.cpp:179
+#: Source/Main/CommandLineOptions.cpp:179
 msgid "error: "
 msgstr ""
 
-#: Source/CommandLineOptions.cpp:180
+#: Source/Main/CommandLineOptions.cpp:180
 msgid "unknown parameter: "
 msgstr ""
 
-#: Source/CommandLineOptions.cpp:183
+#: Source/Main/CommandLineOptions.cpp:183
 msgid "), see man page"
 msgstr ""
 
-#: Source/CommandLineOptions.cpp:196
+#: Source/Main/CommandLineOptions.cpp:196
 msgid "Usage: "
 msgstr ""
 
-#: Source/CommandLineOptions.cpp:196
+#: Source/Main/CommandLineOptions.cpp:196
 msgid "[options] [file]"
 msgstr ""
 
-#: Source/CommandLineOptions.cpp:197
+#: Source/Main/CommandLineOptions.cpp:197
 msgid ""
 "See man page.\n"
 "\n"
 msgstr ""
 
-#: Source/CommandLineOptions.cpp:199
+#: Source/Main/CommandLineOptions.cpp:199
 msgid "Narayan Designer, a modelling tool for the Narayan simulation engine.\n"
 msgstr ""
 
-#: Source/CommandLineOptions.cpp:202
+#: Source/Main/CommandLineOptions.cpp:202
 msgid "Report bugs to: "
 msgstr ""
 
 #. Show build date...
-#: Source/CommandLineOptions.cpp:213
+#: Source/Main/CommandLineOptions.cpp:213
 msgid "Built on: "
 msgstr ""
 
 #. Relevant dependencies...
-#: Source/CommandLineOptions.cpp:216
+#: Source/Main/CommandLineOptions.cpp:216
 msgid "Compiled against:"
 msgstr ""
 
-#: Source/CommandLineOptions.cpp:223
+#: Source/Main/CommandLineOptions.cpp:223
 msgid "Configured with: "
 msgstr ""

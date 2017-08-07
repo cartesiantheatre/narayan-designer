@@ -1,0 +1,22 @@
+--- a/Source/Compiler/NarayanLogicParser.cpp
++++ b/Source/Compiler/NarayanLogicParser.cpp
+@@ -446,7 +446,7 @@ SR__ *s_state[] =
+ namespace Meta__
+ {
+ 
+-std::thread_local size_t const *t_nErrors;
++thread_local size_t const *t_nErrors;
+ // $insert idoftag
+ char const *idOfTag__[] = {
+     "NUMBER",
+--- a/Source/Compiler/NarayanLogicParserBase.h
++++ b/Source/Compiler/NarayanLogicParserBase.h
+@@ -30,7 +30,7 @@ enum class Tag__
+ namespace Meta__
+ {
+ 
+-extern std::thread_local size_t const *t_nErrors;
++extern thread_local size_t const *t_nErrors;
+ 
+ extern size_t const *s_nErrors__;
+ 
