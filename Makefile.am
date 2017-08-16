@@ -19,11 +19,6 @@ DEFS+= -DSYSCONFDIR='"$(sysconfdir)"' -DLOCALEDIR="\"$(localedir)\"" @DEFS@
 # Locale directory...
 localedir = $(datadir)/locale
 
-# These files must exist before anything is compiled. Can be machine
-#  generated...
-BUILT_SOURCES =                                             \
-    patched.stamp
-
 # List of files to clean up during clean target...
 CLEANFILES =                                                \
 	Translations/*.gmo
@@ -74,12 +69,6 @@ endif
 # Manually add these things to distribution package when dist target is run...
 EXTRA_DIST =                                                \
 	Manual/narayan-designer                                 \
-    Patches/lexer-add-token-definitions.patch               \
-    Patches/lexer-fix-unused-variables.patch                \
-    Patches/parser-fix-polymorphic-copy-constructor.patch   \
-    Patches/parser-fix-thread-local.patch                   \
-    Patches/parser-fix-unused-variables.patch               \
-	Patches/series                                          \
     Authors                                                 \
     ChangeLog                                               \
     Copying                                                 \
@@ -91,14 +80,6 @@ EXTRA_DIST =                                                \
 check-gettext:
 	@if test x$(USE_NLS) != "xyes" ; then echo "Missing gettext. Rerun configure and check for" \
 	"'checking whether to use NLS... yes'!" ; exit 1 ; fi
-
-# Pre-clean hook to cleanly remove any applied patches...
-clean-local:
-	@QUILT_PATCHES=$(QUILT_PATCHES) $(QUILT) pop -a -q ; \
-	QUILT_STATUS=$$? && \
-	[ $$QUILT_STATUS == 0 -o $$QUILT_STATUS == 2 ] && \
-	$(RM) -r '.pc' && \
-	$(RM) -fv patched.stamp
 
 # Force an update to the machine dependent message catalogs...
 force-update-gmo: check-gettext
@@ -114,22 +95,6 @@ dist-hook:
 # Maintainer clean local hook to remove Autotools configuration output files...
 maintainer-clean-local:
 	$(RM) -r '$(srcdir)/Auxiliary'
-
-# Some flexc++(1) and bisonc++(1) will later emit code which needs to be patched
-#  until upstream merges submitted patches: <https://github.com/fbb-git/bisoncpp/pull/10>
-#  We need to do this preemptively before the compiler can generate warnings or 
-#  errors. We produce a stamp target after we have applied our patches, but only
-#  after generated lexer and parser source files have been generated...
-patched.stamp: $(top_srcdir)/Patches/series Source/Compiler/lexer.stamp Source/Compiler/parser.stamp
-	@QUILT_PATCHES=$(QUILT_PATCHES) $(QUILT) push -a -q --color=auto ; \
-	QUILT_STATUS=$$? && \
-	[ $$QUILT_STATUS == 0 -o $$QUILT_STATUS == 2 ] && \
-	echo "timestamp for $^" > $@
-
-# Recurse into source tree's Makefile to ask it to generate the lexer and parser
-#  source files...
-Source/Compiler/lexer.stamp Source/Compiler/parser.stamp:
-	@$(MAKE) $(AM_MAKEFLAGS) -C Source Compiler/lexer.stamp Compiler/parser.stamp
 
 # Update the machine dependent message catalogs...
 update-gmo: check-gettext

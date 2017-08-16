@@ -271,15 +271,12 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
+PATCH = @PATCH@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 POSUB = @POSUB@
-QUILT = @QUILT@
-QUILT_PATCHES = @QUILT_PATCHES@
-READLINK_F = @READLINK_F@
-READLINK_F_CHECK = @READLINK_F_CHECK@
 RMDIR = @RMDIR@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -366,7 +363,9 @@ narayan_designer_LDADD = $(AM_LDFLAGS)
 # These files must exist before anything is compiled. Can be machine
 #  generated...
 BUILT_SOURCES = \
+    Compiler/lexer-fix.stamp                    \
     Compiler/lexer.stamp                        \
+    Compiler/parser-fix.stamp                   \
     Compiler/parser.stamp                       \
     Main/Version.h
 
@@ -396,6 +395,10 @@ nodist_narayan_designer_SOURCES = \
 
 # Additional files left behind during dist target that need to be cleaned...
 DISTCLEANFILES = \
+    Compiler/lexer.stamp                        \
+    Compiler/parser.stamp                       \
+    Compiler/lexer-fix.stamp                    \
+    Compiler/parser-fix.stamp                   \
     Compiler/NarayanLogicLexerBase.cpp          \
     Compiler/NarayanLogicLexerBase.h            \
     Compiler/NarayanLogicLexer.h                \
@@ -409,6 +412,8 @@ DISTCLEANFILES = \
 # Actually clean all derived and maintainer files...
 MAINTAINERCLEANFILES = \
 	$(srcdir)/Main/config.h.in                  \
+    Compiler/lexer-fix.stamp                    \
+    Compiler/parser-fix.stamp                   \
     Compiler/NarayanLogicLexerBase.cpp          \
     Compiler/NarayanLogicLexerBase.h            \
     Compiler/NarayanLogicLexer.h                \
@@ -421,6 +426,8 @@ MAINTAINERCLEANFILES = \
 
 # Manually add these things to distribution package when dist target is run...
 EXTRA_DIST = \
+    Compiler/lexer-fix.patch                    \
+    Compiler/parser-fix.patch                   \
     Compiler/NarayanLogicLexer.lpp              \
     Compiler/NarayanLogicParser.ypp
 
@@ -750,7 +757,7 @@ maintainer-clean-generic:
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-local mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf Compiler/$(DEPDIR) Main/$(DEPDIR)
@@ -820,21 +827,26 @@ uninstall-am: uninstall-binPROGRAMS
 .MAKE: all check install install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean \
-	clean-binPROGRAMS clean-generic cscopelist-am ctags ctags-am \
-	distclean distclean-compile distclean-generic distclean-tags \
-	distdir dvi dvi-am html html-am info info-am install \
-	install-am install-binPROGRAMS install-data install-data-am \
-	install-dvi install-dvi-am install-exec install-exec-am \
-	install-html install-html-am install-info install-info-am \
-	install-man install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic pdf pdf-am \
-	ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-binPROGRAMS
+	clean-binPROGRAMS clean-generic clean-local cscopelist-am \
+	ctags ctags-am distclean distclean-compile distclean-generic \
+	distclean-tags distdir dvi dvi-am html html-am info info-am \
+	install install-am install-binPROGRAMS install-data \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
+	uninstall-am uninstall-binPROGRAMS
 
 .PRECIOUS: Makefile
 
+
+# Clean local hook to remove any applied patches...
+clean-local:
+	@if [ -f Compiler/lexer-fix.stamp ] ; then $(PATCH) --reverse --reject-file=- --no-backup-if-mismatch --force --directory Compiler/ < $(srcdir)/Compiler/lexer-fix.patch && $(RM) -vf Compiler/lexer-fix.stamp || true ; fi
+	@if [ -f Compiler/parser-fix.stamp ] ; then $(PATCH) --reverse --reject-file=- --no-backup-if-mismatch --force --directory Compiler/ < $(srcdir)/Compiler/parser-fix.patch && $(RM) -vf Compiler/parser-fix.stamp || true ; fi
 
 # Generate the Narayan Logic lexer source from its regular expression token
 #  descriptions via flexc++, using that file as a witness. After that generate
@@ -844,6 +856,15 @@ Compiler/lexer.stamp: Compiler/NarayanLogicLexer.lpp
 	$(AX_V_FLEXCPP)$(FLEXCPP) --target-directory=Compiler $<
 	@echo "timestamp for $^" > $@
 
+# Some flexc++(1) will later emit code which needs to be patched until upstream
+#  merges submitted patches: <https://github.com/fbb-git/bisoncpp/pull/10> We
+#  need to do this preemptively before the compiler can generate warnings or 
+#  errors. We produce a stamp target after we have applied our patch, but only
+#  after generated lexer source files have been generated...
+Compiler/lexer-fix.stamp: Compiler/lexer.stamp $(srcdir)/Compiler/lexer-fix.patch
+	@$(PATCH) --strip=1 -d Compiler/ --reject-file=- --no-backup-if-mismatch < $(srcdir)/Compiler/lexer-fix.patch && \
+	echo "timestamp for $^" > $@
+
 # Generate the Narayan Logic parser source from its Backus-Naur grammar rules
 #  via bisonc++, using that file as a witness. After that generate a stamp 
 #  target for the entire set of derived lexer files...
@@ -851,6 +872,15 @@ Compiler/NarayanLogicParser.cpp Compiler/NarayanLogicParserBase.h Compiler/Naray
 Compiler/parser.stamp: Compiler/NarayanLogicParser.ypp
 	$(AX_V_BISONCPP)$(BISONCPP) --target-directory=Compiler $<
 	@echo "timestamp for $^" > $@
+
+# Some bisonc++(1) will later emit code which needs to be patched until upstream
+#  merges submitted patches: <https://github.com/fbb-git/bisoncpp/pull/10> We
+#  need to do this preemptively before the compiler can generate warnings or 
+#  errors. We produce a stamp target after we have applied our patch, but only
+#  after generated parser source files have been generated...
+Compiler/parser-fix.stamp: Compiler/parser.stamp $(srcdir)/Compiler/parser-fix.patch
+	@$(PATCH) --strip=1 -d Compiler/ --reject-file=- --no-backup-if-mismatch < $(srcdir)/Compiler/parser-fix.patch && \
+	echo "timestamp for $^" > $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

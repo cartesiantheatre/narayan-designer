@@ -653,10 +653,7 @@ VALGRIND_ENABLED_FALSE
 VALGRIND_ENABLED_TRUE
 VALGRIND
 RMDIR
-QUILT_PATCHES
-QUILT
-READLINK_F
-READLINK_F_CHECK
+PATCH
 MKTEMP
 FLEXCPP
 CXXCPP
@@ -8880,58 +8877,17 @@ fi
         as_fn_error $? "mktemp tool is required to perform test suite..." "$LINENO" 5
     fi
 
-    # Readlink with -f support necessary in various places...
-    # Extract the first word of "readlink -f .", so it can be a program name with args.
-set dummy readlink -f .; ac_word=$2
+    # Find it...
+    # Extract the first word of "patch", so it can be a program name with args.
+set dummy patch; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_READLINK_F_CHECK+:} false; then :
+if ${ac_cv_path_PATCH+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  if test -n "$READLINK_F_CHECK"; then
-  ac_cv_prog_READLINK_F_CHECK="$READLINK_F_CHECK" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_READLINK_F_CHECK="yes"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  test -z "$ac_cv_prog_READLINK_F_CHECK" && ac_cv_prog_READLINK_F_CHECK="no"
-fi
-fi
-READLINK_F_CHECK=$ac_cv_prog_READLINK_F_CHECK
-if test -n "$READLINK_F_CHECK"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $READLINK_F_CHECK" >&5
-$as_echo "$READLINK_F_CHECK" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-    if test "x${READLINK_F_CHECK}" != "xyes"; then
-        as_fn_error $? "readlink -f required, but unavailable..." "$LINENO" 5
-    else
-        # Extract the first word of "readlink -f", so it can be a program name with args.
-set dummy readlink -f; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_path_READLINK_F+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  case $READLINK_F in
+  case $PATCH in
   [\\/]* | ?:[\\/]*)
-  ac_cv_path_READLINK_F="$READLINK_F" # Let the user override the test with a path.
+  ac_cv_path_PATCH="$PATCH" # Let the user override the test with a path.
   ;;
   *)
   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
@@ -8941,7 +8897,7 @@ do
   test -z "$as_dir" && as_dir=.
     for ac_exec_ext in '' $ac_executable_extensions; do
   if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_path_READLINK_F="$as_dir/$ac_word$ac_exec_ext"
+    ac_cv_path_PATCH="$as_dir/$ac_word$ac_exec_ext"
     $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
     break 2
   fi
@@ -8952,33 +8908,31 @@ IFS=$as_save_IFS
   ;;
 esac
 fi
-READLINK_F=$ac_cv_path_READLINK_F
-if test -n "$READLINK_F"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $READLINK_F" >&5
-$as_echo "$READLINK_F" >&6; }
+PATCH=$ac_cv_path_PATCH
+if test -n "$PATCH"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PATCH" >&5
+$as_echo "$PATCH" >&6; }
 else
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 fi
 
 
+    if test "x$PATCH" = "x"; then
+        as_fn_error $? "patch tool is required to build from source..." "$LINENO" 5
     fi
 
-    # Quilt necessary to patch some flexc++(1) and bisonc++(1) derived files, or
-    #  at least until upstream merges our proposed fixes:
-    #  <https://github.com/fbb-git/bisoncpp/pull/10>
-
-        # Find it...
-        # Extract the first word of "quilt", so it can be a program name with args.
-set dummy quilt; ac_word=$2
+    # rmdir necessary in various places...
+    # Extract the first word of "rmdir", so it can be a program name with args.
+set dummy rmdir; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
 $as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_path_QUILT+:} false; then :
+if ${ac_cv_path_RMDIR+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  case $QUILT in
+  case $RMDIR in
   [\\/]* | ?:[\\/]*)
-  ac_cv_path_QUILT="$QUILT" # Let the user override the test with a path.
+  ac_cv_path_RMDIR="$RMDIR" # Let the user override the test with a path.
   ;;
   *)
   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
@@ -8988,7 +8942,7 @@ do
   test -z "$as_dir" && as_dir=.
     for ac_exec_ext in '' $ac_executable_extensions; do
   if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_path_QUILT="$as_dir/$ac_word$ac_exec_ext"
+    ac_cv_path_RMDIR="$as_dir/$ac_word$ac_exec_ext"
     $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
     break 2
   fi
@@ -8999,24 +8953,19 @@ IFS=$as_save_IFS
   ;;
 esac
 fi
-QUILT=$ac_cv_path_QUILT
-if test -n "$QUILT"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $QUILT" >&5
-$as_echo "$QUILT" >&6; }
+RMDIR=$ac_cv_path_RMDIR
+if test -n "$RMDIR"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $RMDIR" >&5
+$as_echo "$RMDIR" >&6; }
 else
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 fi
 
 
-        if test "x$QUILT" = "x"; then
-            as_fn_error $? "quilt required, but unavailable..." "$LINENO" 5
-        fi
-
-        # Prepare its environment...
-        QUILT_PATCHES=$(readlink -f $srcdir/Patches)
-        export QUILT_PATCHES
-
+    if test "x$RMDIR" = "x"; then
+        as_fn_error $? "rmdir required, but unavailable..." "$LINENO" 5
+    fi
 
     # Sed tool...
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for a sed that does not truncate output" >&5
@@ -9088,51 +9037,6 @@ $as_echo "$ac_cv_path_SED" >&6; }
  SED="$ac_cv_path_SED"
   rm -f conftest.sed
 
-
-    # rmdir necessary in various places...
-    # Extract the first word of "rmdir", so it can be a program name with args.
-set dummy rmdir; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_path_RMDIR+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  case $RMDIR in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path_RMDIR="$RMDIR" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_path_RMDIR="$as_dir/$ac_word$ac_exec_ext"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  ;;
-esac
-fi
-RMDIR=$ac_cv_path_RMDIR
-if test -n "$RMDIR"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $RMDIR" >&5
-$as_echo "$RMDIR" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-    if test "x$RMDIR" = "x"; then
-        as_fn_error $? "rmdir required, but unavailable..." "$LINENO" 5
-    fi
 
     # Valgrind optional, but used in unit testing if enabled by default...
 

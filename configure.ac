@@ -151,37 +151,20 @@ fi
         AC_MSG_ERROR([mktemp tool is required to perform test suite...])
     fi
 
-    # Readlink with -f support necessary in various places...
-    AC_CHECK_PROG([READLINK_F_CHECK], readlink -f ., yes, no)
-    if test "x${READLINK_F_CHECK}" != "xyes"; then
-        AC_MSG_ERROR([readlink -f required, but unavailable...])
-    else
-        AC_PATH_PROG([READLINK_F], [readlink -f])
+    # Find it...
+    AC_PATH_PROG([PATCH], [patch])
+    if test "x$PATCH" = "x"; then
+        AC_MSG_ERROR([patch tool is required to build from source...])
     fi
-
-    # Quilt necessary to patch some flexc++(1) and bisonc++(1) derived files, or
-    #  at least until upstream merges our proposed fixes:
-    #  <https://github.com/fbb-git/bisoncpp/pull/10>
-
-        # Find it...
-        AC_PATH_PROG([QUILT], [quilt])
-        if test "x$QUILT" = "x"; then
-            AC_MSG_ERROR([quilt required, but unavailable...])
-        fi
-
-        # Prepare its environment...
-        QUILT_PATCHES=$(readlink -f $srcdir/Patches)
-        export QUILT_PATCHES
-        AC_SUBST(QUILT_PATCHES)
-
-    # Sed tool...
-    AC_PROG_SED
 
     # rmdir necessary in various places...
     AC_PATH_PROG([RMDIR], [rmdir])
     if test "x$RMDIR" = "x"; then
         AC_MSG_ERROR([rmdir required, but unavailable...])
     fi
+
+    # Sed tool...
+    AC_PROG_SED
 
     # Valgrind optional, but used in unit testing if enabled by default...
     AX_VALGRIND_CHECK

@@ -17,7 +17,9 @@ narayan_designer_LDADD      = $(AM_LDFLAGS)
 # These files must exist before anything is compiled. Can be machine
 #  generated...
 BUILT_SOURCES =                                 \
+    Compiler/lexer-fix.stamp                    \
     Compiler/lexer.stamp                        \
+    Compiler/parser-fix.stamp                   \
     Compiler/parser.stamp                       \
     Main/Version.h
 
@@ -44,6 +46,10 @@ nodist_narayan_designer_SOURCES =               \
 
 # Additional files left behind during dist target that need to be cleaned...
 DISTCLEANFILES =                                \
+    Compiler/lexer.stamp                        \
+    Compiler/parser.stamp                       \
+    Compiler/lexer-fix.stamp                    \
+    Compiler/parser-fix.stamp                   \
     Compiler/NarayanLogicLexerBase.cpp          \
     Compiler/NarayanLogicLexerBase.h            \
     Compiler/NarayanLogicLexer.h                \
@@ -56,6 +62,8 @@ DISTCLEANFILES =                                \
 # Actually clean all derived and maintainer files...
 MAINTAINERCLEANFILES =                          \
 	$(srcdir)/Main/config.h.in                  \
+    Compiler/lexer-fix.stamp                    \
+    Compiler/parser-fix.stamp                   \
     Compiler/NarayanLogicLexerBase.cpp          \
     Compiler/NarayanLogicLexerBase.h            \
     Compiler/NarayanLogicLexer.h                \
@@ -67,6 +75,8 @@ MAINTAINERCLEANFILES =                          \
 
 # Manually add these things to distribution package when dist target is run...
 EXTRA_DIST =                                    \
+    Compiler/lexer-fix.patch                    \
+    Compiler/parser-fix.patch                   \
     Compiler/NarayanLogicLexer.lpp              \
     Compiler/NarayanLogicParser.ypp
 
@@ -80,6 +90,11 @@ AX_V_BISONCPP = $(AX_V_BISONCPP_@AM_V@)
 AX_V_BISONCPP_ = $(AX_V_BISONCPP_@AM_DEFAULT_V@)
 AX_V_BISONCPP_0 = @echo "  BISONCPP $@";
 
+# Clean local hook to remove any applied patches...
+clean-local:
+	@if [ -f Compiler/lexer-fix.stamp ] ; then $(PATCH) --reverse --reject-file=- --no-backup-if-mismatch --force --directory Compiler/ < $(srcdir)/Compiler/lexer-fix.patch && $(RM) -vf Compiler/lexer-fix.stamp || true ; fi
+	@if [ -f Compiler/parser-fix.stamp ] ; then $(PATCH) --reverse --reject-file=- --no-backup-if-mismatch --force --directory Compiler/ < $(srcdir)/Compiler/parser-fix.patch && $(RM) -vf Compiler/parser-fix.stamp || true ; fi
+
 # Generate the Narayan Logic lexer source from its regular expression token
 #  descriptions via flexc++, using that file as a witness. After that generate
 #  a stamp target for the entire set of derived lexer files...
@@ -88,6 +103,15 @@ Compiler/lexer.stamp: Compiler/NarayanLogicLexer.lpp
 	$(AX_V_FLEXCPP)$(FLEXCPP) --target-directory=Compiler $<
 	@echo "timestamp for $^" > $@
 
+# Some flexc++(1) will later emit code which needs to be patched until upstream
+#  merges submitted patches: <https://github.com/fbb-git/bisoncpp/pull/10> We
+#  need to do this preemptively before the compiler can generate warnings or 
+#  errors. We produce a stamp target after we have applied our patch, but only
+#  after generated lexer source files have been generated...
+Compiler/lexer-fix.stamp: Compiler/lexer.stamp $(srcdir)/Compiler/lexer-fix.patch
+	@$(PATCH) --strip=1 -d Compiler/ --reject-file=- --no-backup-if-mismatch < $(srcdir)/Compiler/lexer-fix.patch && \
+	echo "timestamp for $^" > $@
+
 # Generate the Narayan Logic parser source from its Backus-Naur grammar rules
 #  via bisonc++, using that file as a witness. After that generate a stamp 
 #  target for the entire set of derived lexer files...
@@ -95,4 +119,13 @@ Compiler/NarayanLogicParser.cpp Compiler/NarayanLogicParserBase.h Compiler/Naray
 Compiler/parser.stamp: Compiler/NarayanLogicParser.ypp
 	$(AX_V_BISONCPP)$(BISONCPP) --target-directory=Compiler $<
 	@echo "timestamp for $^" > $@
+
+# Some bisonc++(1) will later emit code which needs to be patched until upstream
+#  merges submitted patches: <https://github.com/fbb-git/bisoncpp/pull/10> We
+#  need to do this preemptively before the compiler can generate warnings or 
+#  errors. We produce a stamp target after we have applied our patch, but only
+#  after generated parser source files have been generated...
+Compiler/parser-fix.stamp: Compiler/parser.stamp $(srcdir)/Compiler/parser-fix.patch
+	@$(PATCH) --strip=1 -d Compiler/ --reject-file=- --no-backup-if-mismatch < $(srcdir)/Compiler/parser-fix.patch && \
+	echo "timestamp for $^" > $@
 

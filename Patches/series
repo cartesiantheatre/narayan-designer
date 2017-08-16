@@ -1,5 +1,0 @@
-lexer-add-token-definitions.patch
-lexer-fix-unused-variables.patch
-parser-fix-unused-variables.patch
-parser-fix-thread-local.patch
-parser-fix-polymorphic-copy-constructor.patch

@@ -1,0 +1,43 @@
+--- a/NarayanLogicParserBase.h
++++ b/NarayanLogicParserBase.h
+@@ -139,6 +139,7 @@ Semantic<tg_>::Semantic()
+ template <Tag__ tg_>
+ Semantic<tg_>::Semantic(Semantic<tg_> const &other)
+ :
++    Base(),
+     d_data(other.d_data)
+ {
+     d_baseTag = other.d_baseTag;
+--- a/NarayanLogicParser.ih
++++ b/NarayanLogicParser.ih
+@@ -22,7 +22,7 @@ inline void NarayanLogicParser::print()
+     print__();           // displays tokens if --print was specified
+ }
+ 
+-inline void NarayanLogicParser::exceptionHandler(std::exception const &exc)         
++inline void NarayanLogicParser::exceptionHandler(std::exception const &/*exc*/)
+ {
+     throw;              // re-implement to handle exceptions thrown by actions
+ }
+--- a/NarayanLogicParser.cpp
++++ b/NarayanLogicParser.cpp
+@@ -446,7 +446,7 @@ SR__ *s_state[] =
+ namespace Meta__
+ {
+ 
+-std::thread_local size_t const *t_nErrors;
++thread_local size_t const *t_nErrors;
+ // $insert idoftag
+ char const *idOfTag__[] = {
+     "NUMBER",
+--- a/NarayanLogicParserBase.h
++++ b/NarayanLogicParserBase.h
+@@ -30,7 +30,7 @@ enum class Tag__
+ namespace Meta__
+ {
+ 
+-extern std::thread_local size_t const *t_nErrors;
++extern thread_local size_t const *t_nErrors;
+ 
+ extern size_t const *s_nErrors__;
+ 

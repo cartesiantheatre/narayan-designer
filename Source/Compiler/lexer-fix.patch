@@ -1,5 +1,17 @@
---- a/Source/Compiler/NarayanLogicLexer.h
-+++ b/Source/Compiler/NarayanLogicLexer.h
+--- a/NarayanLogicLexerBase.cpp
++++ b/NarayanLogicLexerBase.cpp
+@@ -8,6 +8,9 @@
+ // $insert class_ih
+ #include "NarayanLogicLexer.ih"
+ 
++// Added manually. Declares all tokens both the lexer and parser use...
++#include "Compiler/NarayanLogicParserBase.h"
++
+ 
+     // s_ranges__: use (unsigned) characters as index to obtain
+     //           that character's range-number.
+--- a/NarayanLogicLexer.h
++++ b/NarayanLogicLexer.h
 @@ -54,7 +54,7 @@ inline void NarayanLogicLexer::preCode()
      // optionally replace by your own code
  }
@@ -9,8 +21,8 @@
  {
      // optionally replace by your own code
  }
---- a/Source/Compiler/NarayanLogicLexerBase.cpp
-+++ b/Source/Compiler/NarayanLogicLexerBase.cpp
+--- a/NarayanLogicLexerBase.cpp
++++ b/NarayanLogicLexerBase.cpp
 @@ -160,7 +160,7 @@ void NarayanLogicLexerBase::switchOstrea
  }
  
