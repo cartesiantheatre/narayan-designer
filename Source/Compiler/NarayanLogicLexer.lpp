@@ -29,9 +29,22 @@
 // A list of regular expressions used to identify every possible terminal token
 //  that can be returned by the lexer...
 %%
-[ \t\n]+                            /* skip white space chars. */
-[0-9]+                              return NarayanLogicParser::NUMBER;
-[[:alpha:]_][[:alpha:][:digit:]_]*  return NarayanLogicParser::IDENTIFIER;
+
+// Skip multiline comments and raise an error on unterminated ones...
+[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]     {}
+[/][*]                                  { throw std::runtime_error(_("unterminated comment")); }
+
+// Skip single line comments...
+"//".*                                  {}
+
+// Skip white space characters...
+[ \t\n]+                                {}
+
+// Numbers...
+[0-9]+                                  { return NarayanLogicParser::NUMBER;     }
+
+// Identifiers...
+[[:alpha:]_][[:alpha:][:digit:]_]*      { return NarayanLogicParser::IDENTIFIER; }
 
 %%
 

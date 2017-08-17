@@ -92,6 +92,14 @@ AC_CONFIG_SRCDIR([Source/Main/Main.cpp])
         [enable_bash_completion=yes])
     AM_CONDITIONAL(USE_BASH_COMPLETION, [test x"$enable_bash_completion" = xyes])
 
+    # Unit tests...
+    AC_ARG_ENABLE([tests],
+        [AS_HELP_STRING([--enable-tests],
+            [enable unit tests @<:@default: yes@:>@])], # Quadrigraph escaped
+        [enable_tests=${enableval}],
+        [enable_tests=yes])
+    AM_CONDITIONAL(ENABLE_TESTS, [test x"$enable_tests" = xyes])
+
 # Initialize i18n from GNU gettext...
 AM_GNU_GETTEXT_VERSION([0.19.8])
 AM_GNU_GETTEXT([external], [need-ngettext])

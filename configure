@@ -704,6 +704,8 @@ MSGFMT
 GETTEXT_MACRO_VERSION
 USE_NLS
 SED
+ENABLE_TESTS_FALSE
+ENABLE_TESTS_TRUE
 USE_BASH_COMPLETION_FALSE
 USE_BASH_COMPLETION_TRUE
 host_os
@@ -787,6 +789,7 @@ ac_user_opts='
 enable_option_checking
 enable_silent_rules
 enable_bash_completion
+enable_tests
 enable_nls
 enable_dependency_tracking
 with_gnu_ld
@@ -1457,6 +1460,7 @@ Optional Features:
   --disable-silent-rules  verbose build output (undo: "make V=0")
   --enable-bash-completion
                           enable bash completion [default: yes]
+  --enable-tests          enable unit tests [default: yes]
   --disable-nls           do not use Native Language Support
   --enable-dependency-tracking
                           do not reject slow dependency extractors
@@ -3623,6 +3627,24 @@ fi
 else
   USE_BASH_COMPLETION_TRUE='#'
   USE_BASH_COMPLETION_FALSE=
+fi
+
+
+    # Unit tests...
+    # Check whether --enable-tests was given.
+if test "${enable_tests+set}" = set; then :
+  enableval=$enable_tests; # Quadrigraph escaped
+        enable_tests=${enableval}
+else
+  enable_tests=yes
+fi
+
+     if test x"$enable_tests" = xyes; then
+  ENABLE_TESTS_TRUE=
+  ENABLE_TESTS_FALSE='#'
+else
+  ENABLE_TESTS_TRUE='#'
+  ENABLE_TESTS_FALSE=
 fi
 
 
@@ -10723,6 +10745,10 @@ fi
 
 if test -z "${USE_BASH_COMPLETION_TRUE}" && test -z "${USE_BASH_COMPLETION_FALSE}"; then
   as_fn_error $? "conditional \"USE_BASH_COMPLETION\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${ENABLE_TESTS_TRUE}" && test -z "${ENABLE_TESTS_FALSE}"; then
+  as_fn_error $? "conditional \"ENABLE_TESTS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${AMDEP_TRUE}" && test -z "${AMDEP_FALSE}"; then

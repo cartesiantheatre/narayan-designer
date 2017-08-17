@@ -6,7 +6,7 @@
 # Options for aclocal so it can find our custom M4 macros...
 ACLOCAL_AMFLAGS = -I Macros
 
-# Run the requested make target on the sub-projects...
+# Run the requested make target recursively on child makefiles...
 SUBDIRS =                                                   \
     Source                                                  \
     Tests                                                   \
@@ -102,10 +102,10 @@ update-gmo: check-gettext
 
 # Create the .pot message translation template file..
 update-po: check-gettext
-	find $(srcdir)/Source \( -iname "*.cpp" ! -path "*/.pc/*" ! -name NarayanLogicLexerBase.cpp ! -name NarayanLogicParser.cpp \) -print | sort > $(srcdir)/Translations/POTFILES.in.2 ; \
-	find $(srcdir)/Source \( -iname "*.cpp.in" ! -path "*/.pc/*" \) -print | sort >> $(srcdir)/Translations/POTFILES.in.2 ; \
-	find $(srcdir)/Source \( -iname "*.h" ! -path "*/.pc/*" ! -name config.h ! -name Version.h ! -name NarayanLogicLexerBase.h ! -name NarayanLogicLexer.h ! -name NarayanLogicParserBase.h ! -name NarayanLogicParser.h \) -print | sort >> $(srcdir)/Translations/POTFILES.in.2 ; \
-	find $(srcdir)/Source \( -iname "*.h.in" ! -path "*/.pc/*" \) -print | sort >> $(srcdir)/Translations/POTFILES.in.2 ; \
+	find $(srcdir)/Source \( -iname "*.cpp" ! -name NarayanLogicLexerBase.cpp ! -name NarayanLogicParser.cpp \) -print | sort > $(srcdir)/Translations/POTFILES.in.2 ; \
+	find $(srcdir)/Source \( -iname "*.cpp.in" \) -print | sort >> $(srcdir)/Translations/POTFILES.in.2 ; \
+	find $(srcdir)/Source \( -iname "*.h" ! -name config.h ! -name Version.h ! -name NarayanLogicLexerBase.h ! -name NarayanLogicLexer.h ! -name NarayanLogicParserBase.h ! -name NarayanLogicParser.h \) -print | sort >> $(srcdir)/Translations/POTFILES.in.2 ; \
+	find $(srcdir)/Source \( -iname "*.h.in" \) -print | sort >> $(srcdir)/Translations/POTFILES.in.2 ; \
 	if diff $(srcdir)/Translations/POTFILES.in $(srcdir)/Translations/POTFILES.in.2 >/dev/null 2>&1 ; then \
 		$(RM) -f $(srcdir)/Translations/POTFILES.in.2 ; \
 	else \

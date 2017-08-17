@@ -14,7 +14,13 @@
 
     // Standard C++ / POSIX system headers...
     #include <cmath>
+    #include <stdexcept>
     #include <string>
+
+    // i18n...
+    #include "gettext.h"
+    #define _(str) gettext (str)
+    #define N_(str) gettext_noop (str)
 
 // Multiple include protection...
 #endif
