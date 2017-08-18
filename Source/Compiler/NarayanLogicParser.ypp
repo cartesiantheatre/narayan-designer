@@ -8,23 +8,10 @@
 
     Generates:
 
-        Baseclass header defining, among other things, the grammatical tokens
-        to be used by the externally defined lexical scanner:
-
-            NarayanLogicParserBase.h
-
-        Class header providing the parser class definition:
-
-            NarayanLogicParser.h
-
-        Implementation header is an internal header file to be included by any
-        implementation of the parser class' members:
-
-            NarayanLogicParser.ih
-
-        Parser implementation:
-
-            NarayanLogicParser.cpp
+        Baseclass header:       NarayanLogicParserBase.h    (generated repeatedly, clobbered, not modifiable)
+        Class header:           NarayanLogicParser.h        (generated once, not overwritten, user modifiable)
+        Implementation header:  NarayanLogicParser.ih       (generated once, not overwritten, user modifiable)
+        Parser implementation:  NarayanLogicParser.cpp      (generated repeatedly, clobbered, not modifiable)
 */
 
 // Bison declarations section contains declarations that define parser settings,

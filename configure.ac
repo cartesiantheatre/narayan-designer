@@ -159,12 +159,6 @@ fi
         AC_MSG_ERROR([mktemp tool is required to perform test suite...])
     fi
 
-    # Find it...
-    AC_PATH_PROG([PATCH], [patch])
-    if test "x$PATCH" = "x"; then
-        AC_MSG_ERROR([patch tool is required to build from source...])
-    fi
-
     # rmdir necessary in various places...
     AC_PATH_PROG([RMDIR], [rmdir])
     if test "x$RMDIR" = "x"; then

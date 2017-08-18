@@ -54,7 +54,7 @@ int main()
     #endif
 
     // Open sample script...
-    ifstream InputStream("GrowGrass.nl");
+    ifstream InputStream("Scripts/GrowGrass.nl");
 
     // Output buffer for any tokens not understood...
     stringstream OutputStream;

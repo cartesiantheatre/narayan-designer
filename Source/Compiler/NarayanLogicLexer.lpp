@@ -8,10 +8,10 @@
 
     Generates:
 
-        Baseclass header:                   NarayanLogicLexerBase.h
-        Class header:                       NarayanLogicLexer.h
-        Implementation header:              NarayanLogicLexer.ih
-        Lexer implementation:               NarayanLogicLexerBase.cpp
+        Baseclass header:       NarayanLogicLexerBase.h     (generated repeatedly, clobbered, not modifiable)
+        Class header:           NarayanLogicLexer.h         (generated once, not overwritten, user modifiable)
+        Implementation header:  NarayanLogicLexer.ih        (generated once, not overwritten, user modifiable)
+        Lexer implementation:   NarayanLogicLexerBase.cpp   (generated repeatedly, clobbered, not modifiable)
 */
 
 // Definition section is ommitted when using flexc++(1) because it has no need

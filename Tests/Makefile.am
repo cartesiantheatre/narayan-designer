@@ -25,7 +25,7 @@ TestLexer_LDADD    = ../Source/Compiler/narayan_designer-NarayanLogicLexerBase.$
 
 # Manually add these things to distribution package when dist target is run...
 EXTRA_DIST =                \
-    GrowGrass.nl
+    Scripts/GrowGrass.nl
 
 # List of files to clean up during clean target...
 CLEANFILES =                \

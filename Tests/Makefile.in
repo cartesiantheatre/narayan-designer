@@ -453,7 +453,6 @@ PACKAGE_STRING = @PACKAGE_STRING@
 PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
-PATCH = @PATCH@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
@@ -549,7 +548,7 @@ TestLexer_LDADD = ../Source/Compiler/narayan_designer-NarayanLogicLexerBase.$(OB
 
 # Manually add these things to distribution package when dist target is run...
 EXTRA_DIST = \
-    GrowGrass.nl
+    Scripts/GrowGrass.nl
 
 
 # List of files to clean up during clean target...
