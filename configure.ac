@@ -189,17 +189,20 @@ AC_LANG([C++])
 # Checks for system headers and features...
 
     # SIMD extensions...
-    case "$host_cpu" in
-        i?86) ;&
-        x86_64) CXXFLAGS="$CXXFLAGS -mfpmath=sse -msse -msse2" ;;
-    esac
+    AX_CHECK_X86_FEATURES
+    AC_LANG([C++]) # The above clobbers AC_LANG...
 
-    # Check for amd64 or i386 like architecture to use software traps...
+    # Figure out how to set a software traps on this particular hardware...
+    AC_MSG_CHECKING([how to trigger software traps on $host_cpu])
+    BREAKPOINT_TRAP=""
     case "$host_cpu" in
-        arm*) AC_DEFINE([BREAKPOINT_TRAP], [{ asm volatile("bkpt"); }], [Trigger a software trap...]) ;;
-        i?86) ;&
-        x86_64) AC_DEFINE([BREAKPOINT_TRAP], [{ asm volatile("int $0x03"); }], [Trigger a software trap...]) ;;
+        arm*)   BREAKPOINT_TRAP="asm volatile(\"bkpt\");" ;;
+        mips*)  BREAKPOINT_TRAP="asm volatile(\"teq \$0, \$0\");" ;;
+        *i?86)   ;&
+        x86_64) BREAKPOINT_TRAP="asm volatile(\"int \$0x03\");" ;;
     esac
+    AC_DEFINE_UNQUOTED([BREAKPOINT_TRAP], $BREAKPOINT_TRAP, [Trigger a software trap on this architecture...])
+    AC_MSG_RESULT([$BREAKPOINT_TRAP])
 
     # Standard C++ headers...
     AC_CHECK_HEADERS(

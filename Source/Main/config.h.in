@@ -6,7 +6,7 @@
 /* bisonc++ version available */
 #undef BISONCPP_VERSION
 
-/* Trigger a software trap... */
+/* Trigger a software trap on this architecture... */
 #undef BREAKPOINT_TRAP
 
 /* All flags that were passed to configure at configuration time. */
@@ -21,6 +21,21 @@
 
 /* flexc++ version available */
 #undef FLEXCPP_VERSION
+
+/* Define if avx2 instructions are supported */
+#undef HAVE_AVX2_INSTRUCTIONS
+
+/* Define if avx512f instructions are supported */
+#undef HAVE_AVX512F_INSTRUCTIONS
+
+/* Define if avx instructions are supported */
+#undef HAVE_AVX_INSTRUCTIONS
+
+/* Define if bmi2 instructions are supported */
+#undef HAVE_BMI2_INSTRUCTIONS
+
+/* Define if bmi instructions are supported */
+#undef HAVE_BMI_INSTRUCTIONS
 
 /* Define to 1 if you have the <cassert> header file. */
 #undef HAVE_CASSERT
@@ -55,6 +70,12 @@
    */
 #undef HAVE_DCGETTEXT
 
+/* Define if fma4 instructions are supported */
+#undef HAVE_FMA4_INSTRUCTIONS
+
+/* Define if fma instructions are supported */
+#undef HAVE_FMA_INSTRUCTIONS
+
 /* Define to 1 if you have the `getenv' function. */
 #undef HAVE_GETENV
 
@@ -85,11 +106,35 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* Define if mmx instructions are supported */
+#undef HAVE_MMX_INSTRUCTIONS
+
+/* Define if popcnt instructions are supported */
+#undef HAVE_POPCNT_INSTRUCTIONS
+
 /* Define to 1 if you have the `realpath' function. */
 #undef HAVE_REALPATH
 
 /* Define to 1 if you have the `sigaction' function. */
 #undef HAVE_SIGACTION
+
+/* Define if sse2 instructions are supported */
+#undef HAVE_SSE2_INSTRUCTIONS
+
+/* Define if sse3 instructions are supported */
+#undef HAVE_SSE3_INSTRUCTIONS
+
+/* Define if sse4a instructions are supported */
+#undef HAVE_SSE4A_INSTRUCTIONS
+
+/* Define if sse4.1 instructions are supported */
+#undef HAVE_SSE4_1_INSTRUCTIONS
+
+/* Define if sse4.2 instructions are supported */
+#undef HAVE_SSE4_2_INSTRUCTIONS
+
+/* Define if sse instructions are supported */
+#undef HAVE_SSE_INSTRUCTIONS
 
 /* Define to 1 if you have the <stdexcept> header file. */
 #undef HAVE_STDEXCEPT
