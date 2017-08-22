@@ -10,16 +10,21 @@ bin_PROGRAMS = narayan-designer
 # Get build flags...
 narayan_designer_CFLAGS     = $(AM_CFLAGS)
 narayan_designer_CXXFLAGS   = $(AM_CXXFLAGS)
-narayan_designer_CPPFLAGS   = -DSYSCONFDIR='"$(sysconfdir)"' -I$(srcdir)/ -I$(srcdir)/Compiler -I$(srcdir)/Main $(AM_CPPFLAGS)
 narayan_designer_LDFLAGS    = $(AM_LDFLAGS)
 narayan_designer_LDADD      = $(AM_LDFLAGS)
 
-# These files must exist before anything is compiled. Can be machine
-#  generated...
-BUILT_SOURCES =                                 \
-    Compiler/lexer.stamp                        \
-    Compiler/parser.stamp                       \
-    Main/Version.h
+# Preprocessor flags. Note that the include search paths are paired between
+#  source and build directory as per Automake manual §8.7 to facilitate VPATH
+#  builds...
+narayan_designer_CPPFLAGS   =       \
+    -DSYSCONFDIR='"$(sysconfdir)"'  \
+    -I$(srcdir)/                    \
+    -I$(builddir)/                  \
+    -I$(srcdir)/Compiler            \
+    -I$(builddir)/Compiler          \
+    -I$(srcdir)/Main                \
+    -I$(builddir)/Main              \
+    $(AM_CPPFLAGS)
 
 # narayan-designer product option variables containing list of sources...
 narayan_designer_SOURCES =                      \
@@ -27,23 +32,46 @@ narayan_designer_SOURCES =                      \
     Compiler/NarayanLogicLexer.ih               \
     Compiler/NarayanLogicParser.h               \
     Compiler/NarayanLogicParser.ih              \
-    Compiler/NarayanLogicParserPreinclude.h     \
     Main/CommandLineOptions.cpp                 \
     Main/CommandLineOptions.h                   \
     Main/gettext.h                              \
     Main/Main.cpp                               \
     Patterns/ExplicitSingleton.h
 
-# Source files for NarayanLogic lexer clobbered by each flexc++(1) invocation...
+# Source files for NarayanLogic lexer clobbered by each flexc++(1) invocation.
+#  These should always be created within $(builddir)...
 lexer_clobbered_source =                        \
     Compiler/NarayanLogicLexerBase.cpp          \
     Compiler/NarayanLogicLexerBase.h
 
-# Source files for NarayanLogic parser clobbered by each bisonc++(1)
-#  invocation...
+# Source files for NarayanLogic lexer generated once by flexc++(1), but
+#  subsequently owned by the user. These should always be maintained within
+#  $(sourcedir)...
+lexer_unclobbered_source =                      \
+    Compiler/NarayanLogicLexer.h                \
+    Compiler/NarayanLogicLexer.ih
+
+# Source files for NarayanLogic parser clobbered by each bisonc++(1) invocation.
+#  These should always be created within $(builddir)...
 parser_clobbered_source =                       \
     Compiler/NarayanLogicParserBase.h           \
     Compiler/NarayanLogicParser.cpp
+
+# Source files for NarayanLogic parser generated once by bisonc++(1), but
+#  subsequently owned by the user. These should always be maintained within
+#  $(sourcedir)...
+parser_unclobbered_source =                     \
+    Compiler/NarayanLogicParser.h               \
+    Compiler/NarayanLogicParser.ih
+
+# These files must exist before anything is compiled. Can be machine
+#  generated...
+BUILT_SOURCES =                                 \
+    Compiler/lexer.stamp                        \
+    $(lexer_clobbered_source)                   \
+    $(parser_clobbered_source)                  \
+    Compiler/parser.stamp                       \
+    Main/Version.h
 
 # Product option variables for list of source not to be distributed because
 #  they are machine generated...
@@ -54,15 +82,17 @@ nodist_narayan_designer_SOURCES =               \
 # Additional files left behind during dist target that need to be cleaned...
 DISTCLEANFILES =                                \
     Compiler/lexer.stamp                        \
+    Compiler/parser.stamp
+
+CLEANFILES =                                    \
+    Compiler/lexer.stamp                        \
     Compiler/parser.stamp                       \
     $(lexer_clobbered_source)                   \
     $(parser_clobbered_source)
 
 # Actually clean all derived and maintainer files...
 MAINTAINERCLEANFILES =                          \
-	$(srcdir)/Main/config.h.in                  \
-    $(lexer_clobbered_source)                   \
-    $(parser_clobbered_source)
+	$(srcdir)/Main/config.h.in
 
 # Manually add these things to distribution package when dist target is run...
 EXTRA_DIST =                                    \
@@ -85,7 +115,7 @@ AX_V_BISONCPP_0 = @echo "  BISONCPP $@";
 $(lexer_clobbered_source): Compiler/lexer.stamp
 Compiler/lexer.stamp: Compiler/NarayanLogicLexer.lpp
 	@$(RM) -vf $(lexer_clobbered_source)
-	$(AX_V_FLEXCPP)$(FLEXCPP) --target-directory=Compiler $<
+	$(AX_V_FLEXCPP)$(FLEXCPP) --target-directory=Compiler $< && $(RM) -f $(lexer_unclobbered_source)
 	@echo "timestamp for $^" > $@
 
 # Generate the Narayan Logic parser source from its Backus-Naur grammar rules
@@ -94,6 +124,6 @@ Compiler/lexer.stamp: Compiler/NarayanLogicLexer.lpp
 $(parser_clobbered_source): Compiler/parser.stamp
 Compiler/parser.stamp: Compiler/NarayanLogicParser.ypp
 	@$(RM) -vf $(parser_clobbered_source)
-	$(AX_V_BISONCPP)$(BISONCPP) --target-directory=Compiler $<
+	$(AX_V_BISONCPP)$(BISONCPP) --target-directory=Compiler $< && $(RM) -f $(parser_unclobbered_source)
 	@echo "timestamp for $^" > $@
 

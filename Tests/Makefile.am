@@ -16,12 +16,24 @@ check_SCRIPTS =             \
 
 endif
 
+# Preprocessor flags for all tests. Note that the include search paths are
+#  paired between source and build directory as per Automake manual §8.7 to
+#  facilitate VPATH builds...
+AM_CPPFLAGS =                           \
+    -DSYSCONFDIR='"$(sysconfdir)"'      \
+    -I$(top_srcdir)/Source              \
+    -I$(top_builddir)/Source            \
+    -I$(top_srcdir)/Source/Compiler     \
+    -I$(top_builddir)/Source/Compiler   \
+    -I$(top_srcdir)/Source/Main         \
+    -I$(top_builddir)/Source/Main
+
 # Test lexer program...
-TestLexer_CFLAGS   = $(AM_CFLAGS)
-TestLexer_SOURCES  = TestLexer.cpp
-TestLexer_CPPFLAGS = -DSYSCONFDIR='"$(sysconfdir)"' -I$(top_srcdir)/Source -I$(top_builddir)/Source -I$(top_srcdir)/Source/Main $(AM_CPPFLAGS)
-TestLexer_CXXFLAGS = $(AM_CXXFLAGS)
-TestLexer_LDADD    = ../Source/Compiler/narayan_designer-NarayanLogicLexerBase.$(OBJEXT)
+TestLexer_CFLAGS    = $(AM_CFLAGS)
+TestLexer_SOURCES   = TestLexer.cpp
+TestLexer_CPPFLAGS  = $(AM_CPPFLAGS)
+TestLexer_CXXFLAGS  = $(AM_CXXFLAGS)
+TestLexer_LDADD     = ../Source/Compiler/narayan_designer-NarayanLogicLexerBase.$(OBJEXT)
 
 # Manually add these things to distribution package when dist target is run...
 EXTRA_DIST =                \

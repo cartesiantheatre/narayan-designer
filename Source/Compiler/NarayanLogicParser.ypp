@@ -39,10 +39,6 @@
     %right                      '^'         /* Exponentiation operator */
     %right                      UNARY       /* Positive or negation unary operator */
 
-    // Various dependencies external to the parser, besides the lexer, that it
-    //  may need...
-    %baseclass-preinclude       "NarayanLogicParserPreinclude.h"
-
     // Define the parser's base class header file containing the parser's
     //  symbolic tokens...
     %baseclass-header           NarayanLogicParserBase.h
