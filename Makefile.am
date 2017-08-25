@@ -76,6 +76,9 @@ EXTRA_DIST =                                                \
     News                                                    \
     ReadMe
 
+#TODO: i18n logic is currently shitty. Improve and consolidate into
+#      Translations/Makefile.am...
+
 # Make sure gettext is present...
 check-gettext:
 	@if test x$(USE_NLS) != "xyes" ; then echo "Missing gettext. Rerun configure and check for" \

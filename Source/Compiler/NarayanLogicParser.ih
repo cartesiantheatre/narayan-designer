@@ -4,8 +4,8 @@
 */
 
 // Multiple include protection...
-#ifndef _NARAYAN_LOGIC_PARSER_H_
-#define _NARAYAN_LOGIC_PARSER_H_
+#ifndef _NARAYAN_LOGIC_PARSER_IH_
+#define _NARAYAN_LOGIC_PARSER_IH_
 
 // Includes...
 
@@ -17,12 +17,14 @@
 
     // Standard C++ / POSIX system headers...
     #include <cmath>
+    #include <sstream>
 
     // i18n...
     #include "gettext.h"
     #define _(str) gettext (str)
     #define N_(str) gettext_noop (str)
 
+// Called whenever the parser encounters a syntax error...
 inline void NarayanLogicParser::error()
 {
     std::cerr << "Syntax error\n";
@@ -39,10 +41,18 @@ inline void NarayanLogicParser::print()
     print__();           // displays tokens if --print was specified
 }
 
-inline void NarayanLogicParser::exceptionHandler(std::exception const &exc)         
+// An exception has been thrown by a semantic action...
+inline void NarayanLogicParser::exceptionHandler(const std::exception &Exception)
 {
-    (void)(exc);
-    throw;              // re-implement to handle exceptions thrown by actions
+    // Prepend the offending line number into the exception string...
+    std::stringstream ErrorMessage;
+    ErrorMessage << d_loc__.first_line << ": " << Exception.what();
+
+    // Convert into a runtime error...
+    const std::runtime_error  RuntimeException(ErrorMessage.str());
+    
+    // Propogate exception up...
+    throw RuntimeException;
 }
 
 
