@@ -14,9 +14,6 @@
     // Standard C++ / POSIX system headers...
     #include <cstdlib>
     #include <iostream>
-    #include <fstream>
-    #include <sstream>
-    #include <vector>
 
     // i18n...
     #include "gettext.h"
@@ -53,21 +50,16 @@ int main()
 
     #endif
 
-    // Open sample script...
-  //  ifstream InputStream("Scripts/GrowGrass.nl");
-
-    // Output buffer for any tokens not understood...
-//    stringstream OutputStream;
-
-    // Initialize parser to sample NarayanLogic script...
-    NarayanLogicParser Parser;
 
     // Try to parse the input...
     try
     {
-/*
-    TODO: Implement parser unit test.
-*/
+        // Initialize parser to sample NarayanLogic script...
+        NarayanLogicParser Parser("Scripts/dsfGrowGrass.nl");
+
+        // Attempt to parse it and bail if unsuccessful...
+        if(Parser.parse() != 0)
+            return EXIT_FAILURE;
     }
 
     // Something went wrong...

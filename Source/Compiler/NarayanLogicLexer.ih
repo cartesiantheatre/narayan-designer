@@ -4,8 +4,8 @@
 */
 
 // Multiple include protection...
-#ifndef _NARAYAN_LOGIC_LEXER_H_
-#define _NARAYAN_LOGIC_LEXER_H_
+#ifndef _NARAYAN_LOGIC_LEXER_IH_
+#define _NARAYAN_LOGIC_LEXER_IH_
 
 // Includes...
 

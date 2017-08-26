@@ -24,6 +24,16 @@
     #define _(str) gettext (str)
     #define N_(str) gettext_noop (str)
 
+// Constructor expecting path to input file...
+NarayanLogicParser::NarayanLogicParser(const std::string &InputFile)
+    : d_scanner(InputFile, "")
+{
+    /*
+        TODO: Lexer can't detect non-existant files, so open input stream for it
+              and validate before constructing the object.
+    */
+}
+
 // Called whenever the parser encounters a syntax error...
 inline void NarayanLogicParser::error()
 {
@@ -44,9 +54,10 @@ inline void NarayanLogicParser::print()
 // An exception has been thrown by a semantic action...
 inline void NarayanLogicParser::exceptionHandler(const std::exception &Exception)
 {
-    // Prepend the offending line number into the exception string...
+    // Prepend the input file name and offending line number into the exception
+    //  string...
     std::stringstream ErrorMessage;
-    ErrorMessage << d_loc__.first_line << ": " << Exception.what();
+    ErrorMessage << d_scanner.d_filename << ":" << d_loc__.first_line << ": " << Exception.what();
 
     // Convert into a runtime error...
     const std::runtime_error  RuntimeException(ErrorMessage.str());
@@ -55,17 +66,10 @@ inline void NarayanLogicParser::exceptionHandler(const std::exception &Exception
     throw RuntimeException;
 }
 
-
-    // Add here includes that are only required for the compilation 
-    // of NarayanLogicParser's sources.
-
-
-
-    // UN-comment the next using-declaration if you want to use
-    // int NarayanLogicParser's sources symbols from the namespace std without
-    // specifying std::
-
-//using namespace std;
+/*
+    Add here includes that are only required for the compilation of
+    NarayanLogicParser's sources.
+*/
 
 // Multiple include protection...
 #endif
