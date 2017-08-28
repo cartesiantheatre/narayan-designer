@@ -543,7 +543,9 @@ valgrind_tools = @valgrind_tools@
 
 # Product list of scripts to generate during check target...
 @ENABLE_TESTS_TRUE@check_SCRIPTS = \
-@ENABLE_TESTS_TRUE@    TestRuntimeSane
+@ENABLE_TESTS_TRUE@    TestRuntimeSane         \
+@ENABLE_TESTS_TRUE@    TestLexer_1             \
+@ENABLE_TESTS_TRUE@    TestParser_1
 
 
 # Preprocessor flags for all tests. Note that the include search paths are
@@ -597,7 +599,7 @@ CLEANFILES = \
 #endif
 
 # GCS § 7.2.6 requires a check target. Targets to execute for check target...
-TESTS = $(check_SCRIPTS) $(check_PROGRAMS)
+TESTS = $(check_SCRIPTS)
 all: all-am
 
 .SUFFIXES:
@@ -896,16 +898,16 @@ TestRuntimeSane.log: TestRuntimeSane
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-TestLexer.log: TestLexer$(EXEEXT)
-	@p='TestLexer$(EXEEXT)'; \
-	b='TestLexer'; \
+TestLexer_1.log: TestLexer_1
+	@p='TestLexer_1'; \
+	b='TestLexer_1'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-TestParser.log: TestParser$(EXEEXT)
-	@p='TestParser$(EXEEXT)'; \
-	b='TestParser'; \
+TestParser_1.log: TestParser_1
+	@p='TestParser_1'; \
+	b='TestParser_1'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
@@ -1081,6 +1083,16 @@ uninstall-am:
 
 .PRECIOUS: Makefile
 
+
+TestLexer_1: TestLexer $(srcdir)/Scripts/GrowGrass.nl Makefile.am
+	@echo 'set -e -u' > $@
+	@echo './$< "$(srcdir)/Scripts/GrowGrass.nl"' >> $@
+	@$(CHMOD) +x $@
+
+TestParser_1: TestParser $(srcdir)/Scripts/GrowGrass.nl Makefile.am
+	@echo 'set -e -u' > $@
+	@echo './$< "$(srcdir)/Scripts/GrowGrass.nl"' >> $@
+	@$(CHMOD) +x $@
 
 # Rule to create test script to verify the runtime works by just testing to see
 #  it compiled and linked correctly...

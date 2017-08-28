@@ -28,16 +28,13 @@
 NarayanLogicParser::NarayanLogicParser(const std::string &InputFile)
     : d_scanner(InputFile, "")
 {
-    /*
-        TODO: Lexer can't detect non-existant files, so open input stream for it
-              and validate before constructing the object.
-    */
+
 }
 
 // Called whenever the parser encounters a syntax error...
 inline void NarayanLogicParser::error()
 {
-    std::cerr << "Syntax error\n";
+    std::cerr << _("syntax error") << std::endl;
 }
 
 // $insert lex
@@ -57,10 +54,10 @@ inline void NarayanLogicParser::exceptionHandler(const std::exception &Exception
     // Prepend the input file name and offending line number into the exception
     //  string...
     std::stringstream ErrorMessage;
-    ErrorMessage << d_scanner.d_filename << ":" << d_loc__.first_line << ": " << Exception.what();
+    ErrorMessage << d_scanner.filename() << ":" << d_loc__.first_line << ": " << Exception.what();
 
     // Convert into a runtime error...
-    const std::runtime_error  RuntimeException(ErrorMessage.str());
+    const std::runtime_error RuntimeException(ErrorMessage.str());
     
     // Propogate exception up...
     throw RuntimeException;

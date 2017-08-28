@@ -217,7 +217,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in \
 	$(top_srcdir)/Source/Main/Version.h.in \
 	$(top_srcdir)/Source/Main/config.h.in ABOUT-NLS \
 	Auxiliary/compile Auxiliary/config.guess \
-	Auxiliary/config.rpath Auxiliary/config.sub \
+	Auxiliary/config.rpath Auxiliary/config.sub Auxiliary/depcomp \
 	Auxiliary/install-sh Auxiliary/missing ChangeLog
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)

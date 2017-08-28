@@ -8,10 +8,10 @@
 
     Generates:
 
-        Baseclass header:       NarayanLogicParserBase.h    (generated repeatedly, clobbered, not modifiable)
-        Class header:           NarayanLogicParser.h        (generated once, not overwritten, user modifiable)
-        Implementation header:  NarayanLogicParser.ih       (generated once, not overwritten, user modifiable)
-        Parser implementation:  NarayanLogicParser.cpp      (generated repeatedly, clobbered, not modifiable)
+        Baseclass header:       NarayanLogicParserBase.h    (not modifiable, clobbered / generated repeatedly in $builddir)
+        Class header:           NarayanLogicParser.h        (user modifiable, preserved / generated once in $srcdir)
+        Implementation header:  NarayanLogicParser.ih       (user modifiable, preserved / generated once in $srcdir)
+        Parser implementation:  NarayanLogicParser.cpp      (not modifiable, clobbered / generated repeatedly in $builddir)
 */
 
 // Bison declarations section contains declarations that define parser settings,
@@ -56,8 +56,43 @@
     %tag-mismatches             on
 
     // Terminal tokens without associativity or precedence...
-    %token IDENTIFIER NUMBER
-    
+    %token
+        AGENT
+        APPLY_COUNT
+        CREATE_UNIT
+        DAY
+        END_RULE
+        EVENT_FAIL
+        EVENT_SUCCESS
+        EVENT_TYPE_ALERT
+        EVENT_TYPE_AUDIO
+        EVENT_TYPE_EFFECT
+        GREATER
+        IDENTIFIER
+        IN
+        MAP
+        NUMBER
+        OPTION_COUNT
+        OPTION_ID
+        OPTION_REPEAT_AFTER
+        OPTIONS
+        OPTION_SEND_TO
+        OPTION_SWITCH_TO
+        OPTION_VIA
+        OUT
+        RANDOM
+        RATE
+        RELATIONAL_GREATER
+        RELATIONAL_IS
+        SAMPLE
+        SCOPE_GLOBAL
+        SCOPE_LOCAL
+        START_RULE
+        TEST
+        TIME_TRIGGER
+
+    // For non-terminals whose semantic value can vary, select the underlying 
+    //  storage type that makes them easiest to work with...
     %type <STRING>              identifier
     %type <NUMBER>              expression, number
 
@@ -79,7 +114,7 @@
     //  function...
     %error-verbose
     
-    %no-lines
+//%no-lines
     
     // Ensure that each thread's polymorphic code is thread safe. All this
     //  effectively does at this time is ensure the parser accesses its error

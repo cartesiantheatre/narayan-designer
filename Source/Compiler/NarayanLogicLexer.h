@@ -15,6 +15,12 @@
     // Lexer base class...
     #include "NarayanLogicLexerBase.h"
 
+    // All the token definitions needed for print()...
+    #include "NarayanLogicParserBase.h"
+
+    // Standard C++ / POSIX system headers...
+    #include <sstream>
+
     // i18n...
     #include "gettext.h"
     #define _(str) gettext (str)
@@ -27,54 +33,146 @@ class NarayanLogicLexer: public NarayanLogicLexerBase
         explicit NarayanLogicLexer(std::istream &in = std::cin,
                                 std::ostream &out = std::cout);
 
-        NarayanLogicLexer(std::string const &infile, std::string const &outfile);
+        NarayanLogicLexer(std::string const &infile, std::string const &outfile = "-");
         
-        // $insert lexFunctionDecl
+        // Retrieve the next token, or zero if there are no more...
         int lex();
+
+        // Enable printing of token and matching value...
+        void setPrint(const bool Enabled = true) { m_Print = Enabled; }
 
     private:
         int lex__();
+
+        // Execute an action for a given matched rule...
         int executeAction__(size_t ruleNr);
 
+        // Print the token...
         void print();
-        void preCode();     // re-implement this function for code that must 
-                            // be exec'ed before the patternmatching starts
 
-        void postCode(PostEnum__ type);    
-                            // re-implement this function for code that must 
-                            // be exec'ed after the rules's actions.
+        // Executed before a pattern match starts...
+        void preCode();
+
+        // Executed after a rule's action is executed...
+        void postCode(PostEnum__ type);
+
+    // Protected attributes...
+    protected:
+
+        // Print token and matching value...
+        bool    m_Print;
 };
 
 // $insert scannerConstructors
 inline NarayanLogicLexer::NarayanLogicLexer(std::istream &in, std::ostream &out)
 :
-    NarayanLogicLexerBase(in, out)
+    NarayanLogicLexerBase(in, out),
+    m_Print(false)
 {}
 
 inline NarayanLogicLexer::NarayanLogicLexer(std::string const &infile, std::string const &outfile)
 :
-    NarayanLogicLexerBase(infile, outfile)
+    NarayanLogicLexerBase(infile, outfile),
+    m_Print(false)
 {}
 
-// $insert inlineLexFunction
+// Retrieve the next token, or zero if there are no more...
 inline int NarayanLogicLexer::lex()
 {
-    return lex__();
+    // Try to retrieve the next token...
+    try
+    {
+        // Extract from stream...
+        const auto Value = lex__();
+        
+        // Return it to parser...
+        return Value;
+    }
+    
+    // Something went wrong...
+    catch(const std::runtime_error &Error)
+    {
+        // Prefix filename, line number, message, and offending text...
+        std::stringstream BetterErrorMessage;
+        BetterErrorMessage
+            << filename() << ":"
+            << lineNr() << ": "
+            << Error.what() 
+            << ": \'" << matched() << "\'";
+
+        // Propagate exception up...
+        throw std::runtime_error(BetterErrorMessage.str());
+    }
 }
 
+// Executed before a pattern match starts...
 inline void NarayanLogicLexer::preCode() 
 {
-    // optionally replace by your own code
+
 }
 
+// Executed after a rule's action is executed...
 inline void NarayanLogicLexer::postCode(PostEnum__ /*type*/) 
 {
-    // optionally replace by your own code
+
 }
 
+// Print the token and matching text...
 inline void NarayanLogicLexer::print() 
 {
-    print__();
+    // Not enabled, skip...
+    if(not m_Print)
+        return;
+
+    // Storage for token identifier...
+    std::string Token;
+
+    // Convert the token symbolic identifier to a string because C++14 still
+    //  can't do this in 2017...
+    switch(d_token__)
+    {
+        case NarayanLogicParserBase::Tokens__::AGENT:               Token = "AGENT "; break;
+        case NarayanLogicParserBase::Tokens__::APPLY_COUNT:         Token = "APPLY_COUNT"; break;
+        case NarayanLogicParserBase::Tokens__::CREATE_UNIT:         Token = "CREATE_UNIT"; break;
+        case NarayanLogicParserBase::Tokens__::DAY:                 Token = "DAY"; break;
+        case NarayanLogicParserBase::Tokens__::END_RULE:            Token = "END_RULE"; break;
+        case NarayanLogicParserBase::Tokens__::EVENT_FAIL:          Token = "EVENT_FAIL"; break;
+        case NarayanLogicParserBase::Tokens__::EVENT_SUCCESS:       Token = "EVENT_SUCCESS"; break;
+        case NarayanLogicParserBase::Tokens__::EVENT_TYPE_ALERT:    Token = "EVENT_TYPE_ALERT"; break;
+        case NarayanLogicParserBase::Tokens__::EVENT_TYPE_AUDIO:    Token = "EVENT_TYPE_AUDIO"; break;
+        case NarayanLogicParserBase::Tokens__::EVENT_TYPE_EFFECT:   Token = "EVENT_TYPE_EFFECT"; break;
+        case NarayanLogicParserBase::Tokens__::GREATER:             Token = "GREATER"; break;
+        case NarayanLogicParserBase::Tokens__::IDENTIFIER:          Token = "IDENTIFIER"; break;
+        case NarayanLogicParserBase::Tokens__::IN:                  Token = "IN"; break;
+        case NarayanLogicParserBase::Tokens__::MAP:                 Token = "MAP"; break;
+        case NarayanLogicParserBase::Tokens__::NUMBER:              Token = "NUMBER"; break;
+        case NarayanLogicParserBase::Tokens__::OPTION_COUNT:        Token = "OPTION_COUNT"; break;
+        case NarayanLogicParserBase::Tokens__::OPTION_ID:           Token = "OPTION_ID"; break;
+        case NarayanLogicParserBase::Tokens__::OPTION_REPEAT_AFTER: Token = "OPTION_REPEAT_AFTER"; break;
+        case NarayanLogicParserBase::Tokens__::OPTIONS:             Token = "OPTIONS"; break;
+        case NarayanLogicParserBase::Tokens__::OPTION_SEND_TO:      Token = "OPTION_SEND_TO"; break;
+        case NarayanLogicParserBase::Tokens__::OPTION_SWITCH_TO:    Token = "OPTION_SWITCH_TO"; break;
+        case NarayanLogicParserBase::Tokens__::OPTION_VIA:          Token = "OPTION_VIA"; break;
+        case NarayanLogicParserBase::Tokens__::OUT:                 Token = "OUT"; break;
+        case NarayanLogicParserBase::Tokens__::RANDOM:              Token = "RANDOM"; break;
+        case NarayanLogicParserBase::Tokens__::RATE:                Token = "RATE"; break;
+        case NarayanLogicParserBase::Tokens__::RELATIONAL_GREATER:  Token = "RELATIONAL_GREATER"; break;
+        case NarayanLogicParserBase::Tokens__::RELATIONAL_IS:       Token = "RELATIONAL_IS"; break;
+        case NarayanLogicParserBase::Tokens__::SAMPLE:              Token = "SAMPLE"; break;
+        case NarayanLogicParserBase::Tokens__::SCOPE_GLOBAL:        Token = "SCOPE_GLOBAL"; break;
+        case NarayanLogicParserBase::Tokens__::SCOPE_LOCAL:         Token = "SCOPE_LOCAL"; break;
+        case NarayanLogicParserBase::Tokens__::START_RULE:          Token = "START_RULE"; break;
+        case NarayanLogicParserBase::Tokens__::TEST:                Token = "TEST"; break;
+        case NarayanLogicParserBase::Tokens__::TIME_TRIGGER:        Token = "TIME_TRIGGER"; break;
+        case NarayanLogicParserBase::Tokens__::UNARY:               Token = "UNARY"; break;
+        default:                                                    Token = "?"; break;
+    }
+
+    // Show the token identifier with the matching text...
+    std::cout << Token << " \"" << matched() << "\"" << std::endl;
+
+    // Show the token numeric identifier and the matched text...
+//    print__();
 }
 
 

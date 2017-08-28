@@ -13,7 +13,9 @@ check_PROGRAMS =            \
 
 # Product list of scripts to generate during check target...
 check_SCRIPTS =             \
-    TestRuntimeSane
+    TestRuntimeSane         \
+    TestLexer_1             \
+    TestParser_1
 
 endif
 
@@ -64,7 +66,17 @@ CLEANFILES =                \
 #endif
 
 # GCS § 7.2.6 requires a check target. Targets to execute for check target...
-TESTS = $(check_SCRIPTS) $(check_PROGRAMS)
+TESTS = $(check_SCRIPTS)
+
+TestLexer_1: TestLexer $(srcdir)/Scripts/GrowGrass.nl Makefile.am
+	@echo 'set -e -u' > $@
+	@echo './$< "$(srcdir)/Scripts/GrowGrass.nl"' >> $@
+	@$(CHMOD) +x $@
+
+TestParser_1: TestParser $(srcdir)/Scripts/GrowGrass.nl Makefile.am
+	@echo 'set -e -u' > $@
+	@echo './$< "$(srcdir)/Scripts/GrowGrass.nl"' >> $@
+	@$(CHMOD) +x $@
 
 # Rule to create test script to verify the runtime works by just testing to see
 #  it compiled and linked correctly...

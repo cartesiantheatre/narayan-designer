@@ -24,7 +24,7 @@
 using namespace std;
 
 // Entry point...
-int main()
+int main(const int ArgumentCount, const char *Arguments[])
 {
     // Initialize i18n if configured with native language support...
 
@@ -50,12 +50,18 @@ int main()
 
     #endif
 
-
     // Try to parse the input...
     try
     {
+        // Verify that we were provided with a single argument to a script...
+        if(ArgumentCount != 2)
+            throw runtime_error(_("expected path to NarayanLogic script"));
+
+        // Retrieve path...
+        const string ScriptPath = Arguments[1];
+
         // Initialize parser to sample NarayanLogic script...
-        NarayanLogicParser Parser("Scripts/dsfGrowGrass.nl");
+        NarayanLogicParser Parser(ScriptPath);
 
         // Attempt to parse it and bail if unsuccessful...
         if(Parser.parse() != 0)

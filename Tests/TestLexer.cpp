@@ -15,8 +15,6 @@
     #include <cstdlib>
     #include <iostream>
     #include <fstream>
-    #include <sstream>
-    #include <vector>
 
     // i18n...
     #include "gettext.h"
@@ -27,7 +25,7 @@
 using namespace std;
 
 // Entry point...
-int main()
+int main(const int ArgumentCount, const char *Arguments[])
 {
     // Initialize i18n if configured with native language support...
 
@@ -53,52 +51,36 @@ int main()
 
     #endif
 
-    // Open sample script...
-    ifstream InputStream("Scripts/GrowGrass.nl");
-
-    // Output buffer for any tokens not understood...
-    stringstream OutputStream;
-
-    // Initialize lexer to sample NarayanLogic script...
-    NarayanLogicLexer Lexer(InputStream, OutputStream);
-
     // Try to lex the input...
     try
     {
+        // Verify that we were provided with a single argument to a script...
+        if(ArgumentCount != 2)
+            throw runtime_error(_("expected path to NarayanLogic script"));
+
+        // Retrieve path...
+        const string ScriptPath = Arguments[1];
+
+        // Initialize lexer to sample NarayanLogic script...
+        NarayanLogicLexer Lexer(ScriptPath);
+
+        // Enable printing of tokens and matching value...
+        Lexer.setPrint(true);
+
         // Keep reading tokens while there are some...
         while(const int Token = Lexer.lex())
         {
-            // Fetch the token's value...
-            const string &Value = Lexer.matched();
-
-            //TokensRead.push_back(Token);
-            cout << _("token: ") << Token << ": " << Value << endl;
         }
+        
+        // We're done...
+        return EXIT_SUCCESS;
     }
 
     // Something went wrong...
     catch(const runtime_error &Error)
     {
-        // Format the error message...
-        stringstream ErrorMessage;
-        ErrorMessage << Lexer.lineNr() << ": " << Error.what();
-
         // Show the error message...
-        cerr << ErrorMessage.str() << endl;
-
-        // Bail...
-        return EXIT_FAILURE;
-    }
-
-    // If there were no errors, the output stream should have been empty...
-    if(OutputStream.str().empty())
-        return EXIT_SUCCESS;
-
-    // Otherwise we have a problem...
-    else
-    {
-        // Show an error message...
-        cerr << _("error: unrecognized tokens: ") << OutputStream.str() << endl;
+        cerr << Error.what() << endl;
 
         // Bail...
         return EXIT_FAILURE;

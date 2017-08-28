@@ -8,10 +8,10 @@
 
     Generates:
 
-        Baseclass header:       NarayanLogicLexerBase.h     (not modifiable, clobbered / generated repeatedly)
-        Class header:           NarayanLogicLexer.h         (user modifiable, preserved / generated once)
-        Implementation header:  NarayanLogicLexer.ih        (user modifiable, preserved / generated once)
-        Lexer implementation:   NarayanLogicLexerBase.cpp   (not modifiable, clobbered / generated repeatedly )
+        Baseclass header:       NarayanLogicLexerBase.h     (not modifiable, clobbered / generated repeatedly in $builddir)
+        Class header:           NarayanLogicLexer.h         (user modifiable, preserved / generated once in $srcdir)
+        Implementation header:  NarayanLogicLexer.ih        (user modifiable, preserved / generated once in $srcdir)
+        Lexer implementation:   NarayanLogicLexerBase.cpp   (not modifiable, clobbered / generated repeatedly in $builddir)
 */
 
 // Definition section is ommitted when using flexc++(1) because it has no need
@@ -25,26 +25,67 @@
     
     // Define the file name containing the lexer implementation...
     %lex-source         = "NarayanLogicLexerBase.cpp"
+    
+    // Generate code to display tokens and matching text if requested at runtime...
+    %print-tokens
 
 // A list of regular expressions used to identify every possible terminal token
 //  that can be returned by the lexer...
 %%
 
-// Skip multiline comments and raise an error on unterminated ones...
-[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]     {}
-[/][*]                                  { throw std::runtime_error(_("unterminated comment")); }
-
 // Skip single line comments...
-"//".*                                  {}
+"//".*                                  { /* std::cout << _("single line comment") << std::endl; */ }
+
+// Skip multiline comments and raise an error on unterminated ones...
+[/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]     { /* std::cout << _("entering multiline comment") << std::endl; */}
+[/][*]                                  {
+                                            /* TODO: Fix this because this block is never executed. */
+                                            std::cout << _("re-entering multiline comment") << std::endl;
+                                        }
 
 // Skip white space characters...
-[ \t\n]+                                {}
+[ \t\n]+                                { /* Do nothing */ }
 
-// Numbers...
-[0-9]+                                  { return NarayanLogicParser::NUMBER;     }
+// Keywords...
+agent                                   { return NarayanLogicParser::AGENT;                     }
+alert                                   { return NarayanLogicParser::EVENT_TYPE_ALERT;          }
+applyCount                              { return NarayanLogicParser::APPLY_COUNT;               }
+atLeast|greater                         { return NarayanLogicParser::RELATIONAL_GREATER;        }
+audio                                   { return NarayanLogicParser::EVENT_TYPE_AUDIO;          }
+\-count                                 { return NarayanLogicParser::OPTION_COUNT;              }
+createUnit                              { return NarayanLogicParser::CREATE_UNIT;               }
+Day                                     { return NarayanLogicParser::DAY;                       }
+effect                                  { return NarayanLogicParser::EVENT_TYPE_EFFECT;         }
+end                                     { return NarayanLogicParser::END_RULE;                  }
+global                                  { return NarayanLogicParser::SCOPE_GLOBAL;              }
+\-id                                    { return NarayanLogicParser::OPTION_ID;                 }
+in                                      { return NarayanLogicParser::IN;                        }
+is                                      { return NarayanLogicParser::RELATIONAL_IS;             }
+local                                   { return NarayanLogicParser::SCOPE_LOCAL;               }
+map                                     { return NarayanLogicParser::MAP;                       }
+mapRule|unitRule|zoneRule               { return NarayanLogicParser::START_RULE;                }
+onFail                                  { return NarayanLogicParser::EVENT_FAIL;                }
+options                                 { return NarayanLogicParser::OPTIONS;                   }
+out                                     { return NarayanLogicParser::OUT;                       }
+random                                  { return NarayanLogicParser::RANDOM;                    }
+rate                                    { return NarayanLogicParser::RATE;                      }
+\-repeatAfter                           { return NarayanLogicParser::OPTION_REPEAT_AFTER;       }
+sample                                  { return NarayanLogicParser::SAMPLE;                    }
+\-sendTo                                { return NarayanLogicParser::OPTION_SEND_TO;            }
+successEvent                            { return NarayanLogicParser::EVENT_SUCCESS;             }
+\-switchTo                              { return NarayanLogicParser::OPTION_SWITCH_TO;          }
+test                                    { return NarayanLogicParser::TEST;                      }
+timeTrigger                             { return NarayanLogicParser::TIME_TRIGGER;              }
+\-via                                   { return NarayanLogicParser::OPTION_VIA;                }
+
+// Numbers... (integral values only)
+-?[0-9]+                                { return NarayanLogicParser::NUMBER;                    }
 
 // Identifiers...
-[[:alpha:]_][[:alpha:][:digit:]_]*      { return NarayanLogicParser::IDENTIFIER; }
+[[:alpha:]_][[:alpha:][:digit:]_]*      { return NarayanLogicParser::IDENTIFIER;                }
+
+// Anything else shouldn't be recognized...
+.                                       { throw std::runtime_error(_("unrecognized token"));    }
 
 %%
 
