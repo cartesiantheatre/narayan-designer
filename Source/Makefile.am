@@ -131,7 +131,7 @@ COMPILER_TMP=$(builddir)/Compiler/tmp
 #  descriptions via flexc++, using that file as a witness. After that generate
 #  a stamp target for the entire set of derived lexer files...
 $(lexer_clobbered_source_full_paths): Compiler/lexer.stamp
-Compiler/lexer.stamp: Compiler/NarayanLogicLexer.lpp
+Compiler/lexer.stamp: Compiler/NarayanLogicLexer.lpp Compiler/parser.stamp
 	@$(MKDIR_P) $(COMPILER_TMP)
 	$(AX_V_FLEXCPP)$(FLEXCPP) --target-directory=$(COMPILER_TMP) $<
 	@for lexer_file in $(lexer_clobbered_source_files_only); do \

@@ -78,20 +78,6 @@ int main(const int ArgumentCount, const char *Arguments[])
         return EXIT_FAILURE;
     }
 
-    /* If there were no errors, the output stream should have been empty...
-    if(OutputStream.str().empty())
-        return EXIT_SUCCESS;
-
-    // Otherwise we have a problem...
-    else
-    {
-        // Show an error message...
-        cerr << _("error: unrecognized tokens: ") << OutputStream.str() << endl;
-
-        // Bail...
-        return EXIT_FAILURE;
-    }*/
-
     return EXIT_SUCCESS;
 }
 

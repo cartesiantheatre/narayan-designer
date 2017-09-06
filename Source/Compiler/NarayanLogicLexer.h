@@ -128,48 +128,54 @@ inline void NarayanLogicLexer::print()
     std::string Token;
 
     // Convert the token symbolic identifier to a string because C++14 still
-    //  can't do this in 2017...
+    //  can't do this at compile time in 2017...
     switch(d_token__)
     {
-        case NarayanLogicParserBase::Tokens__::AGENT:               Token = "AGENT "; break;
-        case NarayanLogicParserBase::Tokens__::APPLY_COUNT:         Token = "APPLY_COUNT"; break;
-        case NarayanLogicParserBase::Tokens__::CREATE_UNIT:         Token = "CREATE_UNIT"; break;
-        case NarayanLogicParserBase::Tokens__::DAY:                 Token = "DAY"; break;
-        case NarayanLogicParserBase::Tokens__::END_RULE:            Token = "END_RULE"; break;
-        case NarayanLogicParserBase::Tokens__::EVENT_FAIL:          Token = "EVENT_FAIL"; break;
-        case NarayanLogicParserBase::Tokens__::EVENT_SUCCESS:       Token = "EVENT_SUCCESS"; break;
-        case NarayanLogicParserBase::Tokens__::EVENT_TYPE_ALERT:    Token = "EVENT_TYPE_ALERT"; break;
-        case NarayanLogicParserBase::Tokens__::EVENT_TYPE_AUDIO:    Token = "EVENT_TYPE_AUDIO"; break;
-        case NarayanLogicParserBase::Tokens__::EVENT_TYPE_EFFECT:   Token = "EVENT_TYPE_EFFECT"; break;
-        case NarayanLogicParserBase::Tokens__::GREATER:             Token = "GREATER"; break;
-        case NarayanLogicParserBase::Tokens__::IDENTIFIER:          Token = "IDENTIFIER"; break;
-        case NarayanLogicParserBase::Tokens__::IN:                  Token = "IN"; break;
-        case NarayanLogicParserBase::Tokens__::MAP:                 Token = "MAP"; break;
-        case NarayanLogicParserBase::Tokens__::NUMBER:              Token = "NUMBER"; break;
-        case NarayanLogicParserBase::Tokens__::OPTION_COUNT:        Token = "OPTION_COUNT"; break;
-        case NarayanLogicParserBase::Tokens__::OPTION_ID:           Token = "OPTION_ID"; break;
-        case NarayanLogicParserBase::Tokens__::OPTION_REPEAT_AFTER: Token = "OPTION_REPEAT_AFTER"; break;
-        case NarayanLogicParserBase::Tokens__::OPTIONS:             Token = "OPTIONS"; break;
-        case NarayanLogicParserBase::Tokens__::OPTION_SEND_TO:      Token = "OPTION_SEND_TO"; break;
-        case NarayanLogicParserBase::Tokens__::OPTION_SWITCH_TO:    Token = "OPTION_SWITCH_TO"; break;
-        case NarayanLogicParserBase::Tokens__::OPTION_VIA:          Token = "OPTION_VIA"; break;
-        case NarayanLogicParserBase::Tokens__::OUT:                 Token = "OUT"; break;
-        case NarayanLogicParserBase::Tokens__::RANDOM:              Token = "RANDOM"; break;
-        case NarayanLogicParserBase::Tokens__::RATE:                Token = "RATE"; break;
-        case NarayanLogicParserBase::Tokens__::RELATIONAL_GREATER:  Token = "RELATIONAL_GREATER"; break;
-        case NarayanLogicParserBase::Tokens__::RELATIONAL_IS:       Token = "RELATIONAL_IS"; break;
-        case NarayanLogicParserBase::Tokens__::SAMPLE:              Token = "SAMPLE"; break;
-        case NarayanLogicParserBase::Tokens__::SCOPE_GLOBAL:        Token = "SCOPE_GLOBAL"; break;
-        case NarayanLogicParserBase::Tokens__::SCOPE_LOCAL:         Token = "SCOPE_LOCAL"; break;
-        case NarayanLogicParserBase::Tokens__::START_RULE:          Token = "START_RULE"; break;
-        case NarayanLogicParserBase::Tokens__::TEST:                Token = "TEST"; break;
-        case NarayanLogicParserBase::Tokens__::TIME_TRIGGER:        Token = "TIME_TRIGGER"; break;
-        case NarayanLogicParserBase::Tokens__::UNARY:               Token = "UNARY"; break;
-        default:                                                    Token = "?"; break;
+        case NarayanLogicParserBase::Tokens__::AGENT:                   Token = "AGENT "; break;
+        case NarayanLogicParserBase::Tokens__::AGENT_OPTIONS:           Token = "AGENT_OPTIONS "; break;
+        case NarayanLogicParserBase::Tokens__::APPLY_COUNT:             Token = "APPLY_COUNT"; break;
+        case NarayanLogicParserBase::Tokens__::CREATE_UNIT:             Token = "CREATE_UNIT"; break;
+        case NarayanLogicParserBase::Tokens__::DAY:                     Token = "DAY"; break;
+        case NarayanLogicParserBase::Tokens__::EVENT_FAIL:              Token = "EVENT_FAIL"; break;
+        case NarayanLogicParserBase::Tokens__::EVENT_SUCCESS:           Token = "EVENT_SUCCESS"; break;
+        case NarayanLogicParserBase::Tokens__::EVENT_TYPE_ALERT:        Token = "EVENT_TYPE_ALERT"; break;
+        case NarayanLogicParserBase::Tokens__::EVENT_TYPE_AUDIO:        Token = "EVENT_TYPE_AUDIO"; break;
+        case NarayanLogicParserBase::Tokens__::EVENT_TYPE_EFFECT:       Token = "EVENT_TYPE_EFFECT"; break;
+        case NarayanLogicParserBase::Tokens__::EXECUTE_RULE_ON_FAIL:    Token = "EXECUTE_RULE_ON_FAIL"; break;
+        case NarayanLogicParserBase::Tokens__::IDENTIFIER:              Token = "IDENTIFIER"; break;
+        case NarayanLogicParserBase::Tokens__::IN:                      Token = "IN"; break;
+        case NarayanLogicParserBase::Tokens__::MAP:                     Token = "MAP"; break;
+        case NarayanLogicParserBase::Tokens__::NUMBER:                  Token = "NUMBER"; break;
+        case NarayanLogicParserBase::Tokens__::OPTION_COUNT:            Token = "OPTION_COUNT"; break;
+        case NarayanLogicParserBase::Tokens__::OPTION_ID:               Token = "OPTION_ID"; break;
+        case NarayanLogicParserBase::Tokens__::OPTION_OR:               Token = "OPTION_OR"; break;
+        case NarayanLogicParserBase::Tokens__::OPTION_REPEAT_AFTER:     Token = "OPTION_REPEAT_AFTER"; break;
+        case NarayanLogicParserBase::Tokens__::OPTION_SEND_TO:          Token = "OPTION_SEND_TO"; break;
+        case NarayanLogicParserBase::Tokens__::OPTION_SWITCH_TO:        Token = "OPTION_SWITCH_TO"; break;
+        case NarayanLogicParserBase::Tokens__::OPTION_USING:            Token = "OPTION_USING"; break;
+        case NarayanLogicParserBase::Tokens__::OPTION_VIA:              Token = "OPTION_VIA"; break;
+        case NarayanLogicParserBase::Tokens__::OUT:                     Token = "OUT"; break;
+        case NarayanLogicParserBase::Tokens__::RANDOM:                  Token = "RANDOM"; break;
+        case NarayanLogicParserBase::Tokens__::RATE:                    Token = "RATE"; break;
+        case NarayanLogicParserBase::Tokens__::RELATIONAL_GREATER_THAN: Token = "RELATIONAL_GREATER_THAN"; break;
+        case NarayanLogicParserBase::Tokens__::RELATIONAL_IS:           Token = "RELATIONAL_IS"; break;
+        case NarayanLogicParserBase::Tokens__::RELATIONAL_LESS_THAN:    Token = "RELATIONAL_LESS_THAN"; break;
+        case NarayanLogicParserBase::Tokens__::RULE_END:                Token = "RULE_END"; break;
+        case NarayanLogicParserBase::Tokens__::RULE_START_MAP:          Token = "RULE_START_MAP"; break;
+        case NarayanLogicParserBase::Tokens__::RULE_START_UNIT:         Token = "RULE_START_UNIT"; break;
+        case NarayanLogicParserBase::Tokens__::RULE_START_ZONE:         Token = "RULE_START_ZONE"; break;
+        case NarayanLogicParserBase::Tokens__::SAMPLE:                  Token = "SAMPLE"; break;
+        case NarayanLogicParserBase::Tokens__::SCOPE_GLOBAL:            Token = "SCOPE_GLOBAL"; break;
+        case NarayanLogicParserBase::Tokens__::SCOPE_LOCAL:             Token = "SCOPE_LOCAL"; break;
+        case NarayanLogicParserBase::Tokens__::SCOPE_MAP:               Token = "SCOPE_MAP"; break;
+        case NarayanLogicParserBase::Tokens__::TEST:                    Token = "TEST"; break;
+        case NarayanLogicParserBase::Tokens__::TIME_TRIGGER:            Token = "TIME_TRIGGER"; break;
+        case NarayanLogicParserBase::Tokens__::UNARY:                   Token = "UNARY"; break;
+        default:                                                        Token = "?"; break;
     }
 
     // Show the token identifier with the matching text...
-    std::cout << Token << " \"" << matched() << "\"" << std::endl;
+    std::cout << lineNr() << ":" << Token << ":\'" << matched() << "\'" << std::endl;
 
     // Show the token numeric identifier and the matched text...
 //    print__();

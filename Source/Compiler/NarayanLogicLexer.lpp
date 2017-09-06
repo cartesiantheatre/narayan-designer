@@ -50,22 +50,25 @@
 agent                                   { return NarayanLogicParser::AGENT;                     }
 alert                                   { return NarayanLogicParser::EVENT_TYPE_ALERT;          }
 applyCount                              { return NarayanLogicParser::APPLY_COUNT;               }
-atLeast|greater                         { return NarayanLogicParser::RELATIONAL_GREATER;        }
+atLeast|greater                         { return NarayanLogicParser::RELATIONAL_GREATER_THAN;   }
+atMost|less                             { return NarayanLogicParser::RELATIONAL_LESS_THAN;      }
 audio                                   { return NarayanLogicParser::EVENT_TYPE_AUDIO;          }
 \-count                                 { return NarayanLogicParser::OPTION_COUNT;              }
 createUnit                              { return NarayanLogicParser::CREATE_UNIT;               }
 Day                                     { return NarayanLogicParser::DAY;                       }
 effect                                  { return NarayanLogicParser::EVENT_TYPE_EFFECT;         }
-end                                     { return NarayanLogicParser::END_RULE;                  }
+end                                     { return NarayanLogicParser::RULE_END;                  }
+failEvent                               { return NarayanLogicParser::EVENT_FAIL;                }
 global                                  { return NarayanLogicParser::SCOPE_GLOBAL;              }
 \-id                                    { return NarayanLogicParser::OPTION_ID;                 }
 in                                      { return NarayanLogicParser::IN;                        }
 is                                      { return NarayanLogicParser::RELATIONAL_IS;             }
 local                                   { return NarayanLogicParser::SCOPE_LOCAL;               }
-map                                     { return NarayanLogicParser::MAP;                       }
-mapRule|unitRule|zoneRule               { return NarayanLogicParser::START_RULE;                }
-onFail                                  { return NarayanLogicParser::EVENT_FAIL;                }
-options                                 { return NarayanLogicParser::OPTIONS;                   }
+map                                     { return NarayanLogicParser::SCOPE_MAP;                 }
+mapRule                                 { return NarayanLogicParser::RULE_START_MAP;            }
+onFail                                  { return NarayanLogicParser::EXECUTE_RULE_ON_FAIL;      }
+options                                 { return NarayanLogicParser::AGENT_OPTIONS;             }
+\-or                                    { return NarayanLogicParser::OPTION_OR;                 }
 out                                     { return NarayanLogicParser::OUT;                       }
 random                                  { return NarayanLogicParser::RANDOM;                    }
 rate                                    { return NarayanLogicParser::RATE;                      }
@@ -76,10 +79,12 @@ successEvent                            { return NarayanLogicParser::EVENT_SUCCE
 \-switchTo                              { return NarayanLogicParser::OPTION_SWITCH_TO;          }
 test                                    { return NarayanLogicParser::TEST;                      }
 timeTrigger                             { return NarayanLogicParser::TIME_TRIGGER;              }
+unitRule                                { return NarayanLogicParser::RULE_START_UNIT;           }
 \-via                                   { return NarayanLogicParser::OPTION_VIA;                }
+zoneRule                                { return NarayanLogicParser::RULE_START_ZONE;           }
 
-// Numbers... (integral values only)
--?[0-9]+                                { return NarayanLogicParser::NUMBER;                    }
+// Numbers...
+[-+]?[0-9]*\.?[0-9]+                    { return NarayanLogicParser::NUMBER;                    }
 
 // Identifiers...
 [[:alpha:]_][[:alpha:][:digit:]_]*      { return NarayanLogicParser::IDENTIFIER;                }
