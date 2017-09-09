@@ -126,6 +126,9 @@ inline void NarayanLogicLexer::print()
 
     // Storage for token identifier...
     std::string Token;
+    
+    // Storage for the value of the token...
+    std::string Value = matched();
 
     // Convert the token symbolic identifier to a string because C++14 still
     //  can't do this at compile time in 2017...
@@ -144,7 +147,7 @@ inline void NarayanLogicLexer::print()
         case NarayanLogicParserBase::Tokens__::EXECUTE_RULE_ON_FAIL:    Token = "EXECUTE_RULE_ON_FAIL"; break;
         case NarayanLogicParserBase::Tokens__::IDENTIFIER:              Token = "IDENTIFIER"; break;
         case NarayanLogicParserBase::Tokens__::IN:                      Token = "IN"; break;
-        case NarayanLogicParserBase::Tokens__::MAP:                     Token = "MAP"; break;
+        case NarayanLogicParserBase::Tokens__::NEW_LINE:                Token = "NEW_LINE"; Value = "\\n"; break;
         case NarayanLogicParserBase::Tokens__::NUMBER:                  Token = "NUMBER"; break;
         case NarayanLogicParserBase::Tokens__::OPTION_COUNT:            Token = "OPTION_COUNT"; break;
         case NarayanLogicParserBase::Tokens__::OPTION_ID:               Token = "OPTION_ID"; break;
@@ -175,7 +178,7 @@ inline void NarayanLogicLexer::print()
     }
 
     // Show the token identifier with the matching text...
-    std::cout << lineNr() << ":" << Token << ":\'" << matched() << "\'" << std::endl;
+    std::cout << lineNr() << ": " << Token << " \'" << Value << "\'" << std::endl;
 
     // Show the token numeric identifier and the matched text...
 //    print__();

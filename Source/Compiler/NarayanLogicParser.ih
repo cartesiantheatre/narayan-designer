@@ -28,13 +28,26 @@
 NarayanLogicParser::NarayanLogicParser(const std::string &InputFile)
     : d_scanner(InputFile, "")
 {
-
+    setDebug(DebugMode__::ON);
 }
 
 // Called whenever the parser encounters a syntax error...
 inline void NarayanLogicParser::error()
 {
-    std::cerr << _("syntax error") << std::endl;
+    // Prepend the input file name and offending line number into the exception
+    //  string...
+    std::stringstream ErrorMessage;
+    ErrorMessage 
+        << d_scanner.filename() << ":" 
+        << d_loc__.first_line << ": " 
+        << _("syntax error: ") 
+        << d_scanner.matched();
+
+    // Convert into a runtime error...
+    const std::runtime_error RuntimeException(ErrorMessage.str());
+    
+    // Propogate exception up...
+    throw RuntimeException;
 }
 
 // $insert lex
@@ -48,13 +61,16 @@ inline void NarayanLogicParser::print()
     print__();           // displays tokens if --print was specified
 }
 
-// An exception has been thrown by a semantic action...
+// Semantic error raised an exception during a semantic action...
 inline void NarayanLogicParser::exceptionHandler(const std::exception &Exception)
 {
     // Prepend the input file name and offending line number into the exception
     //  string...
     std::stringstream ErrorMessage;
-    ErrorMessage << d_scanner.filename() << ":" << d_loc__.first_line << ": " << Exception.what();
+    ErrorMessage 
+        << d_scanner.filename() << ":"
+        << d_loc__.first_line << ": "
+        << Exception.what();
 
     // Convert into a runtime error...
     const std::runtime_error RuntimeException(ErrorMessage.str());

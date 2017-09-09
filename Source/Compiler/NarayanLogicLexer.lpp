@@ -44,7 +44,10 @@
                                         }
 
 // Skip white space characters...
-[ \t\n]+                                { /* Do nothing */ }
+[ \t]+                                  { /* Do nothing */ }
+
+// ...except the new line character...
+\n                                      { return NarayanLogicParser::NEW_LINE;                  }
 
 // Keywords...
 agent                                   { return NarayanLogicParser::AGENT;                     }

@@ -70,7 +70,7 @@
         EXECUTE_RULE_ON_FAIL
         IDENTIFIER
         IN
-        MAP
+        NEW_LINE
         NUMBER
         OPTION_COUNT
         OPTION_ID
@@ -122,6 +122,10 @@
 
 //%no-lines
 
+    // Generate debugging code for the parse() function, but toggle with
+    //  setDebug()...
+    %debug
+
     // Ensure that each thread's polymorphic code is thread safe. All this
     //  effectively does at this time is ensure the parser accesses its error
     //  counter data member in a thread safe manner. Not available until version
@@ -134,6 +138,7 @@
 
 input:
     /* empty */
+  | NEW_LINE
   | input rule
   ;
 
@@ -231,11 +236,6 @@ instruction_execute_rule:
     EXECUTE_RULE_ON_FAIL identifier
   ;
 
-instruction_map:
-    MAP identifier transfer_direction expression
-  | MAP identifier relational_operator expression
-  ;
-
 instruction_rate:
     RATE expression
   ;
@@ -280,7 +280,7 @@ rule:
   ;
 
 rule_declaration:
-    rule_type identifier '\n'
+    rule_type identifier NEW_LINE
   ;
 
 rule_instruction:
@@ -291,17 +291,17 @@ rule_instruction:
   | instruction_event_fail
   | instruction_event_success
   | instruction_execute_rule
-  | instruction_map
   | instruction_rate
   | instruction_sample
   | instruction_test
   | instruction_time_trigger
   | instruction_transfer
+  | NEW_LINE
   ;
 
 rule_instruction_list:
     /* empty */
-  | rule_instruction_list rule_instruction '\n'
+  | rule_instruction_list rule_instruction
   ;
 
 rule_type:

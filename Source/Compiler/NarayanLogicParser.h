@@ -56,7 +56,7 @@ class NarayanLogicParser: public NarayanLogicParserBase
 
         void print();                   // use, e.g., d_token, d_loc
 
-        // An exception has been thrown by a semantic action...
+        // Semantic error raised an exception during a semantic action...
         void exceptionHandler(std::exception const &exc);
 
     // support functions for parse():
