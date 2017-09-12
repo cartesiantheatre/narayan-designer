@@ -28,7 +28,9 @@
 NarayanLogicParser::NarayanLogicParser(const std::string &InputFile)
     : d_scanner(InputFile, "")
 {
-    setDebug(DebugMode__::ON);
+    // Disable automatic printing of debug information in case %debug 
+    //  declaration was present in parser grammar...
+    setDebug(DebugMode__::OFF);
 }
 
 // Called whenever the parser encounters a syntax error...
@@ -39,7 +41,7 @@ inline void NarayanLogicParser::error()
     std::stringstream ErrorMessage;
     ErrorMessage 
         << d_scanner.filename() << ":" 
-        << d_loc__.first_line << ": " 
+        << d_scanner.lineNr() << ": " 
         << _("syntax error: ") 
         << d_scanner.matched();
 

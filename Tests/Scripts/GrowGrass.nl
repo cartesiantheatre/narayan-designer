@@ -6,7 +6,7 @@ mapRule growGrass
 
     // Soil map needs enough soil...
     test map Soil atLeast 20
-
+    
     // Consume water and nutrients from water and nutrient maps...
     map Water in 10
     map Nutrients in 1

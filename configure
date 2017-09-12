@@ -7123,18 +7123,26 @@ fi
 # Make sure paths are sane...
 
     # Alert user...
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking paths are sane..." >&5
-$as_echo "$as_me: checking paths are sane..." >&6;}
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether paths are sane..." >&5
+$as_echo_n "checking whether paths are sane...... " >&6; }
 
     # Build directory must not contain spaces...
     if echo $PWD | grep -E ' ' >/dev/null ; then
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
         as_fn_error $? "your build path must not contain spaces..." "$LINENO" 5
     fi
 
     # Source directory must not contain spaces...
     if echo $srcdir | grep -E ' ' >/dev/null ; then
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
         as_fn_error $? "your source path must not contain spaces..." "$LINENO" 5
     fi
+
+    # Paths are sane...
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
 
 # Checks for programs needed to build everything and perform unit tests...
 

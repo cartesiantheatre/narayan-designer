@@ -33,6 +33,9 @@
     // Terminal tokens with associativity which determines how repeated uses of
     //  the given symbol nest, provided in order from lowest to highest
     //  precedence...
+    %left                       RELATIONAL_GREATER_THAN
+    %left                       RELATIONAL_LESS_THAN
+    %left                       RELATIONAL_IS
     %left                       '-' '+'
     %left                       '*' '/'
     %left                       '%'
@@ -83,9 +86,6 @@
         OUT
         RANDOM
         RATE
-        RELATIONAL_GREATER_THAN
-        RELATIONAL_IS
-        RELATIONAL_LESS_THAN
         RULE_END
         RULE_START_MAP
         RULE_START_UNIT
@@ -136,10 +136,17 @@
 //  intended actions (semantics) to perform...
 %%
 
+/*
+series:
+    unit
+  | series unit
+  ;
+*/
+
 input:
     /* empty */
-  | NEW_LINE
   | input rule
+  | input NEW_LINE
   ;
 
 agent_option:
@@ -276,11 +283,15 @@ relational_operator:
   ;
 
 rule:
-    rule_declaration rule_instruction_list RULE_END
+    rule_declaration rule_instruction_list rule_end NEW_LINE
   ;
 
 rule_declaration:
-    rule_type identifier NEW_LINE
+    rule_type identifier NEW_LINE   { std::cout << $2 << std::endl; }
+  ;
+
+rule_end:
+    RULE_END                        { std::cout << "end of rule definition" << std::endl;  }
   ;
 
 rule_instruction:
@@ -305,9 +316,9 @@ rule_instruction_list:
   ;
 
 rule_type:
-    RULE_START_MAP
-  | RULE_START_UNIT
-  | RULE_START_ZONE
+    RULE_START_MAP                  { std::cout << "defining map rule: ";  }
+  | RULE_START_UNIT                 { std::cout << "defining unit rule: "; }
+  | RULE_START_ZONE                 { std::cout << "defining zone rule: "; }
   ;
 
 sample_method:

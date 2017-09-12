@@ -112,17 +112,22 @@ fi
 # Make sure paths are sane...
 
     # Alert user...
-    AC_MSG_NOTICE([checking paths are sane...])
+    AC_MSG_CHECKING([whether paths are sane...])
 
     # Build directory must not contain spaces...
     if echo $PWD | grep -E ' ' >/dev/null ; then
+        AC_MSG_RESULT([no])
         AC_MSG_ERROR([your build path must not contain spaces...])
     fi
 
     # Source directory must not contain spaces...
     if echo $srcdir | grep -E ' ' >/dev/null ; then
+        AC_MSG_RESULT([no])
         AC_MSG_ERROR([your source path must not contain spaces...])
     fi
+    
+    # Paths are sane...
+    AC_MSG_RESULT([yes])
 
 # Checks for programs needed to build everything and perform unit tests...
 
