@@ -50,7 +50,7 @@
 \n                                      { return NarayanLogicParser::NEW_LINE;                  }
 
 // Keywords...
-agent                                   { return NarayanLogicParser::AGENT;                     }
+agent                                   { return NarayanLogicParser::SCOPE_AGENT;               }
 alert                                   { return NarayanLogicParser::EVENT_TYPE_ALERT;          }
 applyCount                              { return NarayanLogicParser::APPLY_COUNT;               }
 atLeast|greater                         { return NarayanLogicParser::RELATIONAL_GREATER_THAN;   }
@@ -63,6 +63,7 @@ effect                                  { return NarayanLogicParser::EVENT_TYPE_
 end                                     { return NarayanLogicParser::RULE_END;                  }
 failEvent                               { return NarayanLogicParser::EVENT_FAIL;                }
 global                                  { return NarayanLogicParser::SCOPE_GLOBAL;              }
+globalRule                              { return NarayanLogicParser::RULE_START_GLOBAL;         }
 \-id                                    { return NarayanLogicParser::OPTION_ID;                 }
 in                                      { return NarayanLogicParser::IN;                        }
 is                                      { return NarayanLogicParser::RELATIONAL_IS;             }
@@ -83,6 +84,7 @@ successEvent                            { return NarayanLogicParser::EVENT_SUCCE
 test                                    { return NarayanLogicParser::TEST;                      }
 timeTrigger                             { return NarayanLogicParser::TIME_TRIGGER;              }
 unitRule                                { return NarayanLogicParser::RULE_START_UNIT;           }
+\-using                                 { return NarayanLogicParser::OPTION_USING;              }
 \-via                                   { return NarayanLogicParser::OPTION_VIA;                }
 zoneRule                                { return NarayanLogicParser::RULE_START_ZONE;           }
 

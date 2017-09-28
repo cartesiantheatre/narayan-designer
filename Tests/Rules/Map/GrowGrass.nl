@@ -1,4 +1,9 @@
-// Map rule for growing grass...
+/*
+    Narayan Designer, a modelling tool for the Narayan simulation engine.
+    Copyright (C) 2017 Cartesian Theatre. All rights reserved.
+*/
+
+// Example map rule for growing grass from GlassBox engine notes...
 mapRule growGrass
 
     // Test execution every 200 simulation ticks...

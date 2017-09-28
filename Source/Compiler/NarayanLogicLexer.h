@@ -134,7 +134,6 @@ inline void NarayanLogicLexer::print()
     //  can't do this at compile time in 2017...
     switch(d_token__)
     {
-        case NarayanLogicParserBase::Tokens__::AGENT:                   Token = "AGENT "; break;
         case NarayanLogicParserBase::Tokens__::AGENT_OPTIONS:           Token = "AGENT_OPTIONS "; break;
         case NarayanLogicParserBase::Tokens__::APPLY_COUNT:             Token = "APPLY_COUNT"; break;
         case NarayanLogicParserBase::Tokens__::CREATE_UNIT:             Token = "CREATE_UNIT"; break;
@@ -164,10 +163,12 @@ inline void NarayanLogicLexer::print()
         case NarayanLogicParserBase::Tokens__::RELATIONAL_IS:           Token = "RELATIONAL_IS"; break;
         case NarayanLogicParserBase::Tokens__::RELATIONAL_LESS_THAN:    Token = "RELATIONAL_LESS_THAN"; break;
         case NarayanLogicParserBase::Tokens__::RULE_END:                Token = "RULE_END"; break;
+        case NarayanLogicParserBase::Tokens__::RULE_START_GLOBAL:       Token = "RULE_START_GLOBAL"; break;
         case NarayanLogicParserBase::Tokens__::RULE_START_MAP:          Token = "RULE_START_MAP"; break;
         case NarayanLogicParserBase::Tokens__::RULE_START_UNIT:         Token = "RULE_START_UNIT"; break;
         case NarayanLogicParserBase::Tokens__::RULE_START_ZONE:         Token = "RULE_START_ZONE"; break;
         case NarayanLogicParserBase::Tokens__::SAMPLE:                  Token = "SAMPLE"; break;
+        case NarayanLogicParserBase::Tokens__::SCOPE_AGENT:             Token = "SCOPE_AGENT "; break;
         case NarayanLogicParserBase::Tokens__::SCOPE_GLOBAL:            Token = "SCOPE_GLOBAL"; break;
         case NarayanLogicParserBase::Tokens__::SCOPE_LOCAL:             Token = "SCOPE_LOCAL"; break;
         case NarayanLogicParserBase::Tokens__::SCOPE_MAP:               Token = "SCOPE_MAP"; break;

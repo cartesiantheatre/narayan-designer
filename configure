@@ -11579,6 +11579,9 @@ done
     # Enable all warnings and treat them as errors...
     CXXFLAGS="$CXXFLAGS -Wall -Werror -Wshadow -Wextra"
 
+    # For until bisonc++(1) fixes its emitted code...
+    CXXFLAGS="$CXXFLAGS -Wno-unused-parameter"
+
 # Generate makefiles from templates containing Autoconf substitution variables
 #  for root makefile...
 ac_config_files="$ac_config_files Makefile Source/Makefile Tests/Makefile Translations/Makefile.in"

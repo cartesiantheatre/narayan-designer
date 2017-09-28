@@ -7,28 +7,44 @@
 if ENABLE_TESTS
 
 # Product list of programs to build during check target...
-check_PROGRAMS =            \
-    TestLexer               \
+check_PROGRAMS =                            \
+    TestLexer                               \
     TestParser
 
-# Product list of scripts to generate during check target...
-check_SCRIPTS =             \
-    TestRuntimeSane         \
-    TestLexer_1             \
-    TestParser_1
+# Product list of scripts to generate during check target, including pattern
+#  matching stems...
+check_SCRIPTS =                             \
+    TestRuntimeSane                         \
+    Rules/Unit/CreateAlloy.nl               \
+    Rules/Zone/DevelopHouses.nl             \
+    Rules/Unit/GoToWork.nl                  \
+    Rules/Map/GrowGrass.nl                  \
+    Rules/Unit/MustardFactory.nl            \
+    Rules/Unit/ProducePower.nl
+
+# List of tests expected to fail...
+#XFAIL_TESTS =
+
+# These files must exist before anything is compiled. Can be machine
+#  generated...
+BUILT_SOURCES = TestNarayanLogic
 
 endif
+
+# Custom test runner for NarayanLogic scripts per Automake §15.2.3...
+TEST_EXTENSIONS = .nl
+NL_LOG_COMPILER  = $(top_builddir)/Tests/TestNarayanLogic
 
 # Preprocessor flags for all tests. Note that the include search paths are
 #  paired between source and build directory as per Automake §8.7 to facilitate
 #  VPATH builds...
-AM_CPPFLAGS =                           \
-    -DSYSCONFDIR='"$(sysconfdir)"'      \
-    -I$(top_srcdir)/Source              \
-    -I$(top_builddir)/Source            \
-    -I$(top_srcdir)/Source/Compiler     \
-    -I$(top_builddir)/Source/Compiler   \
-    -I$(top_srcdir)/Source/Main         \
+AM_CPPFLAGS =                               \
+    -DSYSCONFDIR='"$(sysconfdir)"'          \
+    -I$(top_srcdir)/Source                  \
+    -I$(top_builddir)/Source                \
+    -I$(top_srcdir)/Source/Compiler         \
+    -I$(top_builddir)/Source/Compiler       \
+    -I$(top_srcdir)/Source/Main             \
     -I$(top_builddir)/Source/Main
 
 # Libraries to add for all tests. For some reason Automake doesn't have an
@@ -52,13 +68,19 @@ TestParser_CXXFLAGS = $(AM_CXXFLAGS)
 TestParser_LDADD    = $(LDADD)
 
 # Manually add these things to distribution package when dist target is run...
-EXTRA_DIST =                \
-    Scripts/GrowGrass.nl
+EXTRA_DIST =                                \
+    Rules/Unit/CreateAlloy.nl               \
+    Rules/Zone/DevelopHouses.nl             \
+    Rules/Unit/GoToWork.nl                  \
+    Rules/Map/GrowGrass.nl                  \
+    Rules/Unit/MustardFactory.nl            \
+    Rules/Unit/ProducePower.nl
 
 # List of files to clean up during clean target...
-CLEANFILES =                \
-	$(check_SCRIPTS)        \
-	$(check_PROGRAMS)
+CLEANFILES =                                \
+	$(check_SCRIPTS)                        \
+	$(check_PROGRAMS)                       \
+	TestNarayanLogic
 
 # If valgrind was enabled, perform its unit test...
 #if VALGRIND_ENABLED
@@ -68,14 +90,12 @@ CLEANFILES =                \
 # GCS § 7.2.6 requires a check target. Targets to execute for check target...
 TESTS = $(check_SCRIPTS)
 
-TestLexer_1: TestLexer $(srcdir)/Scripts/GrowGrass.nl Makefile.am
+TestNarayanLogic: TestLexer TestParser
 	@echo 'set -e -u' > $@
-	@echo './$< "$(srcdir)/Scripts/GrowGrass.nl"' >> $@
-	@$(CHMOD) +x $@
-
-TestParser_1: TestParser $(srcdir)/Scripts/GrowGrass.nl Makefile.am
-	@echo 'set -e -u' > $@
-	@echo './$< "$(srcdir)/Scripts/GrowGrass.nl"' >> $@
+	@echo 'echo "./TestLexer $$1"' >> $@
+	@echo './TestLexer "$$1"' >> $@
+	@echo 'echo "./TestParser $$1"' >> $@
+	@echo './TestParser "$$1"' >> $@
 	@$(CHMOD) +x $@
 
 # Rule to create test script to verify the runtime works by just testing to see

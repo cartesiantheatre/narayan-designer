@@ -308,6 +308,9 @@ AC_LANG([C++])
     # Enable all warnings and treat them as errors...
     CXXFLAGS="$CXXFLAGS -Wall -Werror -Wshadow -Wextra"
 
+    # For until bisonc++(1) fixes its emitted code...
+    CXXFLAGS="$CXXFLAGS -Wno-unused-parameter"
+
 # Generate makefiles from templates containing Autoconf substitution variables
 #  for root makefile...
 AC_CONFIG_FILES([               \

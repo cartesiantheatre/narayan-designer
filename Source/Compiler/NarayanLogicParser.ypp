@@ -60,7 +60,6 @@
 
     // Set of all tokens (terminals) without associativity or precedence...
     %token
-        AGENT
         AGENT_OPTIONS
         APPLY_COUNT
         CREATE_UNIT
@@ -87,10 +86,12 @@
         RANDOM
         RATE
         RULE_END
+        RULE_START_GLOBAL
         RULE_START_MAP
         RULE_START_UNIT
         RULE_START_ZONE
         SAMPLE
+        SCOPE_AGENT
         SCOPE_GLOBAL
         SCOPE_LOCAL
         SCOPE_MAP
@@ -157,6 +158,9 @@ agent_option:
   | OPTION_VIA identifier
   ;
 
+/* 
+    TODO: Figure out how to allow lists to be split across multiple lines.
+*/
 agent_option_list:
     agent_option
   | agent_option_list agent_option
@@ -175,10 +179,6 @@ event_type:
     EVENT_TYPE_ALERT
   | EVENT_TYPE_AUDIO
   | EVENT_TYPE_EFFECT
-  ;
-
-instruction_agent:
-    AGENT identifier OUT expression
   ;
 
 instruction_agent_options:
@@ -295,8 +295,7 @@ rule_end:
   ;
 
 rule_instruction:
-    instruction_agent
-  | instruction_agent_options
+    instruction_agent_options
   | instruction_apply_count
   | instruction_create_unit
   | instruction_event_fail
@@ -316,9 +315,10 @@ rule_instruction_list:
   ;
 
 rule_type:
-    RULE_START_MAP                  { std::cout << "defining map rule: ";  }
-  | RULE_START_UNIT                 { std::cout << "defining unit rule: "; }
-  | RULE_START_ZONE                 { std::cout << "defining zone rule: "; }
+    RULE_START_GLOBAL               { std::cout << "defining global rule: ";    }
+  | RULE_START_MAP                  { std::cout << "defining map rule: ";       }
+  | RULE_START_UNIT                 { std::cout << "defining unit rule: ";      }
+  | RULE_START_ZONE                 { std::cout << "defining zone rule: ";      }
   ;
 
 sample_method:
@@ -327,6 +327,7 @@ sample_method:
 
 scope:
     /* empty */
+  | SCOPE_AGENT
   | SCOPE_GLOBAL
   | SCOPE_LOCAL
   | SCOPE_MAP

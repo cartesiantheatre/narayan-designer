@@ -369,7 +369,6 @@ am__set_TESTS_bases = \
 RECHECK_LOGS = $(TEST_LOGS)
 AM_RECURSIVE_TARGETS = check recheck
 TEST_SUITE_LOG = test-suite.log
-TEST_EXTENSIONS = @EXEEXT@ .test
 LOG_DRIVER = $(SHELL) $(top_srcdir)/Auxiliary/test-driver
 LOG_COMPILE = $(LOG_COMPILER) $(AM_LOG_FLAGS) $(LOG_FLAGS)
 am__set_b = \
@@ -384,10 +383,9 @@ am__set_b = \
   esac
 am__test_logs1 = $(TESTS:=.log)
 am__test_logs2 = $(am__test_logs1:@EXEEXT@.log=.log)
-TEST_LOGS = $(am__test_logs2:.test.log=.log)
-TEST_LOG_DRIVER = $(SHELL) $(top_srcdir)/Auxiliary/test-driver
-TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
-	$(TEST_LOG_FLAGS)
+TEST_LOGS = $(am__test_logs2:.nl.log=.log)
+NL_LOG_DRIVER = $(SHELL) $(top_srcdir)/Auxiliary/test-driver
+NL_LOG_COMPILE = $(NL_LOG_COMPILER) $(AM_NL_LOG_FLAGS) $(NL_LOG_FLAGS)
 am__DIST_COMMON = $(srcdir)/Makefile.in \
 	$(top_srcdir)/Auxiliary/depcomp \
 	$(top_srcdir)/Auxiliary/test-driver
@@ -541,23 +539,37 @@ top_srcdir = @top_srcdir@
 valgrind_enabled_tools = @valgrind_enabled_tools@
 valgrind_tools = @valgrind_tools@
 
-# Product list of scripts to generate during check target...
+# Product list of scripts to generate during check target, including pattern
+#  matching stems...
 @ENABLE_TESTS_TRUE@check_SCRIPTS = \
-@ENABLE_TESTS_TRUE@    TestRuntimeSane         \
-@ENABLE_TESTS_TRUE@    TestLexer_1             \
-@ENABLE_TESTS_TRUE@    TestParser_1
+@ENABLE_TESTS_TRUE@    TestRuntimeSane                         \
+@ENABLE_TESTS_TRUE@    Rules/Unit/CreateAlloy.nl               \
+@ENABLE_TESTS_TRUE@    Rules/Zone/DevelopHouses.nl             \
+@ENABLE_TESTS_TRUE@    Rules/Unit/GoToWork.nl                  \
+@ENABLE_TESTS_TRUE@    Rules/Map/GrowGrass.nl                  \
+@ENABLE_TESTS_TRUE@    Rules/Unit/MustardFactory.nl            \
+@ENABLE_TESTS_TRUE@    Rules/Unit/ProducePower.nl
 
+
+# List of tests expected to fail...
+#XFAIL_TESTS =
+
+# These files must exist before anything is compiled. Can be machine
+#  generated...
+@ENABLE_TESTS_TRUE@BUILT_SOURCES = TestNarayanLogic
+TEST_EXTENSIONS = .nl
+NL_LOG_COMPILER = $(top_builddir)/Tests/TestNarayanLogic
 
 # Preprocessor flags for all tests. Note that the include search paths are
 #  paired between source and build directory as per Automake §8.7 to facilitate
 #  VPATH builds...
 AM_CPPFLAGS = \
-    -DSYSCONFDIR='"$(sysconfdir)"'      \
-    -I$(top_srcdir)/Source              \
-    -I$(top_builddir)/Source            \
-    -I$(top_srcdir)/Source/Compiler     \
-    -I$(top_builddir)/Source/Compiler   \
-    -I$(top_srcdir)/Source/Main         \
+    -DSYSCONFDIR='"$(sysconfdir)"'          \
+    -I$(top_srcdir)/Source                  \
+    -I$(top_builddir)/Source                \
+    -I$(top_srcdir)/Source/Compiler         \
+    -I$(top_builddir)/Source/Compiler       \
+    -I$(top_srcdir)/Source/Main             \
     -I$(top_builddir)/Source/Main
 
 
@@ -584,13 +596,19 @@ TestParser_LDADD = $(LDADD)
 
 # Manually add these things to distribution package when dist target is run...
 EXTRA_DIST = \
-    Scripts/GrowGrass.nl
+    Rules/Unit/CreateAlloy.nl               \
+    Rules/Zone/DevelopHouses.nl             \
+    Rules/Unit/GoToWork.nl                  \
+    Rules/Map/GrowGrass.nl                  \
+    Rules/Unit/MustardFactory.nl            \
+    Rules/Unit/ProducePower.nl
 
 
 # List of files to clean up during clean target...
 CLEANFILES = \
-	$(check_SCRIPTS)        \
-	$(check_PROGRAMS)
+	$(check_SCRIPTS)                        \
+	$(check_PROGRAMS)                       \
+	TestNarayanLogic
 
 
 # If valgrind was enabled, perform its unit test...
@@ -600,10 +618,11 @@ CLEANFILES = \
 
 # GCS § 7.2.6 requires a check target. Targets to execute for check target...
 TESTS = $(check_SCRIPTS)
-all: all-am
+all: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .cpp .log .o .obj .test .test$(EXEEXT) .trs
+.SUFFIXES: .cpp .log .nl .nl$(EXEEXT) .o .obj .trs
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -898,33 +917,19 @@ TestRuntimeSane.log: TestRuntimeSane
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-TestLexer_1.log: TestLexer_1
-	@p='TestLexer_1'; \
-	b='TestLexer_1'; \
-	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
-	--log-file $$b.log --trs-file $$b.trs \
-	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
-	"$$tst" $(AM_TESTS_FD_REDIRECT)
-TestParser_1.log: TestParser_1
-	@p='TestParser_1'; \
-	b='TestParser_1'; \
-	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
-	--log-file $$b.log --trs-file $$b.trs \
-	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
-	"$$tst" $(AM_TESTS_FD_REDIRECT)
-.test.log:
+.nl.log:
 	@p='$<'; \
 	$(am__set_b); \
-	$(am__check_pre) $(TEST_LOG_DRIVER) --test-name "$$f" \
+	$(am__check_pre) $(NL_LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
-	$(am__common_driver_flags) $(AM_TEST_LOG_DRIVER_FLAGS) $(TEST_LOG_DRIVER_FLAGS) -- $(TEST_LOG_COMPILE) \
+	$(am__common_driver_flags) $(AM_NL_LOG_DRIVER_FLAGS) $(NL_LOG_DRIVER_FLAGS) -- $(NL_LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-@am__EXEEXT_TRUE@.test$(EXEEXT).log:
+@am__EXEEXT_TRUE@.nl$(EXEEXT).log:
 @am__EXEEXT_TRUE@	@p='$<'; \
 @am__EXEEXT_TRUE@	$(am__set_b); \
-@am__EXEEXT_TRUE@	$(am__check_pre) $(TEST_LOG_DRIVER) --test-name "$$f" \
+@am__EXEEXT_TRUE@	$(am__check_pre) $(NL_LOG_DRIVER) --test-name "$$f" \
 @am__EXEEXT_TRUE@	--log-file $$b.log --trs-file $$b.trs \
-@am__EXEEXT_TRUE@	$(am__common_driver_flags) $(AM_TEST_LOG_DRIVER_FLAGS) $(TEST_LOG_DRIVER_FLAGS) -- $(TEST_LOG_COMPILE) \
+@am__EXEEXT_TRUE@	$(am__common_driver_flags) $(AM_NL_LOG_DRIVER_FLAGS) $(NL_LOG_DRIVER_FLAGS) -- $(NL_LOG_COMPILE) \
 @am__EXEEXT_TRUE@	"$$tst" $(AM_TESTS_FD_REDIRECT)
 
 distdir: $(DISTFILES)
@@ -960,10 +965,12 @@ distdir: $(DISTFILES)
 check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS) $(check_SCRIPTS)
 	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
-check: check-am
+check: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) check-am
 all-am: Makefile
 installdirs:
-install: install-am
+install: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) install-am
 install-exec: install-exec-am
 install-data: install-data-am
 uninstall: uninstall-am
@@ -997,6 +1004,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-am
 
 clean-am: clean-checkPROGRAMS clean-generic mostlyclean-am
@@ -1066,7 +1074,7 @@ ps-am:
 
 uninstall-am:
 
-.MAKE: check-am install-am install-strip
+.MAKE: all check check-am install install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-TESTS check-am clean \
 	clean-checkPROGRAMS clean-generic cscopelist-am ctags ctags-am \
@@ -1084,14 +1092,12 @@ uninstall-am:
 .PRECIOUS: Makefile
 
 
-TestLexer_1: TestLexer $(srcdir)/Scripts/GrowGrass.nl Makefile.am
+TestNarayanLogic: TestLexer TestParser
 	@echo 'set -e -u' > $@
-	@echo './$< "$(srcdir)/Scripts/GrowGrass.nl"' >> $@
-	@$(CHMOD) +x $@
-
-TestParser_1: TestParser $(srcdir)/Scripts/GrowGrass.nl Makefile.am
-	@echo 'set -e -u' > $@
-	@echo './$< "$(srcdir)/Scripts/GrowGrass.nl"' >> $@
+	@echo 'echo "./TestLexer $$1"' >> $@
+	@echo './TestLexer "$$1"' >> $@
+	@echo 'echo "./TestParser $$1"' >> $@
+	@echo './TestParser "$$1"' >> $@
 	@$(CHMOD) +x $@
 
 # Rule to create test script to verify the runtime works by just testing to see
