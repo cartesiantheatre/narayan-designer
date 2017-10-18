@@ -557,6 +557,8 @@ valgrind_tools = @valgrind_tools@
 # These files must exist before anything is compiled. Can be machine
 #  generated...
 @ENABLE_TESTS_TRUE@BUILT_SOURCES = TestNarayanLogic
+
+# Custom test runner for NarayanLogic scripts per Automake §15.2.3...
 TEST_EXTENSIONS = .nl
 NL_LOG_COMPILER = $(top_builddir)/Tests/TestNarayanLogic
 

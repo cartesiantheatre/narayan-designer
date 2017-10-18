@@ -136,6 +136,7 @@ inline void NarayanLogicLexer::print()
     {
         case NarayanLogicParserBase::Tokens__::AGENT_OPTIONS:           Token = "AGENT_OPTIONS "; break;
         case NarayanLogicParserBase::Tokens__::APPLY_COUNT:             Token = "APPLY_COUNT"; break;
+        case NarayanLogicParserBase::Tokens__::CHAIN:                   Token = "CHAIN"; break;
         case NarayanLogicParserBase::Tokens__::CREATE_UNIT:             Token = "CREATE_UNIT"; break;
         case NarayanLogicParserBase::Tokens__::DAY:                     Token = "DAY"; break;
         case NarayanLogicParserBase::Tokens__::EVENT_FAIL:              Token = "EVENT_FAIL"; break;
@@ -144,8 +145,10 @@ inline void NarayanLogicLexer::print()
         case NarayanLogicParserBase::Tokens__::EVENT_TYPE_AUDIO:        Token = "EVENT_TYPE_AUDIO"; break;
         case NarayanLogicParserBase::Tokens__::EVENT_TYPE_EFFECT:       Token = "EVENT_TYPE_EFFECT"; break;
         case NarayanLogicParserBase::Tokens__::EXECUTE_RULE_ON_FAIL:    Token = "EXECUTE_RULE_ON_FAIL"; break;
+        case NarayanLogicParserBase::Tokens__::HOUR:                    Token = "HOUR"; break;
         case NarayanLogicParserBase::Tokens__::IDENTIFIER:              Token = "IDENTIFIER"; break;
         case NarayanLogicParserBase::Tokens__::IN:                      Token = "IN"; break;
+        case NarayanLogicParserBase::Tokens__::MAX_APPLY_COUNT:         Token = "MAX_APPLY_COUNT"; break;
         case NarayanLogicParserBase::Tokens__::NEW_LINE:                Token = "NEW_LINE"; Value = "\\n"; break;
         case NarayanLogicParserBase::Tokens__::NUMBER:                  Token = "NUMBER"; break;
         case NarayanLogicParserBase::Tokens__::OPTION_COUNT:            Token = "OPTION_COUNT"; break;
@@ -157,11 +160,12 @@ inline void NarayanLogicLexer::print()
         case NarayanLogicParserBase::Tokens__::OPTION_USING:            Token = "OPTION_USING"; break;
         case NarayanLogicParserBase::Tokens__::OPTION_VIA:              Token = "OPTION_VIA"; break;
         case NarayanLogicParserBase::Tokens__::OUT:                     Token = "OUT"; break;
+        case NarayanLogicParserBase::Tokens__::PRIORITY:                Token = "PRIORITY"; break;
         case NarayanLogicParserBase::Tokens__::RANDOM:                  Token = "RANDOM"; break;
         case NarayanLogicParserBase::Tokens__::RATE:                    Token = "RATE"; break;
-        case NarayanLogicParserBase::Tokens__::RELATIONAL_GREATER_THAN: Token = "RELATIONAL_GREATER_THAN"; break;
+        case NarayanLogicParserBase::Tokens__::RELATIONAL_AT_LEAST:     Token = "RELATIONAL_AT_LEAST"; break;
+        case NarayanLogicParserBase::Tokens__::RELATIONAL_AT_MOST:      Token = "RELATIONAL_AT_MOST"; break;
         case NarayanLogicParserBase::Tokens__::RELATIONAL_IS:           Token = "RELATIONAL_IS"; break;
-        case NarayanLogicParserBase::Tokens__::RELATIONAL_LESS_THAN:    Token = "RELATIONAL_LESS_THAN"; break;
         case NarayanLogicParserBase::Tokens__::RULE_END:                Token = "RULE_END"; break;
         case NarayanLogicParserBase::Tokens__::RULE_START_GLOBAL:       Token = "RULE_START_GLOBAL"; break;
         case NarayanLogicParserBase::Tokens__::RULE_START_MAP:          Token = "RULE_START_MAP"; break;
@@ -169,10 +173,10 @@ inline void NarayanLogicLexer::print()
         case NarayanLogicParserBase::Tokens__::RULE_START_ZONE:         Token = "RULE_START_ZONE"; break;
         case NarayanLogicParserBase::Tokens__::SAMPLE:                  Token = "SAMPLE"; break;
         case NarayanLogicParserBase::Tokens__::SCOPE_AGENT:             Token = "SCOPE_AGENT "; break;
+        case NarayanLogicParserBase::Tokens__::SCOPE_CONNECTED:         Token = "SCOPE_CONNECTED"; break;
         case NarayanLogicParserBase::Tokens__::SCOPE_GLOBAL:            Token = "SCOPE_GLOBAL"; break;
         case NarayanLogicParserBase::Tokens__::SCOPE_LOCAL:             Token = "SCOPE_LOCAL"; break;
         case NarayanLogicParserBase::Tokens__::SCOPE_MAP:               Token = "SCOPE_MAP"; break;
-        case NarayanLogicParserBase::Tokens__::TEST:                    Token = "TEST"; break;
         case NarayanLogicParserBase::Tokens__::TIME_TRIGGER:            Token = "TIME_TRIGGER"; break;
         case NarayanLogicParserBase::Tokens__::UNARY:                   Token = "UNARY"; break;
         default:                                                        Token = "?"; break;

@@ -21,7 +21,7 @@ If you have problems, you may need to regenerate the build system entirely.
 To do so, use the procedure documented by the package, typically 'autoreconf'.])])
 
 # ===========================================================================
-#   http://www.gnu.org/software/autoconf-archive/ax_check_x86_features.html
+#  https://www.gnu.org/software/autoconf-archive/ax_check_x86_features.html
 # ===========================================================================
 #
 # SYNOPSIS
@@ -67,7 +67,7 @@ To do so, use the procedure documented by the package, typically 'autoreconf'.])
 #   Public License for more details.
 #
 #   You should have received a copy of the GNU General Public License along
-#   with this program. If not, see <http://www.gnu.org/licenses/>.
+#   with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 #   As a special exception, the respective Autoconf Macro's copyright owner
 #   gives unlimited permission to copy, distribute and modify the configure
@@ -82,7 +82,7 @@ To do so, use the procedure documented by the package, typically 'autoreconf'.])
 #   modified version of the Autoconf Macro, you may extend this special
 #   exception to the GPL to apply to your modified version as well.
 
-#serial 1
+#serial 2
 
 AC_DEFUN([AX_CHECK_X86_FEATURES],
  [m4_foreach_w(
@@ -98,9 +98,9 @@ AC_DEFUN([AX_CHECK_X86_FEATURES],
   $2
 ])
 
-# ===========================================================================
-#  http://www.gnu.org/software/autoconf-archive/ax_gcc_x86_cpu_supports.html
-# ===========================================================================
+# ============================================================================
+#  https://www.gnu.org/software/autoconf-archive/ax_gcc_x86_cpu_supports.html
+# ============================================================================
 #
 # SYNOPSIS
 #
@@ -142,7 +142,7 @@ AC_DEFUN([AX_CHECK_X86_FEATURES],
 #   Public License for more details.
 #
 #   You should have received a copy of the GNU General Public License along
-#   with this program. If not, see <http://www.gnu.org/licenses/>.
+#   with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 #   As a special exception, the respective Autoconf Macro's copyright owner
 #   gives unlimited permission to copy, distribute and modify the configure
@@ -157,7 +157,7 @@ AC_DEFUN([AX_CHECK_X86_FEATURES],
 #   modified version of the Autoconf Macro, you may extend this special
 #   exception to the GPL to apply to your modified version as well.
 
-#serial 2
+#serial 3
 
 AC_DEFUN_ONCE([_AX_GCC_X86_CPU_INIT],
  [AC_LANG_PUSH([C])
@@ -204,7 +204,7 @@ AC_DEFUN([AX_GCC_X86_CPU_SUPPORTS],
 ])
 
 # ===========================================================================
-#     http://www.gnu.org/software/autoconf-archive/ax_valgrind_check.html
+#    https://www.gnu.org/software/autoconf-archive/ax_valgrind_check.html
 # ===========================================================================
 #
 # SYNOPSIS
@@ -272,7 +272,7 @@ AC_DEFUN([AX_GCC_X86_CPU_SUPPORTS],
 #   and this notice are preserved.  This file is offered as-is, without any
 #   warranty.
 
-#serial 13
+#serial 15
 
 dnl Configured tools
 m4_define([valgrind_tool_list], [[memcheck], [helgrind], [drd], [sgcheck]])
@@ -392,9 +392,8 @@ endif
 # Use recursive makes in order to ignore errors during check
 check-valgrind:
 ifeq ($(VALGRIND_ENABLED),yes)
-	-$(A''M_V_at)$(foreach tool,$(valgrind_enabled_tools), \
-		$(MAKE) $(AM_MAKEFLAGS) -k check-valgrind-$(tool); \
-	)
+	$(A''M_V_at)$(MAKE) $(AM_MAKEFLAGS) -k \
+		$(foreach tool, $(valgrind_enabled_tools), check-valgrind-$(tool))
 else
 	@echo "Need to reconfigure with --enable-valgrind"
 endif

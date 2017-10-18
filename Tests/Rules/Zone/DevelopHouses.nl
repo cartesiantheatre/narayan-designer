@@ -14,10 +14,10 @@ zoneRule developHouses
     sample random -count 3
 
     // But only if there are enough builders available...
-    test global Builders greater 5
+    global Builders atLeast 5
 
     // ...and only if you can actually build here...
-    test map Forest is 0
+    map Forest is 0
 
     // Go ahead and create the new units...
     createUnit -id Bungalows
