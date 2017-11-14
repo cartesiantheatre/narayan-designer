@@ -19,6 +19,7 @@
 #   Copyright (C) 2017 Cartesian Theatre. All rights reserved.
 #
 
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -105,9 +106,14 @@ am__aclocal_m4_deps = $(top_srcdir)/Macros/ax_cxx_compile_stdcxx.m4 \
 	$(top_srcdir)/Macros/intlmacosx.m4 \
 	$(top_srcdir)/Macros/lib-ld.m4 \
 	$(top_srcdir)/Macros/lib-link.m4 \
-	$(top_srcdir)/Macros/lib-prefix.m4 $(top_srcdir)/Macros/nls.m4 \
-	$(top_srcdir)/Macros/po.m4 $(top_srcdir)/Macros/progtest.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/Macros/lib-prefix.m4 \
+	$(top_srcdir)/Macros/libtool.m4 \
+	$(top_srcdir)/Macros/ltoptions.m4 \
+	$(top_srcdir)/Macros/ltsugar.m4 \
+	$(top_srcdir)/Macros/ltversion.m4 \
+	$(top_srcdir)/Macros/lt~obsolete.m4 \
+	$(top_srcdir)/Macros/nls.m4 $(top_srcdir)/Macros/po.m4 \
+	$(top_srcdir)/Macros/progtest.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -115,23 +121,33 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/Source/Main/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
+LTLIBRARIES = $(noinst_LTLIBRARIES)
+liblexerparser_la_LIBADD =
+am__dirstamp = $(am__leading_dot)dirstamp
+am__objects_1 = Compiler/liblexerparser_la-NarayanLogicLexerBase.lo
+am__objects_2 = Compiler/liblexerparser_la-NarayanLogicParser.lo
+am_liblexerparser_la_OBJECTS = $(am__objects_1) $(am__objects_2)
+liblexerparser_la_OBJECTS = $(am_liblexerparser_la_OBJECTS)
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
+liblexerparser_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am__objects_1 =
-am__dirstamp = $(am__leading_dot)dirstamp
-am_narayan_designer_OBJECTS = $(am__objects_1) $(am__objects_1) \
+am__objects_3 =
+am_narayan_designer_OBJECTS = $(am__objects_3) $(am__objects_3) \
 	Main/narayan_designer-CommandLineOptions.$(OBJEXT) \
 	Main/narayan_designer-Main.$(OBJEXT)
-am__objects_2 =  \
-	Compiler/narayan_designer-NarayanLogicLexerBase.$(OBJEXT)
-am__objects_3 =  \
-	Compiler/narayan_designer-NarayanLogicParser.$(OBJEXT)
-nodist_narayan_designer_OBJECTS = $(am__objects_2) $(am__objects_3)
-narayan_designer_OBJECTS = $(am_narayan_designer_OBJECTS) \
-	$(nodist_narayan_designer_OBJECTS)
-narayan_designer_DEPENDENCIES =
-narayan_designer_LINK = $(CXXLD) $(narayan_designer_CXXFLAGS) \
-	$(CXXFLAGS) $(narayan_designer_LDFLAGS) $(LDFLAGS) -o $@
+narayan_designer_OBJECTS = $(am_narayan_designer_OBJECTS)
+narayan_designer_DEPENDENCIES = liblexerparser.la
+narayan_designer_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
+	$(narayan_designer_CXXFLAGS) $(CXXFLAGS) \
+	$(narayan_designer_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -148,38 +164,45 @@ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/Source/Main
 depcomp = $(SHELL) $(top_srcdir)/Auxiliary/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
-AM_V_lt = $(am__v_lt_@AM_V@)
-am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
-am__v_lt_0 = --silent
-am__v_lt_1 = 
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CXXFLAGS) $(CXXFLAGS)
 AM_V_CXX = $(am__v_CXX_@AM_V@)
 am__v_CXX_ = $(am__v_CXX_@AM_DEFAULT_V@)
 am__v_CXX_0 = @echo "  CXX     " $@;
 am__v_CXX_1 = 
 CXXLD = $(CXX)
-CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
-	-o $@
+CXXLINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CFLAGS) $(CFLAGS)
 AM_V_CC = $(am__v_CC_@AM_V@)
 am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
 am__v_CC_0 = @echo "  CC      " $@;
 am__v_CC_1 = 
 CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(narayan_designer_SOURCES) \
-	$(nodist_narayan_designer_SOURCES)
-DIST_SOURCES = $(narayan_designer_SOURCES)
+SOURCES = $(liblexerparser_la_SOURCES) $(narayan_designer_SOURCES)
+DIST_SOURCES = $(liblexerparser_la_SOURCES) \
+	$(narayan_designer_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -210,6 +233,7 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
+AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -229,6 +253,9 @@ CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
+DLLTOOL = @DLLTOOL@
+DSYMUTIL = @DSYMUTIL@
+DUMPBIN = @DUMPBIN@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -238,6 +265,7 @@ ENABLE_VALGRIND_helgrind = @ENABLE_VALGRIND_helgrind@
 ENABLE_VALGRIND_memcheck = @ENABLE_VALGRIND_memcheck@
 ENABLE_VALGRIND_sgcheck = @ENABLE_VALGRIND_sgcheck@
 EXEEXT = @EXEEXT@
+FGREP = @FGREP@
 FLEXCPP = @FLEXCPP@
 GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
 GMSGFMT = @GMSGFMT@
@@ -251,21 +279,32 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INTLLIBS = @INTLLIBS@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
+LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBTOOL = @LIBTOOL@
+LIPO = @LIPO@
+LN_S = @LN_S@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
+LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAKEINFO = @MAKEINFO@
+MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MKTEMP = @MKTEMP@
 MSGFMT = @MSGFMT@
 MSGFMT_015 = @MSGFMT_015@
 MSGMERGE = @MSGMERGE@
+NM = @NM@
+NMEDIT = @NMEDIT@
+OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
+OTOOL = @OTOOL@
+OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_BUILD_DATE = @PACKAGE_BUILD_DATE@
@@ -279,6 +318,7 @@ PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 POSUB = @POSUB@
+RANLIB = @RANLIB@
 RMDIR = @RMDIR@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -296,8 +336,10 @@ abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
+ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
@@ -356,11 +398,14 @@ top_srcdir = @top_srcdir@
 valgrind_enabled_tools = @valgrind_enabled_tools@
 valgrind_tools = @valgrind_tools@
 
+# Product list of never installed libtool static convenience libraries...
+noinst_LTLIBRARIES = liblexerparser.la
+
 # Get build flags...
 narayan_designer_CFLAGS = $(AM_CFLAGS)
 narayan_designer_CXXFLAGS = $(AM_CXXFLAGS)
 narayan_designer_LDFLAGS = $(AM_LDFLAGS)
-narayan_designer_LDADD = $(AM_LDFLAGS)
+narayan_designer_LDADD = $(AM_LDFLAGS) liblexerparser.la
 
 # Preprocessor flags. Note that the include search paths are paired between
 #  source and build directory as per Automake manual §8.7 to facilitate VPATH
@@ -434,6 +479,33 @@ narayan_designer_SOURCES = \
     Patterns/ExplicitSingleton.h
 
 
+# Both flexc++(1) and bisonc++(1) at the time of writing emit code that can
+#  raise warnings, or even errors in the case of -Werror, when used with GCC 7
+#  series compilers. I have submitted a number of patches to upstream with
+#  varying degrees of success to address various issues. In the interim, the
+#  best thing to do is to compartmentalize the necessary compilation flags for
+#  code emitted by these two tools into a static libtool convenience library. 
+#  This has the benefit of isolating the potential harm within the convenience
+#  library that may have spilled over to other application code whenever
+#  explicitly disabling useful safety measures, such as -Wall -Werror -Wshadow
+#  -Wextra switches that raise issues to the emitted code's switch-case fall
+#  through usage, unused variables, and so forth...
+liblexerparser_la_SOURCES = \
+    $(lexer_clobbered_source_full_paths)        \
+    $(parser_clobbered_source_full_paths)
+
+liblexerparser_la_CXXFLAGS = -Wimplicit-fallthrough=0 -Wno-unused-parameter
+liblexerparser_la_CPPFLAGS = \
+    -DSYSCONFDIR='"$(sysconfdir)"'              \
+    -I$(srcdir)/                                \
+    -I$(builddir)/                              \
+    -I$(srcdir)/Compiler                        \
+    -I$(builddir)/Compiler                      \
+    -I$(srcdir)/Main                            \
+    -I$(builddir)/Main                          \
+    $(AM_CPPFLAGS)
+
+
 # These files must exist before anything is compiled. Can be machine
 #  generated...
 BUILT_SOURCES = \
@@ -446,10 +518,11 @@ BUILT_SOURCES = \
 
 # Product option variables for list of source not to be distributed because
 #  they are machine generated...
-nodist_narayan_designer_SOURCES = \
-    $(lexer_clobbered_source_full_paths)        \
-    $(parser_clobbered_source_full_paths)
-
+#  Note: Migrated into libtool convenience library until upstream 
+#  {flex,bison}c++(1) fix all reported issues...
+#nodist_narayan_designer_SOURCES =               \
+#    $(lexer_clobbered_source_full_paths)        \
+#    $(parser_clobbered_source_full_paths)
 
 # Additional files left behind during dist target that need to be cleaned...
 DISTCLEANFILES = \
@@ -490,7 +563,7 @@ all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .cpp .o .obj
+.SUFFIXES: .cpp .lo .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -520,6 +593,30 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
+
+clean-noinstLTLIBRARIES:
+	-test -z "$(noinst_LTLIBRARIES)" || rm -f $(noinst_LTLIBRARIES)
+	@list='$(noinst_LTLIBRARIES)'; \
+	locs=`for p in $$list; do echo $$p; done | \
+	      sed 's|^[^/]*$$|.|; s|/[^/]*$$||; s|$$|/so_locations|' | \
+	      sort -u`; \
+	test -z "$$locs" || { \
+	  echo rm -f $${locs}; \
+	  rm -f $${locs}; \
+	}
+Compiler/$(am__dirstamp):
+	@$(MKDIR_P) Compiler
+	@: > Compiler/$(am__dirstamp)
+Compiler/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) Compiler/$(DEPDIR)
+	@: > Compiler/$(DEPDIR)/$(am__dirstamp)
+Compiler/liblexerparser_la-NarayanLogicLexerBase.lo:  \
+	Compiler/$(am__dirstamp) Compiler/$(DEPDIR)/$(am__dirstamp)
+Compiler/liblexerparser_la-NarayanLogicParser.lo:  \
+	Compiler/$(am__dirstamp) Compiler/$(DEPDIR)/$(am__dirstamp)
+
+liblexerparser.la: $(liblexerparser_la_OBJECTS) $(liblexerparser_la_DEPENDENCIES) $(EXTRA_liblexerparser_la_DEPENDENCIES) 
+	$(AM_V_CXXLD)$(liblexerparser_la_LINK)  $(liblexerparser_la_OBJECTS) $(liblexerparser_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
@@ -530,6 +627,7 @@ install-binPROGRAMS: $(bin_PROGRAMS)
 	for p in $$list; do echo "$$p $$p"; done | \
 	sed 's/$(EXEEXT)$$//' | \
 	while read p p1; do if test -f $$p \
+	 || test -f $$p1 \
 	  ; then echo "$$p"; echo "$$p"; else :; fi; \
 	done | \
 	sed -e 'p;s,.*/,,;n;h' \
@@ -544,8 +642,8 @@ install-binPROGRAMS: $(bin_PROGRAMS)
 	while read type dir files; do \
 	    if test "$$dir" = .; then dir=; else dir=/$$dir; fi; \
 	    test -z "$$files" || { \
-	      echo " $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) $$files '$(DESTDIR)$(bindir)$$dir'"; \
-	      $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) $$files "$(DESTDIR)$(bindir)$$dir" || exit $$?; \
+	    echo " $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files '$(DESTDIR)$(bindir)$$dir'"; \
+	    $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files "$(DESTDIR)$(bindir)$$dir" || exit $$?; \
 	    } \
 	; done
 
@@ -561,7 +659,13 @@ uninstall-binPROGRAMS:
 	cd "$(DESTDIR)$(bindir)" && rm -f $$files
 
 clean-binPROGRAMS:
-	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+	@list='$(bin_PROGRAMS)'; test -n "$$list" || exit 0; \
+	echo " rm -f" $$list; \
+	rm -f $$list || exit $$?; \
+	test -n "$(EXEEXT)" || exit 0; \
+	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
+	echo " rm -f" $$list; \
+	rm -f $$list
 Main/$(am__dirstamp):
 	@$(MKDIR_P) Main
 	@: > Main/$(am__dirstamp)
@@ -572,16 +676,6 @@ Main/narayan_designer-CommandLineOptions.$(OBJEXT):  \
 	Main/$(am__dirstamp) Main/$(DEPDIR)/$(am__dirstamp)
 Main/narayan_designer-Main.$(OBJEXT): Main/$(am__dirstamp) \
 	Main/$(DEPDIR)/$(am__dirstamp)
-Compiler/$(am__dirstamp):
-	@$(MKDIR_P) Compiler
-	@: > Compiler/$(am__dirstamp)
-Compiler/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) Compiler/$(DEPDIR)
-	@: > Compiler/$(DEPDIR)/$(am__dirstamp)
-Compiler/narayan_designer-NarayanLogicLexerBase.$(OBJEXT):  \
-	Compiler/$(am__dirstamp) Compiler/$(DEPDIR)/$(am__dirstamp)
-Compiler/narayan_designer-NarayanLogicParser.$(OBJEXT):  \
-	Compiler/$(am__dirstamp) Compiler/$(DEPDIR)/$(am__dirstamp)
 
 narayan-designer$(EXEEXT): $(narayan_designer_OBJECTS) $(narayan_designer_DEPENDENCIES) $(EXTRA_narayan_designer_DEPENDENCIES) 
 	@rm -f narayan-designer$(EXEEXT)
@@ -590,13 +684,14 @@ narayan-designer$(EXEEXT): $(narayan_designer_OBJECTS) $(narayan_designer_DEPEND
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f Compiler/*.$(OBJEXT)
+	-rm -f Compiler/*.lo
 	-rm -f Main/*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@Compiler/$(DEPDIR)/narayan_designer-NarayanLogicLexerBase.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@Compiler/$(DEPDIR)/narayan_designer-NarayanLogicParser.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicLexerBase.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-CommandLineOptions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-Main.Po@am__quote@
 
@@ -615,6 +710,28 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+.cpp.lo:
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.lo$$||'`;\
+@am__fastdepCXX_TRUE@	$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
+
+Compiler/liblexerparser_la-NarayanLogicLexerBase.lo: Compiler/NarayanLogicLexerBase.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblexerparser_la_CPPFLAGS) $(CPPFLAGS) $(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) -MT Compiler/liblexerparser_la-NarayanLogicLexerBase.lo -MD -MP -MF Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicLexerBase.Tpo -c -o Compiler/liblexerparser_la-NarayanLogicLexerBase.lo `test -f 'Compiler/NarayanLogicLexerBase.cpp' || echo '$(srcdir)/'`Compiler/NarayanLogicLexerBase.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicLexerBase.Tpo Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicLexerBase.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Compiler/NarayanLogicLexerBase.cpp' object='Compiler/liblexerparser_la-NarayanLogicLexerBase.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblexerparser_la_CPPFLAGS) $(CPPFLAGS) $(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) -c -o Compiler/liblexerparser_la-NarayanLogicLexerBase.lo `test -f 'Compiler/NarayanLogicLexerBase.cpp' || echo '$(srcdir)/'`Compiler/NarayanLogicLexerBase.cpp
+
+Compiler/liblexerparser_la-NarayanLogicParser.lo: Compiler/NarayanLogicParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblexerparser_la_CPPFLAGS) $(CPPFLAGS) $(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) -MT Compiler/liblexerparser_la-NarayanLogicParser.lo -MD -MP -MF Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Tpo -c -o Compiler/liblexerparser_la-NarayanLogicParser.lo `test -f 'Compiler/NarayanLogicParser.cpp' || echo '$(srcdir)/'`Compiler/NarayanLogicParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Tpo Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Compiler/NarayanLogicParser.cpp' object='Compiler/liblexerparser_la-NarayanLogicParser.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblexerparser_la_CPPFLAGS) $(CPPFLAGS) $(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) -c -o Compiler/liblexerparser_la-NarayanLogicParser.lo `test -f 'Compiler/NarayanLogicParser.cpp' || echo '$(srcdir)/'`Compiler/NarayanLogicParser.cpp
 
 Main/narayan_designer-CommandLineOptions.o: Main/CommandLineOptions.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Main/narayan_designer-CommandLineOptions.o -MD -MP -MF Main/$(DEPDIR)/narayan_designer-CommandLineOptions.Tpo -c -o Main/narayan_designer-CommandLineOptions.o `test -f 'Main/CommandLineOptions.cpp' || echo '$(srcdir)/'`Main/CommandLineOptions.cpp
@@ -644,33 +761,12 @@ Main/narayan_designer-Main.obj: Main/Main.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Main/narayan_designer-Main.obj `if test -f 'Main/Main.cpp'; then $(CYGPATH_W) 'Main/Main.cpp'; else $(CYGPATH_W) '$(srcdir)/Main/Main.cpp'; fi`
 
-Compiler/narayan_designer-NarayanLogicLexerBase.o: Compiler/NarayanLogicLexerBase.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Compiler/narayan_designer-NarayanLogicLexerBase.o -MD -MP -MF Compiler/$(DEPDIR)/narayan_designer-NarayanLogicLexerBase.Tpo -c -o Compiler/narayan_designer-NarayanLogicLexerBase.o `test -f 'Compiler/NarayanLogicLexerBase.cpp' || echo '$(srcdir)/'`Compiler/NarayanLogicLexerBase.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Compiler/$(DEPDIR)/narayan_designer-NarayanLogicLexerBase.Tpo Compiler/$(DEPDIR)/narayan_designer-NarayanLogicLexerBase.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Compiler/NarayanLogicLexerBase.cpp' object='Compiler/narayan_designer-NarayanLogicLexerBase.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Compiler/narayan_designer-NarayanLogicLexerBase.o `test -f 'Compiler/NarayanLogicLexerBase.cpp' || echo '$(srcdir)/'`Compiler/NarayanLogicLexerBase.cpp
+mostlyclean-libtool:
+	-rm -f *.lo
 
-Compiler/narayan_designer-NarayanLogicLexerBase.obj: Compiler/NarayanLogicLexerBase.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Compiler/narayan_designer-NarayanLogicLexerBase.obj -MD -MP -MF Compiler/$(DEPDIR)/narayan_designer-NarayanLogicLexerBase.Tpo -c -o Compiler/narayan_designer-NarayanLogicLexerBase.obj `if test -f 'Compiler/NarayanLogicLexerBase.cpp'; then $(CYGPATH_W) 'Compiler/NarayanLogicLexerBase.cpp'; else $(CYGPATH_W) '$(srcdir)/Compiler/NarayanLogicLexerBase.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Compiler/$(DEPDIR)/narayan_designer-NarayanLogicLexerBase.Tpo Compiler/$(DEPDIR)/narayan_designer-NarayanLogicLexerBase.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Compiler/NarayanLogicLexerBase.cpp' object='Compiler/narayan_designer-NarayanLogicLexerBase.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Compiler/narayan_designer-NarayanLogicLexerBase.obj `if test -f 'Compiler/NarayanLogicLexerBase.cpp'; then $(CYGPATH_W) 'Compiler/NarayanLogicLexerBase.cpp'; else $(CYGPATH_W) '$(srcdir)/Compiler/NarayanLogicLexerBase.cpp'; fi`
-
-Compiler/narayan_designer-NarayanLogicParser.o: Compiler/NarayanLogicParser.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Compiler/narayan_designer-NarayanLogicParser.o -MD -MP -MF Compiler/$(DEPDIR)/narayan_designer-NarayanLogicParser.Tpo -c -o Compiler/narayan_designer-NarayanLogicParser.o `test -f 'Compiler/NarayanLogicParser.cpp' || echo '$(srcdir)/'`Compiler/NarayanLogicParser.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Compiler/$(DEPDIR)/narayan_designer-NarayanLogicParser.Tpo Compiler/$(DEPDIR)/narayan_designer-NarayanLogicParser.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Compiler/NarayanLogicParser.cpp' object='Compiler/narayan_designer-NarayanLogicParser.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Compiler/narayan_designer-NarayanLogicParser.o `test -f 'Compiler/NarayanLogicParser.cpp' || echo '$(srcdir)/'`Compiler/NarayanLogicParser.cpp
-
-Compiler/narayan_designer-NarayanLogicParser.obj: Compiler/NarayanLogicParser.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Compiler/narayan_designer-NarayanLogicParser.obj -MD -MP -MF Compiler/$(DEPDIR)/narayan_designer-NarayanLogicParser.Tpo -c -o Compiler/narayan_designer-NarayanLogicParser.obj `if test -f 'Compiler/NarayanLogicParser.cpp'; then $(CYGPATH_W) 'Compiler/NarayanLogicParser.cpp'; else $(CYGPATH_W) '$(srcdir)/Compiler/NarayanLogicParser.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Compiler/$(DEPDIR)/narayan_designer-NarayanLogicParser.Tpo Compiler/$(DEPDIR)/narayan_designer-NarayanLogicParser.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Compiler/NarayanLogicParser.cpp' object='Compiler/narayan_designer-NarayanLogicParser.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Compiler/narayan_designer-NarayanLogicParser.obj `if test -f 'Compiler/NarayanLogicParser.cpp'; then $(CYGPATH_W) 'Compiler/NarayanLogicParser.cpp'; else $(CYGPATH_W) '$(srcdir)/Compiler/NarayanLogicParser.cpp'; fi`
+clean-libtool:
+	-rm -rf .libs _libs
+	-rm -rf Compiler/.libs Compiler/_libs
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -757,7 +853,7 @@ distdir: $(DISTFILES)
 check-am: all-am
 check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(LTLIBRARIES) $(PROGRAMS)
 installdirs:
 	for dir in "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
@@ -803,7 +899,8 @@ maintainer-clean-generic:
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-libtool \
+	clean-noinstLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf Compiler/$(DEPDIR) Main/$(DEPDIR)
@@ -858,7 +955,8 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic
+mostlyclean-am: mostlyclean-compile mostlyclean-generic \
+	mostlyclean-libtool
 
 pdf: pdf-am
 
@@ -873,18 +971,19 @@ uninstall-am: uninstall-binPROGRAMS
 .MAKE: all check install install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean \
-	clean-binPROGRAMS clean-generic cscopelist-am ctags ctags-am \
-	distclean distclean-compile distclean-generic distclean-tags \
-	distdir dvi dvi-am html html-am info info-am install \
-	install-am install-binPROGRAMS install-data install-data-am \
-	install-dvi install-dvi-am install-exec install-exec-am \
-	install-html install-html-am install-info install-info-am \
-	install-man install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic pdf pdf-am \
-	ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-binPROGRAMS
+	clean-binPROGRAMS clean-generic clean-libtool \
+	clean-noinstLTLIBRARIES cscopelist-am ctags ctags-am distclean \
+	distclean-compile distclean-generic distclean-libtool \
+	distclean-tags distdir dvi dvi-am html html-am info info-am \
+	install install-am install-binPROGRAMS install-data \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS
 
 .PRECIOUS: Makefile
 

@@ -49,9 +49,7 @@ AM_CPPFLAGS =                               \
 
 # Libraries to add for all tests. For some reason Automake doesn't have an
 #  AM_LDADD, so we use LDADD per Automake §8.1.2...
-LDADD =                                                                                 \
-    $(top_builddir)/Source/Compiler/narayan_designer-NarayanLogicLexerBase.$(OBJEXT)    \
-    $(top_builddir)/Source/Compiler/narayan_designer-NarayanLogicParser.$(OBJEXT)
+LDADD = $(top_builddir)/Source/liblexerparser.la
 
 # Test lexer program...
 TestLexer_CFLAGS    = $(AM_CFLAGS)

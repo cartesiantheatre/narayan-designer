@@ -7,11 +7,14 @@
 #  prefix...
 bin_PROGRAMS = narayan-designer
 
+# Product list of never installed libtool static convenience libraries...
+noinst_LTLIBRARIES = liblexerparser.la
+
 # Get build flags...
 narayan_designer_CFLAGS     = $(AM_CFLAGS)
 narayan_designer_CXXFLAGS   = $(AM_CXXFLAGS)
 narayan_designer_LDFLAGS    = $(AM_LDFLAGS)
-narayan_designer_LDADD      = $(AM_LDFLAGS)
+narayan_designer_LDADD      = $(AM_LDFLAGS) liblexerparser.la
 
 # Preprocessor flags. Note that the include search paths are paired between
 #  source and build directory as per Automake manual §8.7 to facilitate VPATH
@@ -79,6 +82,31 @@ narayan_designer_SOURCES =                      \
     Main/Main.cpp                               \
     Patterns/ExplicitSingleton.h
 
+# Both flexc++(1) and bisonc++(1) at the time of writing emit code that can
+#  raise warnings, or even errors in the case of -Werror, when used with GCC 7
+#  series compilers. I have submitted a number of patches to upstream with
+#  varying degrees of success to address various issues. In the interim, the
+#  best thing to do is to compartmentalize the necessary compilation flags for
+#  code emitted by these two tools into a static libtool convenience library. 
+#  This has the benefit of isolating the potential harm within the convenience
+#  library that may have spilled over to other application code whenever
+#  explicitly disabling useful safety measures, such as -Wall -Werror -Wshadow
+#  -Wextra switches that raise issues to the emitted code's switch-case fall
+#  through usage, unused variables, and so forth...
+liblexerparser_la_SOURCES   =                   \
+    $(lexer_clobbered_source_full_paths)        \
+    $(parser_clobbered_source_full_paths)
+liblexerparser_la_CXXFLAGS  = -Wimplicit-fallthrough=0 -Wno-unused-parameter
+liblexerparser_la_CPPFLAGS  =                   \
+    -DSYSCONFDIR='"$(sysconfdir)"'              \
+    -I$(srcdir)/                                \
+    -I$(builddir)/                              \
+    -I$(srcdir)/Compiler                        \
+    -I$(builddir)/Compiler                      \
+    -I$(srcdir)/Main                            \
+    -I$(builddir)/Main                          \
+    $(AM_CPPFLAGS)
+
 # These files must exist before anything is compiled. Can be machine
 #  generated...
 BUILT_SOURCES =                                 \
@@ -90,9 +118,11 @@ BUILT_SOURCES =                                 \
 
 # Product option variables for list of source not to be distributed because
 #  they are machine generated...
-nodist_narayan_designer_SOURCES =               \
-    $(lexer_clobbered_source_full_paths)        \
-    $(parser_clobbered_source_full_paths)
+#  Note: Migrated into libtool convenience library until upstream 
+#  {flex,bison}c++(1) fix all reported issues...
+#nodist_narayan_designer_SOURCES =               \
+#    $(lexer_clobbered_source_full_paths)        \
+#    $(parser_clobbered_source_full_paths)
 
 # Additional files left behind during dist target that need to be cleaned...
 DISTCLEANFILES =                                \

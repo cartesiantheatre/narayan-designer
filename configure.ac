@@ -25,6 +25,11 @@ AC_CONFIG_AUX_DIR([Auxiliary])
 # Location to find Autoconf plugins...
 AC_CONFIG_MACRO_DIR([Macros])
 
+# Sanity check to ensure generated ./configure script knows the directory on
+#  which it is being executed is actually the project directory by providing any
+#  unique source file...
+AC_CONFIG_SRCDIR([Source/Main/Main.cpp])
+
 # Preserve all arguments for products that want them into config.h...
 config_flags="$0 $*"
 AC_DEFINE_UNQUOTED(
@@ -66,15 +71,21 @@ AC_SUBST([COPYRIGHT_NOTICE], [$copyright_notice])
     # Set by default to use silent build rules...
     AM_SILENT_RULES([yes])
 
+    # We need the archiver because we build a static convenience library...
+    AM_PROG_AR
+
+# Initialize libtool...
+
+    # Minimum version required...
+    LT_PREREQ([2.4.6])
+
+    # Initialize with support for dynamic object loading at runtime...
+    LT_INIT
+
 # Prepare canonical values for the platform we are compiling on and the platform
 #  to host the generated files on...
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
-
-# Sanity check to ensure generated ./configure script knows the directory on
-#  which it is being executed is actually the project directory by providing any
-#  unique source file...
-AC_CONFIG_SRCDIR([Source/Main/Main.cpp])
 
 # Configure config.h...
 
@@ -101,8 +112,8 @@ AC_CONFIG_SRCDIR([Source/Main/Main.cpp])
     AM_CONDITIONAL(ENABLE_TESTS, [test x"$enable_tests" = xyes])
 
 # Initialize i18n from GNU gettext...
-AM_GNU_GETTEXT_VERSION([0.19.8])
 AM_GNU_GETTEXT([external], [need-ngettext])
+AM_GNU_GETTEXT_VERSION([0.19.8])
 
 # Make sure we are not being run as root...
 if test $UID == 0; then
@@ -307,9 +318,6 @@ AC_LANG([C++])
 
     # Enable all warnings and treat them as errors...
     CXXFLAGS="$CXXFLAGS -Wall -Werror -Wshadow -Wextra"
-
-    # For until bisonc++(1) fixes its emitted code...
-    CXXFLAGS="$CXXFLAGS -Wno-unused-parameter"
 
 # Generate makefiles from templates containing Autoconf substitution variables
 #  for root makefile...

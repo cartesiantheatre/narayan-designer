@@ -104,9 +104,14 @@ am__aclocal_m4_deps = $(top_srcdir)/Macros/ax_cxx_compile_stdcxx.m4 \
 	$(top_srcdir)/Macros/intlmacosx.m4 \
 	$(top_srcdir)/Macros/lib-ld.m4 \
 	$(top_srcdir)/Macros/lib-link.m4 \
-	$(top_srcdir)/Macros/lib-prefix.m4 $(top_srcdir)/Macros/nls.m4 \
-	$(top_srcdir)/Macros/po.m4 $(top_srcdir)/Macros/progtest.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/Macros/lib-prefix.m4 \
+	$(top_srcdir)/Macros/libtool.m4 \
+	$(top_srcdir)/Macros/ltoptions.m4 \
+	$(top_srcdir)/Macros/ltsugar.m4 \
+	$(top_srcdir)/Macros/ltversion.m4 \
+	$(top_srcdir)/Macros/lt~obsolete.m4 \
+	$(top_srcdir)/Macros/nls.m4 $(top_srcdir)/Macros/po.m4 \
+	$(top_srcdir)/Macros/progtest.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
@@ -206,19 +211,21 @@ ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
 DIST_SUBDIRS = $(SUBDIRS)
-am__DIST_COMMON = $(srcdir)/Makefile.in \
+am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/Auxiliary/ar-lib \
 	$(top_srcdir)/Auxiliary/compile \
 	$(top_srcdir)/Auxiliary/config.guess \
 	$(top_srcdir)/Auxiliary/config.rpath \
 	$(top_srcdir)/Auxiliary/config.sub \
 	$(top_srcdir)/Auxiliary/install-sh \
+	$(top_srcdir)/Auxiliary/ltmain.sh \
 	$(top_srcdir)/Auxiliary/missing \
 	$(top_srcdir)/Manual/narayan-designer.man.in \
 	$(top_srcdir)/Source/Main/Version.h.in \
 	$(top_srcdir)/Source/Main/config.h.in ABOUT-NLS \
-	Auxiliary/compile Auxiliary/config.guess \
+	Auxiliary/ar-lib Auxiliary/compile Auxiliary/config.guess \
 	Auxiliary/config.rpath Auxiliary/config.sub \
-	Auxiliary/install-sh Auxiliary/missing ChangeLog
+	Auxiliary/install-sh Auxiliary/ltmain.sh Auxiliary/missing \
+	ChangeLog
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -264,6 +271,7 @@ distcleancheck_listfiles = find . -type f -print
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
+AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -286,6 +294,9 @@ CYGPATH_W = @CYGPATH_W@
 DEFS = -DSYSCONFDIR='"$(sysconfdir)"' -DLOCALEDIR="\"$(localedir)\"" \
 	@DEFS@ $(am__empty)
 DEPDIR = @DEPDIR@
+DLLTOOL = @DLLTOOL@
+DSYMUTIL = @DSYMUTIL@
+DUMPBIN = @DUMPBIN@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
@@ -295,6 +306,7 @@ ENABLE_VALGRIND_helgrind = @ENABLE_VALGRIND_helgrind@
 ENABLE_VALGRIND_memcheck = @ENABLE_VALGRIND_memcheck@
 ENABLE_VALGRIND_sgcheck = @ENABLE_VALGRIND_sgcheck@
 EXEEXT = @EXEEXT@
+FGREP = @FGREP@
 FLEXCPP = @FLEXCPP@
 GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
 GMSGFMT = @GMSGFMT@
@@ -308,21 +320,32 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INTLLIBS = @INTLLIBS@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
+LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LIBTOOL = @LIBTOOL@
+LIPO = @LIPO@
+LN_S = @LN_S@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
+LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAKEINFO = @MAKEINFO@
+MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 MKTEMP = @MKTEMP@
 MSGFMT = @MSGFMT@
 MSGFMT_015 = @MSGFMT_015@
 MSGMERGE = @MSGMERGE@
+NM = @NM@
+NMEDIT = @NMEDIT@
+OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
+OTOOL = @OTOOL@
+OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_BUILD_DATE = @PACKAGE_BUILD_DATE@
@@ -336,6 +359,7 @@ PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 POSUB = @POSUB@
+RANLIB = @RANLIB@
 RMDIR = @RMDIR@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
@@ -353,8 +377,10 @@ abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
+ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
@@ -538,6 +564,15 @@ Manual/narayan-designer.man: $(top_builddir)/config.status $(top_srcdir)/Manual/
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 Source/Main/Version.h: $(top_builddir)/config.status $(top_srcdir)/Source/Main/Version.h.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
+
+mostlyclean-libtool:
+	-rm -f *.lo
+
+clean-libtool:
+	-rm -rf .libs _libs
+
+distclean-libtool:
+	-rm -f libtool config.lt
 install-man1: $(man1_MANS)
 	@$(NORMAL_INSTALL)
 	@list1='$(man1_MANS)'; \
@@ -961,12 +996,13 @@ maintainer-clean-generic:
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 clean: clean-recursive
 
-clean-am: clean-generic mostlyclean-am
+clean-am: clean-generic clean-libtool mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -f Makefile
-distclean-am: clean-am distclean-generic distclean-hdr distclean-tags
+distclean-am: clean-am distclean-generic distclean-hdr \
+	distclean-libtool distclean-tags
 
 dvi: dvi-recursive
 
@@ -1018,7 +1054,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic \
 
 mostlyclean: mostlyclean-recursive
 
-mostlyclean-am: mostlyclean-generic
+mostlyclean-am: mostlyclean-generic mostlyclean-libtool
 
 pdf: pdf-recursive
 
@@ -1037,9 +1073,10 @@ uninstall-man: uninstall-man1
 
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
 	am--refresh check check-am clean clean-cscope clean-generic \
-	cscope cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
-	dist-gzip dist-hook dist-lzip dist-shar dist-tarZ dist-xz \
-	dist-zip distcheck distclean distclean-generic distclean-hdr \
+	clean-libtool cscope cscopelist-am ctags ctags-am dist \
+	dist-all dist-bzip2 dist-gzip dist-hook dist-lzip dist-shar \
+	dist-tarZ dist-xz dist-zip distcheck distclean \
+	distclean-generic distclean-hdr distclean-libtool \
 	distclean-tags distcleancheck distdir distuninstallcheck dvi \
 	dvi-am html html-am info info-am install install-am \
 	install-bash_completionDATA install-data install-data-am \
@@ -1049,10 +1086,10 @@ uninstall-man: uninstall-man1
 	install-pdf install-pdf-am install-ps install-ps-am \
 	install-strip installcheck installcheck-am installdirs \
 	installdirs-am maintainer-clean maintainer-clean-generic \
-	maintainer-clean-local mostlyclean mostlyclean-generic pdf \
-	pdf-am ps ps-am tags tags-am uninstall uninstall-am \
-	uninstall-bash_completionDATA uninstall-dist_pkgdataDATA \
-	uninstall-man uninstall-man1
+	maintainer-clean-local mostlyclean mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am tags tags-am uninstall \
+	uninstall-am uninstall-bash_completionDATA \
+	uninstall-dist_pkgdataDATA uninstall-man uninstall-man1
 
 .PRECIOUS: Makefile
 
