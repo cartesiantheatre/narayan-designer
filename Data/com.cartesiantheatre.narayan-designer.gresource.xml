@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/com/cartesiantheatre/narayan-designer">
+    <file>Icons/48x48/com.cartesiantheatre.narayan-designer.png</file>
+    <!-- file compressed="true" preprocess="xml-stripblanks">Menus.ui</file -->
+    <!-- file compressed="true" preprocess="xml-stripblanks">Windows.ui</file -->
+  </gresource>
+</gresources>
+

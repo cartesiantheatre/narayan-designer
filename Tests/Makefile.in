@@ -440,9 +440,11 @@ EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 FLEXCPP = @FLEXCPP@
 GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
+GLIB_COMPILE_SCHEMAS = @GLIB_COMPILE_SCHEMAS@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
+GSETTINGS_DISABLE_SCHEMAS_COMPILE = @GSETTINGS_DISABLE_SCHEMAS_COMPILE@
 HAVE_CXX14 = @HAVE_CXX14@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -495,6 +497,7 @@ RMDIR = @RMDIR@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SORT = @SORT@
 STRIP = @STRIP@
 USE_NLS = @USE_NLS@
 VALGRIND = @VALGRIND@
@@ -530,6 +533,7 @@ datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
+gsettingsschemadir = @gsettingsschemadir@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@
@@ -573,6 +577,7 @@ valgrind_tools = @valgrind_tools@
 # Product list of scripts to generate during check target, including pattern
 #  matching stems...
 @ENABLE_TESTS_TRUE@check_SCRIPTS = \
+@ENABLE_TESTS_TRUE@    TestDesktopFileValidate                 \
 @ENABLE_TESTS_TRUE@    TestRuntimeSane                         \
 @ENABLE_TESTS_TRUE@    Rules/Unit/CreateAlloy.nl               \
 @ENABLE_TESTS_TRUE@    Rules/Zone/DevelopHouses.nl             \
@@ -960,6 +965,13 @@ recheck: all $(check_PROGRAMS) $(check_SCRIPTS)
 	        am__force_recheck=am--force-recheck \
 	        TEST_LOGS="$$log_list"; \
 	exit $$?
+TestDesktopFileValidate.log: TestDesktopFileValidate
+	@p='TestDesktopFileValidate'; \
+	b='TestDesktopFileValidate'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 TestRuntimeSane.log: TestRuntimeSane
 	@p='TestRuntimeSane'; \
 	b='TestRuntimeSane'; \
@@ -1145,6 +1157,15 @@ uninstall-am:
 .PRECIOUS: Makefile
 
 
+# Test script to validate our desktop file entry...
+TestDesktopFileValidate: Makefile.am $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.desktop
+	@echo 'set -e -u' > $@
+	@echo 'echo "$$(DESKTOP_FILE_VALIDATE) $$(top_builddir)/$$(desktop_DATA) || exit 1"' >> $@
+	@$(CHMOD) +x $@
+
+# This script is used as a test harness for each Narayan Logic script to test.
+#  It runs the latter through both the lexer and parser to verify successful
+#  consumption...
 TestNarayanLogic: TestLexer TestParser
 	@echo 'set -e -u' > $@
 	@echo 'echo "./TestLexer $$1"' >> $@
@@ -1153,8 +1174,8 @@ TestNarayanLogic: TestLexer TestParser
 	@echo './TestParser "$$1"' >> $@
 	@$(CHMOD) +x $@
 
-# Rule to create test script to verify the runtime works by just testing to see
-#  it compiled and linked correctly...
+# Test script to verify the runtime works by just testing to see it compiled and
+#  linked correctly...
 TestRuntimeSane: Makefile.am
 	@echo 'set -e -u' > $@
 	@echo '$(top_builddir)/Source/narayan-designer --version | $(GREP) -q "@PACKAGE_NAME@"' >> $@

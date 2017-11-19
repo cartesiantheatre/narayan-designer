@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="narayan-designer">
+
+    <schema id="com.cartesiantheatre.narayan-designer" path="/com/cartesiantheatre/narayan-designer/">
+
+        <key name="show-splash" type="b">
+            <summary>Show splash on startup</summary>
+            <description>Whether to display the application splash screen on startup</description>
+            <default>true</default>
+        </key>
+
+    </schema>
+</schemalist>
+

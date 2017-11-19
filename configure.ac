@@ -71,10 +71,11 @@ AC_SUBST([COPYRIGHT_NOTICE], [$copyright_notice])
     # Set by default to use silent build rules...
     AM_SILENT_RULES([yes])
 
-    # We need the archiver because we build a static convenience library...
-    AM_PROG_AR
-
 # Initialize libtool...
+
+    # We need the archiver because we build a static convenience library. We
+    #  need to expand this before LT_INIT...
+    AM_PROG_AR
 
     # Minimum version required...
     LT_PREREQ([2.4.6])
@@ -112,8 +113,17 @@ AC_CANONICAL_HOST
     AM_CONDITIONAL(ENABLE_TESTS, [test x"$enable_tests" = xyes])
 
 # Initialize i18n from GNU gettext...
+
+    # Version 0.19.7 forward supports GtkBuilder XML, .desktop files, GSettings
+    #  schemas, AppData, and Custom XML formats with ITS rules...
+    #  Note: No white space indentation because of
+    #  <https://savannah.gnu.org/bugs/index.php?52424>
 AM_GNU_GETTEXT([external], [need-ngettext])
 AM_GNU_GETTEXT_VERSION([0.19.8])
+
+    # These options get passed to xgettext. These are the full GLib-approved list of
+    #  options for use in a Gtk+ project...
+    AM_XGETTEXT_OPTION([--from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=C_:1c,2 --keyword=NC_:1c,2 --keyword=g_dngettext:2,3 --add-comments])
 
 # Make sure we are not being run as root...
 if test $UID == 0; then
@@ -160,6 +170,9 @@ fi
     AX_PROG_FLEXCPP([2.06.02])
     AC_PATH_PROG([FLEXCPP], [flexc++])
 
+    # GSettings schema to binary compilation tool...
+    GLIB_GSETTINGS
+
     # Grep required for test suite...
     AC_PROG_GREP
 
@@ -183,6 +196,12 @@ fi
 
     # Sed tool...
     AC_PROG_SED
+
+    # Sort command...
+    AC_PATH_PROG([SORT], [sort])
+    if test "x$SORT" = "x"; then
+        AC_MSG_ERROR([sort required, but unavailable...])
+    fi
 
     # Valgrind optional, but used in unit testing if enabled by default...
     AX_VALGRIND_CHECK
@@ -323,6 +342,7 @@ AC_LANG([C++])
 #  for root makefile...
 AC_CONFIG_FILES([               \
     Makefile                    \
+    Data/Makefile               \
     Source/Makefile             \
     Tests/Makefile              \
     Translations/Makefile.in])

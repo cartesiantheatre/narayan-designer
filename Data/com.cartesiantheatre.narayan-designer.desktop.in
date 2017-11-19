@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Version=1.1
+Name=Narayan-Designer
+GenericName=Agent Based Simulation Model Designer
+Comment=Create agent based simulation models for the Narayan simulation engine
+Icon=com.cartesiantheatre.narayan-designer
+Exec=@bindir@/narayan-designer %f
+Terminal=false
+MimeType=application/x-narayan-designer;
+Categories=Science;GTK;Development;Simulation;ArtificialIntelligence;ComputerScience;DataVisualization;ParallelComputing;Building;
+Keywords=science;development;simulation;artificial intelligence;computer science;data visualization;parallel computing;building;avaneya;game;gaming;opencl;
+StartupNotify=true
+

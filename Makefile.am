@@ -6,8 +6,11 @@
 # Options for aclocal so it can find our custom M4 macros...
 ACLOCAL_AMFLAGS = -I Macros
 
-# Run the requested make target recursively on child makefiles...
+# Run the requested make target recursively on child makefiles. Note that the
+#  .desktop entry is generated from Data/Makefile.am and therefore must run
+#  before Translations/Makefile.am...
 SUBDIRS =                                                   \
+    Data                                                    \
     Source                                                  \
     Tests                                                   \
     Translations
@@ -76,12 +79,9 @@ EXTRA_DIST =                                                \
     News                                                    \
     ReadMe
 
-#TODO: i18n logic is currently shitty. Improve and consolidate into
-#      Translations/Makefile.am...
-
 # Make sure gettext is present...
 check-gettext:
-	@if test x$(USE_NLS) != "xyes" ; then echo "Missing gettext. Rerun configure and check for" \
+	@if test x$(USE_NLS) != "xyes" ; then echo "Missing gettext. Re-run configure and check for" \
 	"'checking whether to use NLS... yes'!" ; exit 1 ; fi
 
 # Force an update to the machine dependent message catalogs...
@@ -103,18 +103,31 @@ maintainer-clean-local:
 update-gmo: check-gettext
 	cd Translations && $(MAKE) $(AM_MAKEFLAGS) update-gmo
 
-# Create the .pot message translation template file..
+# Update the list of files to translate in POTFILES.in and then update the .pot
+#  message translation template file..
 update-po: check-gettext
-	find $(srcdir)/Source \( -iname "*.cpp" ! -name NarayanLogicLexerBase.cpp ! -name NarayanLogicParser.cpp \) -print | sort > $(srcdir)/Translations/POTFILES.in.2 ; \
-	find $(srcdir)/Source \( -iname "*.cpp.in" \) -print | sort >> $(srcdir)/Translations/POTFILES.in.2 ; \
-	find $(srcdir)/Source \( -iname "*.h" ! -name config.h ! -name Version.h ! -name NarayanLogicLexerBase.h ! -name NarayanLogicLexer.h ! -name NarayanLogicParserBase.h ! -name NarayanLogicParser.h \) -print | sort >> $(srcdir)/Translations/POTFILES.in.2 ; \
-	find $(srcdir)/Source \( -iname "*.h.in" \) -print | sort >> $(srcdir)/Translations/POTFILES.in.2 ; \
-	if diff $(srcdir)/Translations/POTFILES.in $(srcdir)/Translations/POTFILES.in.2 >/dev/null 2>&1 ; then \
-		$(RM) -f $(srcdir)/Translations/POTFILES.in.2 ; \
+	@echo "Checking if POTFILES.in needs to be updated..."
+	@cd $(srcdir) ; \
+	find Data \( -iname "*.desktop.in" \) -print > Translations/POTFILES.in.2 ; \
+	find Data \( -iname "*.gschema.xml" \) -print > Translations/POTFILES.in.2 ; \
+	find Data \( -iname "*.ui" \) -print > Translations/POTFILES.in.2 ; \
+	find Source \( -iname "*.lpp" -o -iname "*.ypp" \) -print >> Translations/POTFILES.in.2 ; \
+	find Source \( -iname "*.cpp" -o -iname "*.cpp.in" \) -print >> Translations/POTFILES.in.2 ; \
+	find Source \( -iname "*.h" -o -iname "*.h.in" -o -iname "*.ih" \) -print >> Translations/POTFILES.in.2 ; \
+	$(SED) -i '/config.h$$/d' Translations/POTFILES.in.2 ; \
+	$(SED) -i '/NarayanLogicLexerBase.cpp/d' Translations/POTFILES.in.2 ; \
+	$(SED) -i '/NarayanLogicLexerBase.h/d' Translations/POTFILES.in.2 ; \
+	$(SED) -i '/NarayanLogicParserBase.h/d' Translations/POTFILES.in.2 ; \
+	$(SED) -i '/NarayanLogicParser.cpp/d' Translations/POTFILES.in.2 ; \
+	$(SED) -i '/Version.h$$/d' Translations/POTFILES.in.2 ; \
+	$(SORT) Translations/POTFILES.in.2 --output=Translations/POTFILES.in.2 ; \
+	if diff Translations/POTFILES.in Translations/POTFILES.in.2 >/dev/null 2>&1 ; then \
+		echo "No update to POTFILES.in required..." ; \
+		$(RM) -f Translations/POTFILES.in.2 ; \
 	else \
-		mv $(srcdir)/Translations/POTFILES.in.2 $(srcdir)/Translations/POTFILES.in ; \
+		echo "POTFILES.in updated..." ; \
+		mv -v Translations/POTFILES.in.2 Translations/POTFILES.in ; \
 	fi
-#	sed --in-place $(srcdir)/Translations/$(PACKAGE).pot --expression=s/CHARSET/UTF-8/ # CHARSET warning hack
 	cd Translations && $(MAKE) $(AM_MAKEFLAGS) update-po
 
 # Targets which aren't actually files...

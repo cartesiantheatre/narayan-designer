@@ -141,7 +141,8 @@ PROGRAMS = $(bin_PROGRAMS)
 am__objects_3 =
 am_narayan_designer_OBJECTS = $(am__objects_3) $(am__objects_3) \
 	Main/narayan_designer-CommandLineOptions.$(OBJEXT) \
-	Main/narayan_designer-Main.$(OBJEXT)
+	Main/narayan_designer-Main.$(OBJEXT) \
+	Main/narayan_designer-Resources.$(OBJEXT)
 narayan_designer_OBJECTS = $(am_narayan_designer_OBJECTS)
 narayan_designer_DEPENDENCIES = liblexerparser.la
 narayan_designer_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
@@ -268,9 +269,11 @@ EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 FLEXCPP = @FLEXCPP@
 GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
+GLIB_COMPILE_SCHEMAS = @GLIB_COMPILE_SCHEMAS@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
+GSETTINGS_DISABLE_SCHEMAS_COMPILE = @GSETTINGS_DISABLE_SCHEMAS_COMPILE@
 HAVE_CXX14 = @HAVE_CXX14@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -323,6 +326,7 @@ RMDIR = @RMDIR@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SORT = @SORT@
 STRIP = @STRIP@
 USE_NLS = @USE_NLS@
 VALGRIND = @VALGRIND@
@@ -358,6 +362,7 @@ datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
+gsettingsschemadir = @gsettingsschemadir@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@
@@ -476,6 +481,8 @@ narayan_designer_SOURCES = \
     Main/CommandLineOptions.h                   \
     Main/gettext.h                              \
     Main/Main.cpp                               \
+    Main/Resources.cpp                          \
+    Main/Resources.h                            \
     Patterns/ExplicitSingleton.h
 
 
@@ -513,6 +520,8 @@ BUILT_SOURCES = \
     $(lexer_clobbered_source_full_paths)        \
     $(parser_clobbered_source_full_paths)       \
     Compiler/parser.stamp                       \
+    Main/Resources.cpp                          \
+    Main/Resources.h                            \
     Main/Version.h
 
 
@@ -527,13 +536,19 @@ BUILT_SOURCES = \
 # Additional files left behind during dist target that need to be cleaned...
 DISTCLEANFILES = \
     Compiler/lexer.stamp                        \
-    Compiler/parser.stamp
+    Compiler/parser.stamp                       \
+    Main/Resources.cpp                          \
+    Main/Resources.h
 
+
+# Additional files to remove when running vanilla clean target...
 CLEANFILES = \
     Compiler/lexer.stamp                        \
-    Compiler/parser.stamp                       \
     $(lexer_clobbered_source_full_paths)        \
-    $(parser_clobbered_source_full_paths)
+    $(parser_clobbered_source_full_paths)       \
+    Compiler/parser.stamp                       \
+    Main/Resources.cpp                          \
+    Main/Resources.h
 
 
 # Actually clean all derived and maintainer files...
@@ -676,6 +691,8 @@ Main/narayan_designer-CommandLineOptions.$(OBJEXT):  \
 	Main/$(am__dirstamp) Main/$(DEPDIR)/$(am__dirstamp)
 Main/narayan_designer-Main.$(OBJEXT): Main/$(am__dirstamp) \
 	Main/$(DEPDIR)/$(am__dirstamp)
+Main/narayan_designer-Resources.$(OBJEXT): Main/$(am__dirstamp) \
+	Main/$(DEPDIR)/$(am__dirstamp)
 
 narayan-designer$(EXEEXT): $(narayan_designer_OBJECTS) $(narayan_designer_DEPENDENCIES) $(EXTRA_narayan_designer_DEPENDENCIES) 
 	@rm -f narayan-designer$(EXEEXT)
@@ -694,6 +711,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-CommandLineOptions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-Main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-Resources.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -760,6 +778,20 @@ Main/narayan_designer-Main.obj: Main/Main.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main/Main.cpp' object='Main/narayan_designer-Main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Main/narayan_designer-Main.obj `if test -f 'Main/Main.cpp'; then $(CYGPATH_W) 'Main/Main.cpp'; else $(CYGPATH_W) '$(srcdir)/Main/Main.cpp'; fi`
+
+Main/narayan_designer-Resources.o: Main/Resources.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Main/narayan_designer-Resources.o -MD -MP -MF Main/$(DEPDIR)/narayan_designer-Resources.Tpo -c -o Main/narayan_designer-Resources.o `test -f 'Main/Resources.cpp' || echo '$(srcdir)/'`Main/Resources.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Main/$(DEPDIR)/narayan_designer-Resources.Tpo Main/$(DEPDIR)/narayan_designer-Resources.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main/Resources.cpp' object='Main/narayan_designer-Resources.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Main/narayan_designer-Resources.o `test -f 'Main/Resources.cpp' || echo '$(srcdir)/'`Main/Resources.cpp
+
+Main/narayan_designer-Resources.obj: Main/Resources.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Main/narayan_designer-Resources.obj -MD -MP -MF Main/$(DEPDIR)/narayan_designer-Resources.Tpo -c -o Main/narayan_designer-Resources.obj `if test -f 'Main/Resources.cpp'; then $(CYGPATH_W) 'Main/Resources.cpp'; else $(CYGPATH_W) '$(srcdir)/Main/Resources.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Main/$(DEPDIR)/narayan_designer-Resources.Tpo Main/$(DEPDIR)/narayan_designer-Resources.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main/Resources.cpp' object='Main/narayan_designer-Resources.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Main/narayan_designer-Resources.obj `if test -f 'Main/Resources.cpp'; then $(CYGPATH_W) 'Main/Resources.cpp'; else $(CYGPATH_W) '$(srcdir)/Main/Resources.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -1013,6 +1045,13 @@ Compiler/parser.stamp: Compiler/NarayanLogicParser.ypp
 	done
 	@rm -Rf $(COMPILER_TMP)
 	@echo "timestamp for $^" > $@
+
+sinclude $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml.d
+
+# All user interface related data files compiled into C++ code via
+#  glib-compile-resources(1). Create the source and header file...
+Main/Resources.cpp Main/Resources.h: $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml
+	$(AM_V_GEN) glib-compile-resources --target=$@ --sourcedir=$(top_srcdir)/Data --generate --c-name narayan_designer $<
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -648,9 +648,6 @@ libgtksourceviewmm_CFLAGS
 libgtkmm_LIBS
 libgtkmm_CFLAGS
 bash_completiondir
-PKG_CONFIG_LIBDIR
-PKG_CONFIG_PATH
-PKG_CONFIG
 X86_FEATURE_CFLAGS
 VALGRIND_CHECK_RULES
 valgrind_enabled_tools
@@ -663,8 +660,16 @@ VALGRIND_ENABLED
 VALGRIND_ENABLED_FALSE
 VALGRIND_ENABLED_TRUE
 VALGRIND
+SORT
 RMDIR
 MKTEMP
+GSETTINGS_RULES
+GLIB_COMPILE_SCHEMAS
+gsettingsschemadir
+PKG_CONFIG_LIBDIR
+PKG_CONFIG_PATH
+PKG_CONFIG
+GSETTINGS_DISABLE_SCHEMAS_COMPILE
 FLEXCPP
 HAVE_CXX14
 CXXCPP
@@ -832,6 +837,7 @@ enable_nls
 enable_rpath
 with_libiconv_prefix
 with_libintl_prefix
+enable_schemas_compile
 enable_valgrind
 enable_valgrind_memcheck
 enable_valgrind_helgrind
@@ -1509,6 +1515,8 @@ Optional Features:
   --enable-tests          enable unit tests [default: yes]
   --disable-nls           do not use Native Language Support
   --disable-rpath         do not hardcode runtime library paths
+  --disable-schemas-compile
+                          Disable regeneration of gschemas.compiled on install
   --enable-valgrind       Whether to enable Valgrind on the unit tests
   --disable-valgrind-memcheck
                           Whether to skip memcheck during the Valgrind tests
@@ -3648,7 +3656,10 @@ fi
 AM_BACKSLASH='\'
 
 
-    # We need the archiver because we build a static convenience library...
+# Initialize libtool...
+
+    # We need the archiver because we build a static convenience library. We
+    #  need to expand this before LT_INIT...
     DEPDIR="${am__leading_dot}deps"
 
 ac_config_commands="$ac_config_commands depfiles"
@@ -4860,8 +4871,6 @@ unknown)
   ;;
 esac
 
-
-# Initialize libtool...
 
     # Minimum version required...
 
@@ -13004,6 +13013,11 @@ fi
 
 # Initialize i18n from GNU gettext...
 
+    # Version 0.19.7 forward supports GtkBuilder XML, .desktop files, GSettings
+    #  schemas, AppData, and Custom XML formats with ITS rules...
+    #  Note: No white space indentation because of
+    #  <https://savannah.gnu.org/bugs/index.php?52424>
+
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether NLS is requested" >&5
 $as_echo_n "checking whether NLS is requested... " >&6; }
     # Check whether --enable-nls was given.
@@ -15090,6 +15104,16 @@ $as_echo "#define HAVE_DCGETTEXT 1" >>confdefs.h
 
 
 
+
+
+    # These options get passed to xgettext. These are the full GLib-approved list of
+    #  options for use in a Gtk+ project...
+
+  XGETTEXT_EXTRA_OPTIONS=
+
+
+
+  XGETTEXT_EXTRA_OPTIONS="$XGETTEXT_EXTRA_OPTIONS --from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=C_:1c,2 --keyword=NC_:1c,2 --keyword=g_dngettext:2,3 --add-comments"
 
 
 # Make sure we are not being run as root...
@@ -20097,6 +20121,240 @@ fi
 
 
 
+    # GSettings schema to binary compilation tool...
+
+
+  # Check whether --enable-schemas-compile was given.
+if test "${enable_schemas_compile+set}" = set; then :
+  enableval=$enable_schemas_compile; case ${enableval} in
+                  yes) GSETTINGS_DISABLE_SCHEMAS_COMPILE=""  ;;
+                  no)  GSETTINGS_DISABLE_SCHEMAS_COMPILE="1" ;;
+                  *) as_fn_error $? "bad value ${enableval} for --enable-schemas-compile" "$LINENO" 5 ;;
+                 esac
+fi
+
+
+
+
+
+
+
+
+
+if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
+	if test -n "$ac_tool_prefix"; then
+  # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
+set dummy ${ac_tool_prefix}pkg-config; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_PKG_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $PKG_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+PKG_CONFIG=$ac_cv_path_PKG_CONFIG
+if test -n "$PKG_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PKG_CONFIG" >&5
+$as_echo "$PKG_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+fi
+if test -z "$ac_cv_path_PKG_CONFIG"; then
+  ac_pt_PKG_CONFIG=$PKG_CONFIG
+  # Extract the first word of "pkg-config", so it can be a program name with args.
+set dummy pkg-config; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_ac_pt_PKG_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $ac_pt_PKG_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_ac_pt_PKG_CONFIG="$ac_pt_PKG_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_ac_pt_PKG_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+ac_pt_PKG_CONFIG=$ac_cv_path_ac_pt_PKG_CONFIG
+if test -n "$ac_pt_PKG_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_pt_PKG_CONFIG" >&5
+$as_echo "$ac_pt_PKG_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+  if test "x$ac_pt_PKG_CONFIG" = x; then
+    PKG_CONFIG=""
+  else
+    case $cross_compiling:$ac_tool_warned in
+yes:)
+{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: using cross tools not prefixed with host triplet" >&5
+$as_echo "$as_me: WARNING: using cross tools not prefixed with host triplet" >&2;}
+ac_tool_warned=yes ;;
+esac
+    PKG_CONFIG=$ac_pt_PKG_CONFIG
+  fi
+else
+  PKG_CONFIG="$ac_cv_path_PKG_CONFIG"
+fi
+
+fi
+if test -n "$PKG_CONFIG"; then
+	_pkg_min_version=0.16
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking pkg-config is at least version $_pkg_min_version" >&5
+$as_echo_n "checking pkg-config is at least version $_pkg_min_version... " >&6; }
+	if $PKG_CONFIG --atleast-pkgconfig-version $_pkg_min_version; then
+		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	else
+		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+		PKG_CONFIG=""
+	fi
+fi
+  gsettingsschemadir=${datadir}/glib-2.0/schemas
+
+  if test x$cross_compiling != xyes; then
+    GLIB_COMPILE_SCHEMAS=`$PKG_CONFIG --variable glib_compile_schemas gio-2.0`
+  else
+    # Extract the first word of "glib-compile-schemas", so it can be a program name with args.
+set dummy glib-compile-schemas; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_GLIB_COMPILE_SCHEMAS+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $GLIB_COMPILE_SCHEMAS in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_GLIB_COMPILE_SCHEMAS="$GLIB_COMPILE_SCHEMAS" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_GLIB_COMPILE_SCHEMAS="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+GLIB_COMPILE_SCHEMAS=$ac_cv_path_GLIB_COMPILE_SCHEMAS
+if test -n "$GLIB_COMPILE_SCHEMAS"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GLIB_COMPILE_SCHEMAS" >&5
+$as_echo "$GLIB_COMPILE_SCHEMAS" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  fi
+
+  if test "x$GLIB_COMPILE_SCHEMAS" = "x"; then
+    as_fn_error $? "glib-compile-schemas not found." "$LINENO" 5
+  else
+    :
+  fi
+
+  GSETTINGS_RULES='
+.PHONY : uninstall-gsettings-schemas install-gsettings-schemas clean-gsettings-schemas
+
+mostlyclean-am: clean-gsettings-schemas
+
+gsettings__enum_file = $(addsuffix .enums.xml,$(gsettings_ENUM_NAMESPACE))
+
+%.gschema.valid: %.gschema.xml $(gsettings__enum_file)
+	$(AM_V_GEN) $(GLIB_COMPILE_SCHEMAS) --strict --dry-run $(addprefix --schema-file=,$(gsettings__enum_file)) --schema-file=$< && mkdir -p $(@D) && touch $@
+
+all-am: $(gsettings_SCHEMAS:.xml=.valid)
+uninstall-am: uninstall-gsettings-schemas
+install-data-am: install-gsettings-schemas
+
+.SECONDARY: $(gsettings_SCHEMAS)
+
+install-gsettings-schemas: $(gsettings_SCHEMAS) $(gsettings__enum_file)
+	@$(NORMAL_INSTALL)
+	if test -n "$^"; then \
+		test -z "$(gsettingsschemadir)" || $(MKDIR_P) "$(DESTDIR)$(gsettingsschemadir)"; \
+		$(INSTALL_DATA) $^ "$(DESTDIR)$(gsettingsschemadir)"; \
+		test -n "$(GSETTINGS_DISABLE_SCHEMAS_COMPILE)$(DESTDIR)" || $(GLIB_COMPILE_SCHEMAS) $(gsettingsschemadir); \
+	fi
+
+uninstall-gsettings-schemas:
+	@$(NORMAL_UNINSTALL)
+	@list='\''$(gsettings_SCHEMAS) $(gsettings__enum_file)'\''; test -n "$(gsettingsschemadir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e '\''s|^.*/||'\''`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '\''$(DESTDIR)$(gsettingsschemadir)'\'' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(gsettingsschemadir)" && rm -f $$files
+	test -n "$(GSETTINGS_DISABLE_SCHEMAS_COMPILE)$(DESTDIR)" || $(GLIB_COMPILE_SCHEMAS) $(gsettingsschemadir)
+
+clean-gsettings-schemas:
+	rm -f $(gsettings_SCHEMAS:.xml=.valid) $(gsettings__enum_file)
+
+ifdef gsettings_ENUM_NAMESPACE
+$(gsettings__enum_file): $(gsettings_ENUM_FILES)
+	$(AM_V_GEN) glib-mkenums --comments '\''<!-- @comment@ -->'\'' --fhead "<schemalist>" --vhead "  <@type@ id='\''$(gsettings_ENUM_NAMESPACE).@EnumName@'\''>" --vprod "    <value nick='\''@valuenick@'\'' value='\''@valuenum@'\''/>" --vtail "  </@type@>" --ftail "</schemalist>" $^ > $@.tmp && mv $@.tmp $@
+endif
+'
+
+
+
+
+
+
+
     # Grep required for test suite...
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for grep that handles long lines and -e" >&5
 $as_echo_n "checking for grep that handles long lines and -e... " >&6; }
@@ -20328,6 +20586,51 @@ $as_echo "$ac_cv_path_SED" >&6; }
  SED="$ac_cv_path_SED"
   rm -f conftest.sed
 
+
+    # Sort command...
+    # Extract the first word of "sort", so it can be a program name with args.
+set dummy sort; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_SORT+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $SORT in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_SORT="$SORT" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_SORT="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+SORT=$ac_cv_path_SORT
+if test -n "$SORT"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $SORT" >&5
+$as_echo "$SORT" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    if test "x$SORT" = "x"; then
+        as_fn_error $? "sort required, but unavailable..." "$LINENO" 5
+    fi
 
     # Valgrind optional, but used in unit testing if enabled by default...
 
@@ -22757,7 +23060,7 @@ done
 
 # Generate makefiles from templates containing Autoconf substitution variables
 #  for root makefile...
-ac_config_files="$ac_config_files Makefile Source/Makefile Tests/Makefile Translations/Makefile.in"
+ac_config_files="$ac_config_files Makefile Data/Makefile Source/Makefile Tests/Makefile Translations/Makefile.in"
 
 
 # Generates config.status which generates all files from templates...
@@ -23899,6 +24202,7 @@ do
     "Manual/narayan-designer.man") CONFIG_FILES="$CONFIG_FILES Manual/narayan-designer.man" ;;
     "Source/Main/Version.h") CONFIG_FILES="$CONFIG_FILES Source/Main/Version.h" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+    "Data/Makefile") CONFIG_FILES="$CONFIG_FILES Data/Makefile" ;;
     "Source/Makefile") CONFIG_FILES="$CONFIG_FILES Source/Makefile" ;;
     "Tests/Makefile") CONFIG_FILES="$CONFIG_FILES Tests/Makefile" ;;
     "Translations/Makefile.in") CONFIG_FILES="$CONFIG_FILES Translations/Makefile.in" ;;

@@ -80,6 +80,8 @@ narayan_designer_SOURCES =                      \
     Main/CommandLineOptions.h                   \
     Main/gettext.h                              \
     Main/Main.cpp                               \
+    Main/Resources.cpp                          \
+    Main/Resources.h                            \
     Patterns/ExplicitSingleton.h
 
 # Both flexc++(1) and bisonc++(1) at the time of writing emit code that can
@@ -114,6 +116,8 @@ BUILT_SOURCES =                                 \
     $(lexer_clobbered_source_full_paths)        \
     $(parser_clobbered_source_full_paths)       \
     Compiler/parser.stamp                       \
+    Main/Resources.cpp                          \
+    Main/Resources.h                            \
     Main/Version.h
 
 # Product option variables for list of source not to be distributed because
@@ -127,13 +131,18 @@ BUILT_SOURCES =                                 \
 # Additional files left behind during dist target that need to be cleaned...
 DISTCLEANFILES =                                \
     Compiler/lexer.stamp                        \
-    Compiler/parser.stamp
+    Compiler/parser.stamp                       \
+    Main/Resources.cpp                          \
+    Main/Resources.h
 
+# Additional files to remove when running vanilla clean target...
 CLEANFILES =                                    \
     Compiler/lexer.stamp                        \
-    Compiler/parser.stamp                       \
     $(lexer_clobbered_source_full_paths)        \
-    $(parser_clobbered_source_full_paths)
+    $(parser_clobbered_source_full_paths)       \
+    Compiler/parser.stamp                       \
+    Main/Resources.cpp                          \
+    Main/Resources.h
 
 # Actually clean all derived and maintainer files...
 MAINTAINERCLEANFILES =                          \
@@ -182,4 +191,11 @@ Compiler/parser.stamp: Compiler/NarayanLogicParser.ypp
 	done
 	@rm -Rf $(COMPILER_TMP)
 	@echo "timestamp for $^" > $@
+
+sinclude $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml.d
+
+# All user interface related data files compiled into C++ code via
+#  glib-compile-resources(1). Create the source and header file...
+Main/Resources.cpp Main/Resources.h: $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml
+	$(AM_V_GEN) glib-compile-resources --target=$@ --sourcedir=$(top_srcdir)/Data --generate --c-name narayan_designer $<
 

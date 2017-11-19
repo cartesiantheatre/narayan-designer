@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: narayan-designer 0.0.0\n"
 "Report-Msgid-Bugs-To: \"Cartesian Theatre <info@cartesiantheatre.com>\"\n"
-"POT-Creation-Date: 2017-08-04 20:33-0700\n"
+"POT-Creation-Date: 2017-11-18 17:39-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,20 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#. TODO: Fix this because this block is never executed.
+#: Source/Compiler/NarayanLogicLexer.lpp:43
+msgid "re-entering multiline comment"
+msgstr ""
+
+#. Anything else shouldn't be recognized...
+#: Source/Compiler/NarayanLogicLexer.lpp:102
+msgid "unrecognized token"
+msgstr ""
+
+#: Source/Compiler/NarayanLogicParser.ih:45
+msgid "syntax error: "
+msgstr ""
 
 #: Source/Main/CommandLineOptions.cpp:171
 msgid "need input file, see man page"

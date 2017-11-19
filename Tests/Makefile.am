@@ -6,6 +6,8 @@
 # If unit tests were enabled, define a list of targets to create and test...
 if ENABLE_TESTS
 
+# TODO: Add some tests incorporating tools from gettext-lint package...
+
 # Product list of programs to build during check target...
 check_PROGRAMS =                            \
     TestLexer                               \
@@ -14,6 +16,7 @@ check_PROGRAMS =                            \
 # Product list of scripts to generate during check target, including pattern
 #  matching stems...
 check_SCRIPTS =                             \
+    TestDesktopFileValidate                 \
     TestRuntimeSane                         \
     Rules/Unit/CreateAlloy.nl               \
     Rules/Zone/DevelopHouses.nl             \
@@ -88,6 +91,15 @@ CLEANFILES =                                \
 # GCS § 7.2.6 requires a check target. Targets to execute for check target...
 TESTS = $(check_SCRIPTS)
 
+# Test script to validate our desktop file entry...
+TestDesktopFileValidate: Makefile.am $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.desktop
+	@echo 'set -e -u' > $@
+	@echo 'echo "$$(DESKTOP_FILE_VALIDATE) $$(top_builddir)/$$(desktop_DATA) || exit 1"' >> $@
+	@$(CHMOD) +x $@
+
+# This script is used as a test harness for each Narayan Logic script to test.
+#  It runs the latter through both the lexer and parser to verify successful
+#  consumption...
 TestNarayanLogic: TestLexer TestParser
 	@echo 'set -e -u' > $@
 	@echo 'echo "./TestLexer $$1"' >> $@
@@ -96,8 +108,8 @@ TestNarayanLogic: TestLexer TestParser
 	@echo './TestParser "$$1"' >> $@
 	@$(CHMOD) +x $@
 
-# Rule to create test script to verify the runtime works by just testing to see
-#  it compiled and linked correctly...
+# Test script to verify the runtime works by just testing to see it compiled and
+#  linked correctly...
 TestRuntimeSane: Makefile.am
 	@echo 'set -e -u' > $@
 	@echo '$(top_builddir)/Source/narayan-designer --version | $(GREP) -q "@PACKAGE_NAME@"' >> $@
