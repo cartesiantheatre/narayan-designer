@@ -342,7 +342,6 @@ AC_LANG([C++])
 #  for root makefile...
 AC_CONFIG_FILES([               \
     Makefile                    \
-    Data/Makefile               \
     Source/Makefile             \
     Tests/Makefile              \
     Translations/Makefile.in])

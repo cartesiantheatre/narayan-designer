@@ -223,7 +223,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/Auxiliary/ar-lib \
 	$(top_srcdir)/Source/Main/Version.h.in \
 	$(top_srcdir)/Source/Main/config.h.in ABOUT-NLS \
 	Auxiliary/ar-lib Auxiliary/compile Auxiliary/config.guess \
-	Auxiliary/config.rpath Auxiliary/config.sub Auxiliary/depcomp \
+	Auxiliary/config.rpath Auxiliary/config.sub \
 	Auxiliary/install-sh Auxiliary/ltmain.sh Auxiliary/missing \
 	ChangeLog
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -450,11 +450,8 @@ valgrind_tools = @valgrind_tools@
 # Options for aclocal so it can find our custom M4 macros...
 ACLOCAL_AMFLAGS = -I Macros
 
-# Run the requested make target recursively on child makefiles. Note that the
-#  .desktop entry is generated from Data/Makefile.am and therefore must run
-#  before Translations/Makefile.am...
+# Run the requested make target recursively on child makefiles...
 SUBDIRS = \
-    Data                                                    \
     Source                                                  \
     Tests                                                   \
     Translations

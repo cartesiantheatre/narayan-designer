@@ -6,11 +6,8 @@
 # Options for aclocal so it can find our custom M4 macros...
 ACLOCAL_AMFLAGS = -I Macros
 
-# Run the requested make target recursively on child makefiles. Note that the
-#  .desktop entry is generated from Data/Makefile.am and therefore must run
-#  before Translations/Makefile.am...
+# Run the requested make target recursively on child makefiles...
 SUBDIRS =                                                   \
-    Data                                                    \
     Source                                                  \
     Tests                                                   \
     Translations

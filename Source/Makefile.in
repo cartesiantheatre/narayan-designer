@@ -20,6 +20,7 @@
 #
 
 
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -116,7 +117,9 @@ am__aclocal_m4_deps = $(top_srcdir)/Macros/ax_cxx_compile_stdcxx.m4 \
 	$(top_srcdir)/Macros/progtest.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
+DIST_COMMON = $(srcdir)/Makefile.am $(dist_appicon48_DATA) \
+	$(dist_appiconscalable_DATA) $(dist_appiconsymbolic_DATA) \
+	$(dist_noinst_DATA) $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/Source/Main/config.h
 CONFIG_CLEAN_FILES =
@@ -136,12 +139,17 @@ liblexerparser_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__installdirs = "$(DESTDIR)$(bindir)"
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(desktopdir)" \
+	"$(DESTDIR)$(appicon48dir)" "$(DESTDIR)$(appiconscalabledir)" \
+	"$(DESTDIR)$(appiconsymbolicdir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__objects_3 =
 am_narayan_designer_OBJECTS = $(am__objects_3) $(am__objects_3) \
+	GUI/narayan_designer-MainWindow.$(OBJEXT) \
+	GUI/narayan_designer-PreferencesDialog.$(OBJEXT) \
 	Main/narayan_designer-CommandLineOptions.$(OBJEXT) \
 	Main/narayan_designer-Main.$(OBJEXT) \
+	Main/narayan_designer-NarayanDesignerApplication.$(OBJEXT) \
 	Main/narayan_designer-Resources.$(OBJEXT)
 narayan_designer_OBJECTS = $(am_narayan_designer_OBJECTS)
 narayan_designer_DEPENDENCIES = liblexerparser.la
@@ -209,6 +217,36 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
+am__install_max = 40
+am__nobase_strip_setup = \
+  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
+am__nobase_strip = \
+  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
+am__nobase_list = $(am__nobase_strip_setup); \
+  for p in $$list; do echo "$$p $$p"; done | \
+  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
+  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
+    if (++n[$$2] == $(am__install_max)) \
+      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
+    END { for (dir in files) print dir, files[dir] }'
+am__base_list = \
+  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
+  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+am__uninstall_files_from_dir = { \
+  test -z "$$files" \
+    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
+    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
+         $(am__cd) "$$dir" && rm -f $$files; }; \
+  }
+DATA = $(desktop_DATA) $(dist_appicon48_DATA) \
+	$(dist_appiconscalable_DATA) $(dist_appiconsymbolic_DATA) \
+	$(dist_noinst_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -406,6 +444,46 @@ valgrind_tools = @valgrind_tools@
 # Product list of never installed libtool static convenience libraries...
 noinst_LTLIBRARIES = liblexerparser.la
 
+# Application data that should not be installed...
+dist_noinst_DATA = \
+	$(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.desktop.in
+
+
+# Location for desktop data...
+desktopdir = $(datadir)/applications
+
+# Desktop data includes desktop entry...
+desktop_DATA = $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.desktop
+
+# GSettings schema. Note that for some reason the expansion of the
+#  GLIB_GSETTINGS macro seems to know to find this within the srcdir and not
+#  builddir. If we explicitly prefix with the 
+#  $(top_srcdir)/Data/com.cartesiantheatre..., though technically more correct,
+#  then the gschema.valid stamp ends up getting placed in the srcdir which
+#  defeats the purpose of remote builds. I'm not sure if this was intentional
+#  behaviour on the part of the GLIB_GSETTINGS macro author...
+gsettings_SCHEMAS = ../Data/com.cartesiantheatre.narayan-designer.gschema.xml
+
+# Standard prefix for icon themes...
+iconthemedir = $(datadir)/icons/hicolor
+
+# Subdirectories for application icon of varying dimensions...
+appicon48dir = $(iconthemedir)/48x48/apps
+appiconscalabledir = $(iconthemedir)/scalable/apps
+appiconsymbolicdir = $(iconthemedir)/symbolic/apps
+dist_appicon48_DATA = \
+	$(top_srcdir)/Data/Icons/48x48/com.cartesiantheatre.narayan-designer.png
+
+dist_appiconscalable_DATA = \
+	$(top_srcdir)/Data/Icons/scalable/com.cartesiantheatre.narayan-designer.svg
+
+dist_appiconsymbolic_DATA = \
+	$(top_srcdir)/Data/Icons/symbolic/com.cartesiantheatre.narayan-designer.svg
+
+
+# Command to run to update the desktop environment's icon cache...
+UPDATE_ICON_CACHE = gtk-update-icon-cache --ignore-theme-index --force
+
 # Get build flags...
 narayan_designer_CFLAGS = $(AM_CFLAGS)
 narayan_designer_CXXFLAGS = $(AM_CXXFLAGS)
@@ -416,24 +494,25 @@ narayan_designer_LDADD = $(AM_LDFLAGS) liblexerparser.la
 #  source and build directory as per Automake manual §8.7 to facilitate VPATH
 #  builds...
 narayan_designer_CPPFLAGS = \
-    -DSYSCONFDIR='"$(sysconfdir)"'              \
-    -I$(srcdir)/                                \
-    -I$(builddir)/                              \
-    -I$(srcdir)/Compiler                        \
-    -I$(builddir)/Compiler                      \
-    -I$(srcdir)/Main                            \
-    -I$(builddir)/Main                          \
+    -DSYSCONFDIR='"$(sysconfdir)"'                              \
+    -I$(srcdir)/                                                \
+    -I$(builddir)/                                              \
+    -I$(srcdir)/Compiler                                        \
+    -I$(builddir)/Compiler                                      \
+    -I$(builddir)/GUI                                           \
+    -I$(srcdir)/Main                                            \
+    -I$(builddir)/Main                                          \
     $(AM_CPPFLAGS)
 
 
 # Source files for NarayanLogic lexer clobbered by each flexc++(1) invocation.
 #  These should always be created within $(builddir)...
 lexer_clobbered_source_files_only = \
-    NarayanLogicLexerBase.cpp                   \
+    NarayanLogicLexerBase.cpp                                   \
     NarayanLogicLexerBase.h
 
 lexer_clobbered_source_full_paths = \
-    Compiler/NarayanLogicLexerBase.cpp          \
+    Compiler/NarayanLogicLexerBase.cpp                          \
     Compiler/NarayanLogicLexerBase.h
 
 
@@ -441,22 +520,22 @@ lexer_clobbered_source_full_paths = \
 #  subsequently owned by the user. These should always be maintained within
 #  $(sourcedir)...
 lexer_unclobbered_source_files_only = \
-    NarayanLogicLexer.h                         \
+    NarayanLogicLexer.h                                         \
     NarayanLogicLexer.ih
 
 lexer_unclobbered_source_full_paths = \
-    Compiler/NarayanLogicLexer.h                \
+    Compiler/NarayanLogicLexer.h                                \
     Compiler/NarayanLogicLexer.ih
 
 
 # Source files for NarayanLogic parser clobbered by each bisonc++(1) invocation.
 #  These should always be created within $(builddir)...
 parser_clobbered_source_files_only = \
-    NarayanLogicParserBase.h                    \
+    NarayanLogicParserBase.h                                    \
     NarayanLogicParser.cpp
 
 parser_clobbered_source_full_paths = \
-    Compiler/NarayanLogicParserBase.h           \
+    Compiler/NarayanLogicParserBase.h                           \
     Compiler/NarayanLogicParser.cpp
 
 
@@ -464,25 +543,31 @@ parser_clobbered_source_full_paths = \
 #  subsequently owned by the user. These should always be maintained within
 #  $(sourcedir)...
 parser_unclobbered_source_files_only = \
-    NarayanLogicParser.h                        \
+    NarayanLogicParser.h                                        \
     NarayanLogicParser.ih
 
 parser_unclobbered_source_full_paths = \
-    Compiler/NarayanLogicParser.h               \
+    Compiler/NarayanLogicParser.h                               \
     Compiler/NarayanLogicParser.ih
 
 
 # narayan-designer product option variables containing list of sources that need
 #  to be compiled and linked to produce the product...
 narayan_designer_SOURCES = \
-    $(lexer_unclobbered_source_full_paths)      \
-    $(parser_unclobbered_source_full_paths)     \
-    Main/CommandLineOptions.cpp                 \
-    Main/CommandLineOptions.h                   \
-    Main/gettext.h                              \
-    Main/Main.cpp                               \
-    Main/Resources.cpp                          \
-    Main/Resources.h                            \
+    $(lexer_unclobbered_source_full_paths)                      \
+    $(parser_unclobbered_source_full_paths)                     \
+    GUI/MainWindow.cpp                                          \
+    GUI/MainWindow.h                                            \
+    GUI/PreferencesDialog.cpp                                   \
+    GUI/PreferencesDialog.h                                     \
+    Main/CommandLineOptions.cpp                                 \
+    Main/CommandLineOptions.h                                   \
+    Main/gettext.h                                              \
+    Main/Main.cpp                                               \
+    Main/NarayanDesignerApplication.cpp                         \
+    Main/NarayanDesignerApplication.h                           \
+    Main/Resources.cpp                                          \
+    Main/Resources.h                                            \
     Patterns/ExplicitSingleton.h
 
 
@@ -495,33 +580,34 @@ narayan_designer_SOURCES = \
 #  This has the benefit of isolating the potential harm within the convenience
 #  library that may have spilled over to other application code whenever
 #  explicitly disabling useful safety measures, such as -Wall -Werror -Wshadow
-#  -Wextra switches that raise issues to the emitted code's switch-case fall
-#  through usage, unused variables, and so forth...
+#  -Wextra switches that raise issues like switch-case fall throughs, unused
+#  variables, and so forth...
 liblexerparser_la_SOURCES = \
-    $(lexer_clobbered_source_full_paths)        \
+    $(lexer_clobbered_source_full_paths)                                            \
     $(parser_clobbered_source_full_paths)
 
 liblexerparser_la_CXXFLAGS = -Wimplicit-fallthrough=0 -Wno-unused-parameter
 liblexerparser_la_CPPFLAGS = \
-    -DSYSCONFDIR='"$(sysconfdir)"'              \
-    -I$(srcdir)/                                \
-    -I$(builddir)/                              \
-    -I$(srcdir)/Compiler                        \
-    -I$(builddir)/Compiler                      \
-    -I$(srcdir)/Main                            \
-    -I$(builddir)/Main                          \
+    -DSYSCONFDIR='"$(sysconfdir)"'                                                  \
+    -I$(srcdir)/                                                                    \
+    -I$(builddir)/                                                                  \
+    -I$(srcdir)/Compiler                                                            \
+    -I$(builddir)/Compiler                                                          \
+    -I$(srcdir)/Main                                                                \
+    -I$(builddir)/Main                                                              \
     $(AM_CPPFLAGS)
 
 
 # These files must exist before anything is compiled. Can be machine
 #  generated...
 BUILT_SOURCES = \
-    Compiler/lexer.stamp                        \
-    $(lexer_clobbered_source_full_paths)        \
-    $(parser_clobbered_source_full_paths)       \
-    Compiler/parser.stamp                       \
-    Main/Resources.cpp                          \
-    Main/Resources.h                            \
+    Compiler/lexer.stamp                                                            \
+    $(lexer_clobbered_source_full_paths)                                            \
+    $(parser_clobbered_source_full_paths)                                           \
+    Compiler/parser.stamp                                                           \
+    $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml.d      \
+    Main/Resources.cpp                                                              \
+    Main/Resources.h                                                                \
     Main/Version.h
 
 
@@ -529,26 +615,28 @@ BUILT_SOURCES = \
 #  they are machine generated...
 #  Note: Migrated into libtool convenience library until upstream 
 #  {flex,bison}c++(1) fix all reported issues...
-#nodist_narayan_designer_SOURCES =               \
-#    $(lexer_clobbered_source_full_paths)        \
+#nodist_narayan_designer_SOURCES =                              \
+#    $(lexer_clobbered_source_full_paths)                       \
 #    $(parser_clobbered_source_full_paths)
 
 # Additional files left behind during dist target that need to be cleaned...
 DISTCLEANFILES = \
-    Compiler/lexer.stamp                        \
-    Compiler/parser.stamp                       \
-    Main/Resources.cpp                          \
+    Compiler/lexer.stamp                                                            \
+    Compiler/parser.stamp                                                           \
+    Main/Resources.cpp                                                              \
     Main/Resources.h
 
 
 # Additional files to remove when running vanilla clean target...
 CLEANFILES = \
-    Compiler/lexer.stamp                        \
-    $(lexer_clobbered_source_full_paths)        \
-    $(parser_clobbered_source_full_paths)       \
-    Compiler/parser.stamp                       \
-    Main/Resources.cpp                          \
-    Main/Resources.h
+    Compiler/lexer.stamp                                                            \
+    $(lexer_clobbered_source_full_paths)                                            \
+    $(parser_clobbered_source_full_paths)                                           \
+    Compiler/parser.stamp                                                           \
+    $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml.d      \
+    Main/Resources.cpp                                                              \
+    Main/Resources.h                                                                \
+    $(desktop_DATA)
 
 
 # Actually clean all derived and maintainer files...
@@ -558,8 +646,11 @@ MAINTAINERCLEANFILES = \
 
 # Manually add these things to distribution package when dist target is run...
 EXTRA_DIST = \
-    Compiler/NarayanLogicLexer.lpp              \
-    Compiler/NarayanLogicParser.ypp
+    Compiler/NarayanLogicLexer.lpp                                                  \
+    Compiler/NarayanLogicParser.ypp                                                 \
+    $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.desktop.in             \
+    $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml          \
+    $(gsettings_SCHEMAS)
 
 
 # Extend silent mode for flexc++(1) inputs per Automake manual §21.3...
@@ -681,6 +772,16 @@ clean-binPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
+GUI/$(am__dirstamp):
+	@$(MKDIR_P) GUI
+	@: > GUI/$(am__dirstamp)
+GUI/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) GUI/$(DEPDIR)
+	@: > GUI/$(DEPDIR)/$(am__dirstamp)
+GUI/narayan_designer-MainWindow.$(OBJEXT): GUI/$(am__dirstamp) \
+	GUI/$(DEPDIR)/$(am__dirstamp)
+GUI/narayan_designer-PreferencesDialog.$(OBJEXT): GUI/$(am__dirstamp) \
+	GUI/$(DEPDIR)/$(am__dirstamp)
 Main/$(am__dirstamp):
 	@$(MKDIR_P) Main
 	@: > Main/$(am__dirstamp)
@@ -691,6 +792,8 @@ Main/narayan_designer-CommandLineOptions.$(OBJEXT):  \
 	Main/$(am__dirstamp) Main/$(DEPDIR)/$(am__dirstamp)
 Main/narayan_designer-Main.$(OBJEXT): Main/$(am__dirstamp) \
 	Main/$(DEPDIR)/$(am__dirstamp)
+Main/narayan_designer-NarayanDesignerApplication.$(OBJEXT):  \
+	Main/$(am__dirstamp) Main/$(DEPDIR)/$(am__dirstamp)
 Main/narayan_designer-Resources.$(OBJEXT): Main/$(am__dirstamp) \
 	Main/$(DEPDIR)/$(am__dirstamp)
 
@@ -702,6 +805,7 @@ mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f Compiler/*.$(OBJEXT)
 	-rm -f Compiler/*.lo
+	-rm -f GUI/*.$(OBJEXT)
 	-rm -f Main/*.$(OBJEXT)
 
 distclean-compile:
@@ -709,8 +813,11 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicLexerBase.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@GUI/$(DEPDIR)/narayan_designer-MainWindow.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-CommandLineOptions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-Main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-Resources.Po@am__quote@
 
 .cpp.o:
@@ -751,6 +858,34 @@ Compiler/liblexerparser_la-NarayanLogicParser.lo: Compiler/NarayanLogicParser.cp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblexerparser_la_CPPFLAGS) $(CPPFLAGS) $(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) -c -o Compiler/liblexerparser_la-NarayanLogicParser.lo `test -f 'Compiler/NarayanLogicParser.cpp' || echo '$(srcdir)/'`Compiler/NarayanLogicParser.cpp
 
+GUI/narayan_designer-MainWindow.o: GUI/MainWindow.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT GUI/narayan_designer-MainWindow.o -MD -MP -MF GUI/$(DEPDIR)/narayan_designer-MainWindow.Tpo -c -o GUI/narayan_designer-MainWindow.o `test -f 'GUI/MainWindow.cpp' || echo '$(srcdir)/'`GUI/MainWindow.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) GUI/$(DEPDIR)/narayan_designer-MainWindow.Tpo GUI/$(DEPDIR)/narayan_designer-MainWindow.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='GUI/MainWindow.cpp' object='GUI/narayan_designer-MainWindow.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o GUI/narayan_designer-MainWindow.o `test -f 'GUI/MainWindow.cpp' || echo '$(srcdir)/'`GUI/MainWindow.cpp
+
+GUI/narayan_designer-MainWindow.obj: GUI/MainWindow.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT GUI/narayan_designer-MainWindow.obj -MD -MP -MF GUI/$(DEPDIR)/narayan_designer-MainWindow.Tpo -c -o GUI/narayan_designer-MainWindow.obj `if test -f 'GUI/MainWindow.cpp'; then $(CYGPATH_W) 'GUI/MainWindow.cpp'; else $(CYGPATH_W) '$(srcdir)/GUI/MainWindow.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) GUI/$(DEPDIR)/narayan_designer-MainWindow.Tpo GUI/$(DEPDIR)/narayan_designer-MainWindow.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='GUI/MainWindow.cpp' object='GUI/narayan_designer-MainWindow.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o GUI/narayan_designer-MainWindow.obj `if test -f 'GUI/MainWindow.cpp'; then $(CYGPATH_W) 'GUI/MainWindow.cpp'; else $(CYGPATH_W) '$(srcdir)/GUI/MainWindow.cpp'; fi`
+
+GUI/narayan_designer-PreferencesDialog.o: GUI/PreferencesDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT GUI/narayan_designer-PreferencesDialog.o -MD -MP -MF GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Tpo -c -o GUI/narayan_designer-PreferencesDialog.o `test -f 'GUI/PreferencesDialog.cpp' || echo '$(srcdir)/'`GUI/PreferencesDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Tpo GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='GUI/PreferencesDialog.cpp' object='GUI/narayan_designer-PreferencesDialog.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o GUI/narayan_designer-PreferencesDialog.o `test -f 'GUI/PreferencesDialog.cpp' || echo '$(srcdir)/'`GUI/PreferencesDialog.cpp
+
+GUI/narayan_designer-PreferencesDialog.obj: GUI/PreferencesDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT GUI/narayan_designer-PreferencesDialog.obj -MD -MP -MF GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Tpo -c -o GUI/narayan_designer-PreferencesDialog.obj `if test -f 'GUI/PreferencesDialog.cpp'; then $(CYGPATH_W) 'GUI/PreferencesDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/GUI/PreferencesDialog.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Tpo GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='GUI/PreferencesDialog.cpp' object='GUI/narayan_designer-PreferencesDialog.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o GUI/narayan_designer-PreferencesDialog.obj `if test -f 'GUI/PreferencesDialog.cpp'; then $(CYGPATH_W) 'GUI/PreferencesDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/GUI/PreferencesDialog.cpp'; fi`
+
 Main/narayan_designer-CommandLineOptions.o: Main/CommandLineOptions.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Main/narayan_designer-CommandLineOptions.o -MD -MP -MF Main/$(DEPDIR)/narayan_designer-CommandLineOptions.Tpo -c -o Main/narayan_designer-CommandLineOptions.o `test -f 'Main/CommandLineOptions.cpp' || echo '$(srcdir)/'`Main/CommandLineOptions.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Main/$(DEPDIR)/narayan_designer-CommandLineOptions.Tpo Main/$(DEPDIR)/narayan_designer-CommandLineOptions.Po
@@ -779,6 +914,20 @@ Main/narayan_designer-Main.obj: Main/Main.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Main/narayan_designer-Main.obj `if test -f 'Main/Main.cpp'; then $(CYGPATH_W) 'Main/Main.cpp'; else $(CYGPATH_W) '$(srcdir)/Main/Main.cpp'; fi`
 
+Main/narayan_designer-NarayanDesignerApplication.o: Main/NarayanDesignerApplication.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Main/narayan_designer-NarayanDesignerApplication.o -MD -MP -MF Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Tpo -c -o Main/narayan_designer-NarayanDesignerApplication.o `test -f 'Main/NarayanDesignerApplication.cpp' || echo '$(srcdir)/'`Main/NarayanDesignerApplication.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Tpo Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main/NarayanDesignerApplication.cpp' object='Main/narayan_designer-NarayanDesignerApplication.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Main/narayan_designer-NarayanDesignerApplication.o `test -f 'Main/NarayanDesignerApplication.cpp' || echo '$(srcdir)/'`Main/NarayanDesignerApplication.cpp
+
+Main/narayan_designer-NarayanDesignerApplication.obj: Main/NarayanDesignerApplication.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Main/narayan_designer-NarayanDesignerApplication.obj -MD -MP -MF Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Tpo -c -o Main/narayan_designer-NarayanDesignerApplication.obj `if test -f 'Main/NarayanDesignerApplication.cpp'; then $(CYGPATH_W) 'Main/NarayanDesignerApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/Main/NarayanDesignerApplication.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Tpo Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main/NarayanDesignerApplication.cpp' object='Main/narayan_designer-NarayanDesignerApplication.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Main/narayan_designer-NarayanDesignerApplication.obj `if test -f 'Main/NarayanDesignerApplication.cpp'; then $(CYGPATH_W) 'Main/NarayanDesignerApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/Main/NarayanDesignerApplication.cpp'; fi`
+
 Main/narayan_designer-Resources.o: Main/Resources.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Main/narayan_designer-Resources.o -MD -MP -MF Main/$(DEPDIR)/narayan_designer-Resources.Tpo -c -o Main/narayan_designer-Resources.o `test -f 'Main/Resources.cpp' || echo '$(srcdir)/'`Main/Resources.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Main/$(DEPDIR)/narayan_designer-Resources.Tpo Main/$(DEPDIR)/narayan_designer-Resources.Po
@@ -799,6 +948,90 @@ mostlyclean-libtool:
 clean-libtool:
 	-rm -rf .libs _libs
 	-rm -rf Compiler/.libs Compiler/_libs
+install-desktopDATA: $(desktop_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(desktop_DATA)'; test -n "$(desktopdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(desktopdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(desktopdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(desktopdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(desktopdir)" || exit $$?; \
+	done
+
+uninstall-desktopDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(desktop_DATA)'; test -n "$(desktopdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(desktopdir)'; $(am__uninstall_files_from_dir)
+install-dist_appicon48DATA: $(dist_appicon48_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(dist_appicon48_DATA)'; test -n "$(appicon48dir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(appicon48dir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(appicon48dir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(appicon48dir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(appicon48dir)" || exit $$?; \
+	done
+
+uninstall-dist_appicon48DATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_appicon48_DATA)'; test -n "$(appicon48dir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(appicon48dir)'; $(am__uninstall_files_from_dir)
+install-dist_appiconscalableDATA: $(dist_appiconscalable_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(dist_appiconscalable_DATA)'; test -n "$(appiconscalabledir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(appiconscalabledir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(appiconscalabledir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(appiconscalabledir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(appiconscalabledir)" || exit $$?; \
+	done
+
+uninstall-dist_appiconscalableDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_appiconscalable_DATA)'; test -n "$(appiconscalabledir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(appiconscalabledir)'; $(am__uninstall_files_from_dir)
+install-dist_appiconsymbolicDATA: $(dist_appiconsymbolic_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(dist_appiconsymbolic_DATA)'; test -n "$(appiconsymbolicdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(appiconsymbolicdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(appiconsymbolicdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(appiconsymbolicdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(appiconsymbolicdir)" || exit $$?; \
+	done
+
+uninstall-dist_appiconsymbolicDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_appiconsymbolic_DATA)'; test -n "$(appiconsymbolicdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(appiconsymbolicdir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -885,9 +1118,9 @@ distdir: $(DISTFILES)
 check-am: all-am
 check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-am
-all-am: Makefile $(LTLIBRARIES) $(PROGRAMS)
+all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(desktopdir)" "$(DESTDIR)$(appicon48dir)" "$(DESTDIR)$(appiconscalabledir)" "$(DESTDIR)$(appiconsymbolicdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: $(BUILT_SOURCES)
@@ -920,6 +1153,8 @@ distclean-generic:
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
 	-rm -f Compiler/$(DEPDIR)/$(am__dirstamp)
 	-rm -f Compiler/$(am__dirstamp)
+	-rm -f GUI/$(DEPDIR)/$(am__dirstamp)
+	-rm -f GUI/$(am__dirstamp)
 	-rm -f Main/$(DEPDIR)/$(am__dirstamp)
 	-rm -f Main/$(am__dirstamp)
 	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
@@ -935,7 +1170,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-libtool \
 	clean-noinstLTLIBRARIES mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf Compiler/$(DEPDIR) Main/$(DEPDIR)
+	-rm -rf Compiler/$(DEPDIR) GUI/$(DEPDIR) Main/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -952,8 +1187,11 @@ info: info-am
 
 info-am:
 
-install-data-am:
-
+install-data-am: install-desktopDATA install-dist_appicon48DATA \
+	install-dist_appiconscalableDATA \
+	install-dist_appiconsymbolicDATA
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 install-dvi: install-dvi-am
 
 install-dvi-am:
@@ -981,7 +1219,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf Compiler/$(DEPDIR) Main/$(DEPDIR)
+	-rm -rf Compiler/$(DEPDIR) GUI/$(DEPDIR) Main/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
@@ -998,9 +1236,14 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS
-
-.MAKE: all check install install-am install-strip
+uninstall-am: uninstall-binPROGRAMS uninstall-desktopDATA \
+	uninstall-dist_appicon48DATA \
+	uninstall-dist_appiconscalableDATA \
+	uninstall-dist_appiconsymbolicDATA
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) uninstall-hook
+.MAKE: all check install install-am install-data-am install-strip \
+	uninstall-am
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-am clean \
 	clean-binPROGRAMS clean-generic clean-libtool \
@@ -1008,17 +1251,48 @@ uninstall-am: uninstall-binPROGRAMS
 	distclean-compile distclean-generic distclean-libtool \
 	distclean-tags distdir dvi dvi-am html html-am info info-am \
 	install install-am install-binPROGRAMS install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
+	install-data-am install-data-hook install-desktopDATA \
+	install-dist_appicon48DATA install-dist_appiconscalableDATA \
+	install-dist_appiconsymbolicDATA install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-man install-pdf \
+	install-pdf-am install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS
+	tags tags-am uninstall uninstall-am uninstall-binPROGRAMS \
+	uninstall-desktopDATA uninstall-dist_appicon48DATA \
+	uninstall-dist_appiconscalableDATA \
+	uninstall-dist_appiconsymbolicDATA uninstall-hook
 
 .PRECIOUS: Makefile
 
+
+# Generate a .desktop file from template and translation catalogue...
+$(top_builddir)/Data/com.cartesiantheatre.narayan-designer.desktop: $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.desktop.in
+	@$(MKDIR_P) $(@D)
+	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/Translations -o $@
+
+# Generate dependency list for all resources by scanning GResource manifest file...
+$(top_builddir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml.d: $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml
+	@$(MKDIR_P) $(@D)
+	$(AM_V_GEN) glib-compile-resources --sourcedir=$(top_srcdir)/Data --generate-phony-targets --generate-dependencies --dependency-file=$@ $< > /dev/null
+
+# Include dependency list for all embedded resources...
+sinclude $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml.d
+
+# The actual dependencies for the resource manifest are generated in the above
+#  makefile. When any of the dependencies are updated, derived files need to be
+#  rebuilt. Since the gresource.xml manifest isn't "rebuilt" from its referenced
+#  contents, we need to trick the build environment force a rebuild for targets
+#  which depend on it by manually updating its timestamp...
+#$(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml:
+#	@touch $@
+
+# All user interface related data files compiled into C++ code via
+#  glib-compile-resources(1). Create the source and header file...
+Main/Resources.cpp Main/Resources.h: $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml
+	$(AM_V_GEN) glib-compile-resources --target=$@ --sourcedir=$(top_srcdir)/Data --generate --c-name narayan_designer $<
 
 # Generate the Narayan Logic lexer source from its regular expression token
 #  descriptions via flexc++, using that file as a witness. After that generate
@@ -1046,12 +1320,24 @@ Compiler/parser.stamp: Compiler/NarayanLogicParser.ypp
 	@rm -Rf $(COMPILER_TMP)
 	@echo "timestamp for $^" > $@
 
-sinclude $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml.d
+# Insert GSettings compilation rules...
+@GSETTINGS_RULES@
 
-# All user interface related data files compiled into C++ code via
-#  glib-compile-resources(1). Create the source and header file...
-Main/Resources.cpp Main/Resources.h: $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml
-	$(AM_V_GEN) glib-compile-resources --target=$@ --sourcedir=$(top_srcdir)/Data --generate --c-name narayan_designer $<
+# During the install hook target, run the following...
+install-data-hook: install-update-icon-cache
+
+# Update the icon cache during installation...
+install-update-icon-cache:
+	$(AM_V_at)$(POST_INSTALL)
+	test -n "$(DESTDIR)" || $(UPDATE_ICON_CACHE) "$(iconthemedir)"
+
+# During the uninstall hook target, run the following...
+uninstall-hook: uninstall-update-icon-cache
+
+# Update the icon cache during uninstallation...
+uninstall-update-icon-cache:
+	$(AM_V_at)$(POST_UNINSTALL)
+	test -n "$(DESTDIR)" || $(UPDATE_ICON_CACHE) "$(iconthemedir)"
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

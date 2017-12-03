@@ -23060,7 +23060,7 @@ done
 
 # Generate makefiles from templates containing Autoconf substitution variables
 #  for root makefile...
-ac_config_files="$ac_config_files Makefile Data/Makefile Source/Makefile Tests/Makefile Translations/Makefile.in"
+ac_config_files="$ac_config_files Makefile Source/Makefile Tests/Makefile Translations/Makefile.in"
 
 
 # Generates config.status which generates all files from templates...
@@ -24202,7 +24202,6 @@ do
     "Manual/narayan-designer.man") CONFIG_FILES="$CONFIG_FILES Manual/narayan-designer.man" ;;
     "Source/Main/Version.h") CONFIG_FILES="$CONFIG_FILES Source/Main/Version.h" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "Data/Makefile") CONFIG_FILES="$CONFIG_FILES Data/Makefile" ;;
     "Source/Makefile") CONFIG_FILES="$CONFIG_FILES Source/Makefile" ;;
     "Tests/Makefile") CONFIG_FILES="$CONFIG_FILES Tests/Makefile" ;;
     "Translations/Makefile.in") CONFIG_FILES="$CONFIG_FILES Translations/Makefile.in" ;;
