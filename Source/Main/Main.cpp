@@ -12,6 +12,9 @@
     #include "CommandLineOptions.h"
     #include "NarayanDesignerApplication.h"
 
+    // Glibmm...
+    #include <glibmm/miscutils.h>
+
     // Standard C++ / POSIX system headers...
     #include <cstdlib>
     #include <iostream>
@@ -28,20 +31,10 @@ using namespace std;
 // Fatal error occured. Display the message and return the system exit code for
 //  failure...
 template <typename ErrorType>
-int FatalError(const ErrorType &Error)
-{
-    // Get the error string...
-    const string ErrorMessage = Error.what();
-
-    // Show error message...
-    cerr << Error.what() << endl;
-
-    // Exit with failure condition...
-    return EXIT_FAILURE;
-}
+int FatalError(const ErrorType &Error);
 
 // Entry point...
-int main(int ArgumentCount, char * const Arguments[])
+int main(int ArgumentCount, char *Arguments[])
 {
     // Initialize i18n if configured with native language support...
 
@@ -90,7 +83,7 @@ int main(int ArgumentCount, char * const Arguments[])
             return EXIT_FAILURE;
         
         // Create an instance of the main application class...
-        auto ApplicationInstance = NarayanDesignerApplication::Create();
+        auto ApplicationInstance = NarayanDesignerApplication::create();
         
         // Start the main event loop which will begin by showing the initial
         //  window and responding to user events. Control returns when the last

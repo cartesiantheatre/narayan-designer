@@ -14,6 +14,7 @@
 
     // Gtkmm...
     #include <gtkmm/application.h>
+    #include <gtkmm/builder.h>
 
     // i18n...
     #include "gettext.h"
@@ -45,11 +46,14 @@ class NarayanDesignerApplication : public Gtk::Application
     // Protected attributes...
     protected:
 
+        // Application menu...
+        Glib::RefPtr<Gio::MenuModel>    m_ApplicationMenu;
+
         // Gtk::Builder...
-        Glib::RefPtr<Gtk::Builder>  m_Builder;
+        Glib::RefPtr<Gtk::Builder>      m_Builder;
 
         // Main window...
-        MainWindow                  m_MainWindow;
+        MainWindow                     *m_MainWindow;
 
     // Private methods...
     private:

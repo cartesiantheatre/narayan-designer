@@ -20,6 +20,16 @@ desktopdir = $(datadir)/applications
 # Desktop data includes desktop entry...
 desktop_DATA = $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.desktop
 
+# There isn't any way I know of to add glib-compile-resources(1) dynamically
+#  generated dependency rules at build time in a portable manner. Every example
+#  I can find incorporates its output into the generated source's target
+#  dependency list via a non-portable $(shell ) construct. For the time being,
+#  just manually list the contents referenced in the ...gsettings.xml file...
+GRESOURCE_LIST =                                                                \
+    $(top_srcdir)/Data/Icons/48x48/com.cartesiantheatre.narayan-designer.png    \
+    $(top_srcdir)/Data/MainWindow.ui                                            \
+    $(top_srcdir)/Data/Menus.ui
+
 # GSettings schema. Note that for some reason the expansion of the
 #  GLIB_GSETTINGS macro seems to know to find this within the srcdir and not
 #  builddir. If we explicitly prefix with the 
@@ -61,6 +71,7 @@ narayan_designer_CPPFLAGS   =                                   \
     -I$(builddir)/                                              \
     -I$(srcdir)/Compiler                                        \
     -I$(builddir)/Compiler                                      \
+    -I$(srcdir)/GUI                                             \
     -I$(builddir)/GUI                                           \
     -I$(srcdir)/Main                                            \
     -I$(builddir)/Main                                          \
@@ -159,7 +170,6 @@ BUILT_SOURCES =                                                                 
     $(lexer_clobbered_source_full_paths)                                            \
     $(parser_clobbered_source_full_paths)                                           \
     Compiler/parser.stamp                                                           \
-    $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml.d      \
     Main/Resources.cpp                                                              \
     Main/Resources.h                                                                \
     Main/Version.h
@@ -185,7 +195,6 @@ CLEANFILES =                                                                    
     $(lexer_clobbered_source_full_paths)                                            \
     $(parser_clobbered_source_full_paths)                                           \
     Compiler/parser.stamp                                                           \
-    $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml.d      \
     Main/Resources.cpp                                                              \
     Main/Resources.h                                                                \
     $(desktop_DATA)
@@ -219,27 +228,6 @@ COMPILER_TMP=$(builddir)/Compiler/tmp
 $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.desktop: $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.desktop.in
 	@$(MKDIR_P) $(@D)
 	$(AM_V_GEN)$(MSGFMT) --desktop --template $< -d $(top_srcdir)/Translations -o $@
-
-# Generate dependency list for all resources by scanning GResource manifest file...
-$(top_builddir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml.d: $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml
-	@$(MKDIR_P) $(@D)
-	$(AM_V_GEN) glib-compile-resources --sourcedir=$(top_srcdir)/Data --generate-phony-targets --generate-dependencies --dependency-file=$@ $< > /dev/null
-
-# Include dependency list for all embedded resources...
-sinclude $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml.d
-
-# The actual dependencies for the resource manifest are generated in the above
-#  makefile. When any of the dependencies are updated, derived files need to be
-#  rebuilt. Since the gresource.xml manifest isn't "rebuilt" from its referenced
-#  contents, we need to trick the build environment force a rebuild for targets
-#  which depend on it by manually updating its timestamp...
-#$(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml:
-#	@touch $@
-
-# All user interface related data files compiled into C++ code via
-#  glib-compile-resources(1). Create the source and header file...
-Main/Resources.cpp Main/Resources.h: $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml
-	$(AM_V_GEN) glib-compile-resources --target=$@ --sourcedir=$(top_srcdir)/Data --generate --c-name narayan_designer $<
 
 # Generate the Narayan Logic lexer source from its regular expression token
 #  descriptions via flexc++, using that file as a witness. After that generate
@@ -277,6 +265,11 @@ install-data-hook: install-update-icon-cache
 install-update-icon-cache:
 	$(AM_V_at)$(POST_INSTALL)
 	test -n "$(DESTDIR)" || $(UPDATE_ICON_CACHE) "$(iconthemedir)"
+
+# All user interface related data files compiled into C++ code via
+#  glib-compile-resources(1). Create the source and header file...
+Main/Resources.cpp Main/Resources.h: $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml $(GRESOURCE_LIST)
+	$(AM_V_GEN) glib-compile-resources --target=$@ --sourcedir=$(top_srcdir)/Data --generate --c-name narayan_designer $<
 
 # During the uninstall hook target, run the following...
 uninstall-hook: uninstall-update-icon-cache

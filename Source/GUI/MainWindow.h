@@ -14,6 +14,8 @@
 
     // Gtkmm...
     #include <gtkmm/applicationwindow.h>
+    #include <gtkmm/builder.h>
+    #include <gtkmm/button.h>
 
     // i18n...
     #include "gettext.h"

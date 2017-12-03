@@ -11,10 +11,15 @@
     // Our headers...
     #include "NarayanDesignerApplication.h"
     #include "MainWindow.h"
-    #include "Preferences.h"
+
+    // Giomm...
+    #include <giomm/application.h>
+    #include <giomm/menumodel.h>
 
     // Standard C++ / POSIX system headers...
+    #include <cassert>
     #include <iostream>
+    #include <memory>
     #include <stdexcept>
     #include <string>
 
@@ -28,7 +33,8 @@ using namespace std;
 
 // Protected constructor...
 NarayanDesignerApplication::NarayanDesignerApplication()
-    : Gtk::Application("com.cartesiantheatre.narayan-designer", Gio::Application::Flags::HANDLES_OPEN),
+    : Gtk::Application("com.cartesiantheatre.narayan-designer", Gio::ApplicationFlags::APPLICATION_HANDLES_OPEN),
+      m_ApplicationMenu(nullptr),
       m_Builder(Gtk::Builder::create()),
       m_MainWindow(nullptr)
 {
@@ -40,9 +46,10 @@ NarayanDesignerApplication::NarayanDesignerApplication()
     // Get the main window...
     m_Builder->get_widget_derived("MainWindow", m_MainWindow);
     assert(m_MainWindow);
-    
+
     // Get the application menu...
-    m_ApplicationMenu = dynamic_pointer_cast<Gio::MenuModel>(m_Builder->get_object("ApplicationMenu"));
+    m_ApplicationMenu = Glib::RefPtr<Gio::MenuModel>::cast_dynamic(
+        m_Builder->get_object("ApplicationMenu"));
     assert(m_ApplicationMenu);
 }
 
@@ -78,7 +85,7 @@ void NarayanDesignerApplication::on_activate()
     // Keep the application running for as long as the main window is open and
     //  connect a signal handler to signal_hide() which removes it when
     //  hidden, but doesn't delete it...
-    add_window(m_MainWindow);
+    add_window(*m_MainWindow);
     
     // Delete the main window when it is hidden...
     m_MainWindow->signal_hide().connect(sigc::bind(sigc::mem_fun(*this,
@@ -89,7 +96,7 @@ void NarayanDesignerApplication::on_activate()
 }
        
 // Main window is now hidden...
-void NarayanDesignerApplication::OnHideWindow(Gtk::Window *Window)
+void NarayanDesignerApplication::OnHideWindow([[maybe_unused]] Gtk::Window *Window)
 {
     // Delete it...
     delete m_MainWindow;
@@ -112,7 +119,7 @@ void NarayanDesignerApplication::OnActionQuit()
     //  because any open windows will still have non-zero reference counts...
     auto Windows = get_windows();
     for(auto CurrentWindow : Windows)
-        Window->hide();
+        CurrentWindow->hide();
 
     // This technically isn't necessary since run() should return anyways when
     //  all windows are hidden, unless something called Gio::Application::hold()

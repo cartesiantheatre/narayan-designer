@@ -28,13 +28,13 @@ MainWindow::MainWindow(
     BaseObjectType *CTypeObject, const Glib::RefPtr<Gtk::Builder> &Builder)
  :  Gtk::ApplicationWindow(CTypeObject),
     m_Builder(Builder),
-    m_Button(nullptr)
+    m_QuitButton(nullptr)
 {
     // Get widgets...
-    m_Builder->get_widget("quit_button", m_Button);
+    m_Builder->get_widget("quit_button", m_QuitButton);
     
     // Connect signals...
-    m_Button->signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::OnButtonQuit));
+    m_QuitButton->signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::OnButtonQuit));
 }
 
 // Signal handlers...
