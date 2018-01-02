@@ -65,78 +65,80 @@ narayan_designer_LDADD      = $(AM_LDFLAGS) liblexerparser.la
 # Preprocessor flags. Note that the include search paths are paired between
 #  source and build directory as per Automake manual §8.7 to facilitate VPATH
 #  builds...
-narayan_designer_CPPFLAGS   =                                   \
-    -DSYSCONFDIR='"$(sysconfdir)"'                              \
-    -I$(srcdir)/                                                \
-    -I$(builddir)/                                              \
-    -I$(srcdir)/Compiler                                        \
-    -I$(builddir)/Compiler                                      \
-    -I$(srcdir)/GUI                                             \
-    -I$(builddir)/GUI                                           \
-    -I$(srcdir)/Main                                            \
-    -I$(builddir)/Main                                          \
+narayan_designer_CPPFLAGS   =                                                       \
+    -DSYSCONFDIR='"$(sysconfdir)"'                                                  \
+    -I$(srcdir)/                                                                    \
+    -I$(builddir)/                                                                  \
+    -I$(srcdir)/Compiler                                                            \
+    -I$(builddir)/Compiler                                                          \
+    -I$(srcdir)/GUI                                                                 \
+    -I$(builddir)/GUI                                                               \
+    -I$(srcdir)/Main                                                                \
+    -I$(builddir)/Main                                                              \
     $(AM_CPPFLAGS)
 
 # Source files for NarayanLogic lexer clobbered by each flexc++(1) invocation.
 #  These should always be created within $(builddir)...
-lexer_clobbered_source_files_only =                             \
-    NarayanLogicLexerBase.cpp                                   \
+lexer_clobbered_source_files_only =                                                 \
+    NarayanLogicLexerBase.cpp                                                       \
     NarayanLogicLexerBase.h
 
-lexer_clobbered_source_full_paths =                             \
-    Compiler/NarayanLogicLexerBase.cpp                          \
+lexer_clobbered_source_full_paths =                                                 \
+    Compiler/NarayanLogicLexerBase.cpp                                              \
     Compiler/NarayanLogicLexerBase.h
 
 # Source files for NarayanLogic lexer generated once by flexc++(1), but
 #  subsequently owned by the user. These should always be maintained within
 #  $(sourcedir)...
-lexer_unclobbered_source_files_only =                           \
-    NarayanLogicLexer.h                                         \
+lexer_unclobbered_source_files_only =                                               \
+    NarayanLogicLexer.h                                                             \
     NarayanLogicLexer.ih
 
-lexer_unclobbered_source_full_paths =                           \
-    Compiler/NarayanLogicLexer.h                                \
+lexer_unclobbered_source_full_paths =                                               \
+    Compiler/NarayanLogicLexer.h                                                    \
     Compiler/NarayanLogicLexer.ih
 
 # Source files for NarayanLogic parser clobbered by each bisonc++(1) invocation.
 #  These should always be created within $(builddir)...
-parser_clobbered_source_files_only =                            \
-    NarayanLogicParserBase.h                                    \
+parser_clobbered_source_files_only =                                                \
+    NarayanLogicParserBase.h                                                        \
     NarayanLogicParser.cpp
 
-parser_clobbered_source_full_paths =                            \
-    Compiler/NarayanLogicParserBase.h                           \
+parser_clobbered_source_full_paths =                                                \
+    Compiler/NarayanLogicParserBase.h                                               \
     Compiler/NarayanLogicParser.cpp
 
 # Source files for NarayanLogic parser generated once by bisonc++(1), but
 #  subsequently owned by the user. These should always be maintained within
 #  $(sourcedir)...
-parser_unclobbered_source_files_only =                          \
-    NarayanLogicParser.h                                        \
+parser_unclobbered_source_files_only =                                              \
+    NarayanLogicParser.h                                                            \
     NarayanLogicParser.ih
 
-parser_unclobbered_source_full_paths =                          \
-    Compiler/NarayanLogicParser.h                               \
+parser_unclobbered_source_full_paths =                                              \
+    Compiler/NarayanLogicParser.h                                                   \
     Compiler/NarayanLogicParser.ih
 
 # narayan-designer product option variables containing list of sources that need
 #  to be compiled and linked to produce the product...
-narayan_designer_SOURCES =                                      \
-    $(lexer_unclobbered_source_full_paths)                      \
-    $(parser_unclobbered_source_full_paths)                     \
-    GUI/MainWindow.cpp                                          \
-    GUI/MainWindow.h                                            \
-    GUI/PreferencesDialog.cpp                                   \
-    GUI/PreferencesDialog.h                                     \
-    Main/CommandLineOptions.cpp                                 \
-    Main/CommandLineOptions.h                                   \
-    Main/gettext.h                                              \
-    Main/Main.cpp                                               \
-    Main/NarayanDesignerApplication.cpp                         \
-    Main/NarayanDesignerApplication.h                           \
-    Main/Resources.cpp                                          \
-    Main/Resources.h                                            \
+narayan_designer_SOURCES =                                                          \
+    $(lexer_unclobbered_source_full_paths)                                          \
+    $(parser_unclobbered_source_full_paths)                                         \
+    GUI/MainWindow.cpp                                                              \
+    GUI/MainWindow.h                                                                \
+    GUI/PreferencesDialog.cpp                                                       \
+    GUI/PreferencesDialog.h                                                         \
+    Main/gettext.h                                                                  \
+    Main/Main.cpp                                                                   \
+    Main/NarayanDesignerApplication.cpp                                             \
+    Main/NarayanDesignerApplication.h                                               \
     Patterns/ExplicitSingleton.h
+
+# Don't redistribute the resources files which are large and generated by
+#  glib-compile-resources(1)...
+nodist_narayan_designer_SOURCES =                                                   \
+    Main/Resources.cpp                                                              \
+    Main/Resources.h
 
 # Both flexc++(1) and bisonc++(1) at the time of writing emit code that can
 #  raise warnings, or even errors in the case of -Werror, when used with GCC 7

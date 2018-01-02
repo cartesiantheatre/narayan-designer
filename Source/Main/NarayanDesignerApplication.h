@@ -12,6 +12,9 @@
     // Provided by Autoconf...
     #include <config.h>
 
+    // Giomm...
+    #include <giomm/applicationcommandline.h>
+
     // Gtkmm...
     #include <gtkmm/application.h>
     #include <gtkmm/builder.h>
@@ -20,6 +23,14 @@
     #include "gettext.h"
     #define _(str) gettext (str)
     #define N_(str) gettext_noop (str)
+
+// Useful definitions...
+
+    // Application unique identifier...
+    #define NARAYAN_DESIGNER_APPLICATION_ID "com.cartesiantheatre.narayan-designer"
+    
+    // Root path to all embedded resources accessible via GResource API...
+    #define NARAYAN_DESIGNER_RESOURCE_ROOT  "/com/cartesiantheatre/narayan-designer/"
 
 // Forward declarations...
 class MainWindow;
@@ -39,9 +50,32 @@ class NarayanDesignerApplication : public Gtk::Application
         // Protected constructor...
         NarayanDesignerApplication();
 
-        // Override default signal handlers...
-        void on_startup() override;
-        void on_activate() override;
+        // Overridden default signal handlers...
+
+            // Override the signal_startup() signal which is emitted on the
+            //  primary instance immediately after registration. Perform various
+            //  initialisation tasks not directly related to showing a new
+            //  window...
+            void on_startup() override;
+
+            // Override the signal_activate() signal which is emitted when the
+            //  application is activated. Called after startup signal. Typically
+            //  used to show the default first window of the application.
+            //  Corresponds to the application being launched by the desktop
+            //  environment...
+            void on_activate() override;
+
+        // Manually registered signal handler callbacks...
+
+            // Command line signal...
+            int on_command_line(const Glib::RefPtr<Gio::ApplicationCommandLine> &CommandLine);
+
+            // Window is being hidden...
+            void on_hide(Gtk::Window *Window);
+            
+            // Actions...
+            void OnActionPreferences();
+            void OnActionQuit();
 
     // Protected attributes...
     protected:
@@ -54,18 +88,6 @@ class NarayanDesignerApplication : public Gtk::Application
 
         // Main window...
         MainWindow                     *m_MainWindow;
-
-    // Private methods...
-    private:
-    
-        // Signal handler callbacks...
-        
-            // Window is being hidden...
-            void OnHideWindow(Gtk::Window *Window);
-            
-            // Actions...
-            void OnActionPreferences();
-            void OnActionQuit();
 };
 
 // Multiple include protection...

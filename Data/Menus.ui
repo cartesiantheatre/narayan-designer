@@ -1,18 +1,228 @@
 <?xml version="1.0"?>
+
+<!--
+    Narayan Designer, a modelling tool for the Narayan simulation engine.
+    Copyright (C) 2017 Cartesian Theatre. All rights reserved.
+-->
+
+<!--
+    We use GMenu instead of GtkBuilder menu definitions because Gtk moved away
+    from the latter method years ago. At this time Glade 3.20.0 clobbers this
+    file so don't attempt to load / save with it.    
+-->
+
 <interface domain="narayan-designer">
-    <!-- interface-requires gtk+ 3.0 -->
-    <menu id="ApplicationMenu">
+
+    <!--
+        This is a consolidated menu that isn't rendered inside of a menubar
+        widget in the application, but in some desktop environments which takes
+        care of its rendering, such as inside of a task switcher of some kind or
+        what have you.
+    -->
+    <menu id="app-menu">
         <section>
             <item>
-                <attribute name="label" translatable="yes">_Preferences</attribute>
-                <attribute name="action">action_preferences</attribute>
+              <attribute name="label" translatable="yes">_Documentation</attribute>
+              <attribute name="action">app.help-documentation</attribute>
+              <attribute name='accel'>F1</attribute>
+              <attribute name="icon">help-contents</attribute>
             </item>
-        </section>
-        <section>
+            <item>
+                <attribute name="label" translatable="yes">_About</attribute>
+                <attribute name="action">app.about</attribute>
+                <attribute name="icon">help-about</attribute>
+            </item>
             <item>
                 <attribute name="label" translatable="yes">_Quit</attribute>
-                <attribute name="action">action_quit</attribute>
+                <attribute name="action">app.quit</attribute>
+                <attribute name="icon">application-exit</attribute>
             </item>
         </section>
     </menu>
+
+    <!--
+        The Gtk::Application can contain an "application menu" which is
+        rendered through the Gtk::ApplicationWindow menubar. If there is a menu
+        with id="menubar" and located at gtk/menus.ui, it is automatically
+        loaded as the application menu.
+    -->
+    <menu id="menubar">
+
+        <!-- File menu -->
+        <submenu>
+          <attribute name="label" translatable="yes">_File</attribute>
+          <section>
+            <item>
+              <attribute name="label" translatable="yes">_New</attribute>
+              <attribute name="action">app.new</attribute>
+              <attribute name='accel'>&lt;Primary&gt;n</attribute>
+              <attribute name="icon">document-new</attribute>
+            </item>
+            <item>
+              <attribute name="label" translatable="yes">_Open</attribute>
+              <attribute name="action">app.open</attribute>
+              <attribute name='accel'>&lt;Primary&gt;o</attribute>
+              <attribute name="icon">document-open</attribute>
+            </item>
+          </section>
+          <section>
+            <item>
+              <attribute name="label" translatable="yes">_Save</attribute>
+              <attribute name="action">app.save</attribute>
+              <attribute name='accel'>&lt;Primary&gt;s</attribute>
+              <attribute name="icon">document-save</attribute>
+            </item>
+            <item>
+              <attribute name="label" translatable="yes">Save _As</attribute>
+              <attribute name='accel'>&lt;Shift&gt;&lt;Primary&gt;s</attribute>
+              <attribute name="icon">document-save-as</attribute>
+            </item>
+            <item>
+              <attribute name="label" translatable="yes">Revert</attribute>
+              <attribute name="icon">document-revert</attribute>
+            </item>
+          </section>
+          <section>
+            <item>
+              <attribute name="label" translatable="yes">Print Previe_w</attribute>
+              <attribute name='accel'>&lt;Primary&gt;&lt;Shift&gt;p</attribute>
+              <attribute name="icon">document-print-preview</attribute>
+            </item>
+            <item>
+              <attribute name="label" translatable="yes">_Print</attribute>
+              <attribute name='accel'>&lt;Primary&gt;p</attribute>
+              <attribute name="icon">document-print</attribute>
+            </item>
+          </section>
+          <section>
+            <item>
+              <attribute name="label" translatable="yes">_Quit</attribute>
+              <attribute name="action">app.quit</attribute>
+              <attribute name="icon">application-exit</attribute>
+            </item>
+          </section>
+        </submenu>
+
+        <!-- Edit menu -->
+        <submenu>
+          <attribute name="label" translatable="yes">_Edit</attribute>
+          <section>
+            <item>
+              <attribute name="label" translatable="yes">_Preferences</attribute>
+              <attribute name="action">app.preferences</attribute>
+              <attribute name='accel'>F2</attribute>
+              <attribute name="icon">preferences-system</attribute>
+            </item>
+          </section>
+        </submenu>
+
+        <!-- View menu -->
+        <submenu>
+          <attribute name="label" translatable="yes">_View</attribute>
+          <section>
+            <item>
+              <attribute name="label" translatable="yes">_Toolbar</attribute>
+              <attribute name="action">win.show-toolbar</attribute>
+              <attribute name="icon">content-loading-symbolic</attribute>
+            </item>
+            <item>
+              <attribute name="label" translatable="yes">_Log</attribute>
+              <attribute name="action">win.show-log</attribute>
+              <attribute name='accel'>&lt;Primary&gt;l</attribute>
+              <attribute name="icon">format-justify-left</attribute>
+            </item>
+          </section>
+          <section>
+            <item>
+              <attribute name="label" translatable="yes">_Full Screen</attribute>
+              <attribute name="action">win.fullscreen</attribute>
+              <attribute name='accel'>F11</attribute>
+              <attribute name="icon">view-fullscreen</attribute>
+            </item>
+          </section>
+        </submenu>
+
+        <!-- Tools menu -->
+        <submenu>
+          <attribute name="label" translatable="yes">_Tools</attribute>
+
+          <!-- Tools -> Simulator menu -->
+          <submenu>
+            <attribute name="label" translatable="yes">_Simulators</attribute>
+
+              <section>
+                <item>
+                  <attribute name="label" translatable="yes">_Cellular Automata</attribute>
+                  <attribute name="action">win.cellular-automata-simulator</attribute>
+                  <attribute name='accel'>&lt;Primary&gt;&lt;Shift&gt;c</attribute>
+                  <attribute name="icon">view-app-grid-symbolic</attribute>
+                </item>
+                <item>
+                  <attribute name="label" translatable="yes">_Transport Handler</attribute>
+                  <attribute name="action">win.transport-handler-simulator</attribute>
+                  <attribute name='accel'>&lt;Primary&gt;&lt;Shift&gt;t</attribute>
+                  <attribute name="icon">node-curve</attribute>
+                </item>
+              </section>
+          </submenu>
+
+          <!-- Tools -> Editor menu -->
+          <submenu>
+            <attribute name="label" translatable="yes">_Editors</attribute>
+            <section>
+              <item>
+                <attribute name="label" translatable="yes">_Units</attribute>
+                <attribute name="action">win.editor-units</attribute>
+                <attribute name='accel'>&lt;Primary&gt;u</attribute>
+                <attribute name="icon">applications-versioncontrol</attribute>
+              </item>
+              <item>
+                <attribute name="label" translatable="yes">_Resource Maps</attribute>
+                <attribute name="action">win.editor-resource-maps</attribute>
+                <attribute name='accel'>&lt;Primary&gt;r</attribute>
+                <attribute name="icon">view-app-grid-symbolic</attribute>
+              </item>
+              <item>
+                <attribute name="label" translatable="yes">_Events</attribute>
+                <attribute name="action">win.editor-events</attribute>
+                <attribute name='accel'>&lt;Primary&gt;e</attribute>
+                <attribute name="icon">starred</attribute>
+              </item>
+              <item>
+                <attribute name="label" translatable="yes">_Transport Paths</attribute>
+                <attribute name="action">win.editor-transport-path</attribute>
+                <attribute name='accel'>&lt;Primary&gt;t</attribute>
+                <attribute name="icon">node-curve</attribute>
+              </item>
+            </section>
+          </submenu>
+        </submenu>
+
+        <!-- Help menu -->
+        <submenu>
+          <attribute name="label" translatable="yes">_Help</attribute>
+            <section>
+              <item>
+                <attribute name="label" translatable="yes">_Documentation</attribute>
+                <attribute name="action">app.help-documentation</attribute>
+                <attribute name='accel'>F1</attribute>
+                <attribute name="icon">help-contents</attribute>
+              </item>
+              <item>
+                <attribute name="label" translatable="yes">Report Bug</attribute>
+                <attribute name="icon">application-community</attribute>
+              </item>
+            </section>
+            <section>
+              <item>
+                <attribute name="label" translatable="yes">_About</attribute>
+                <attribute name="action">app.help-about</attribute>
+                <attribute name="icon">help-about</attribute>
+              </item>
+            </section>
+        </submenu>
+
+    </menu>
+
 </interface>
+

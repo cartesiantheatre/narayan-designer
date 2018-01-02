@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Narayan Designer, a modelling tool for the Narayan simulation engine.
+    Copyright (C) 2017 Cartesian Theatre. All rights reserved.
+-->
+
 <gresources>
   <gresource prefix="/com/cartesiantheatre/narayan-designer">
+
+    <!-- Icons -->
     <file>Icons/48x48/com.cartesiantheatre.narayan-designer.png</file>
+
+    <!-- Main user application window -->
     <file compressed="true" preprocess="xml-stripblanks">MainWindow.ui</file>
+    
+    <!-- 
+        Menus. The gtk/menus.ui path is necessary for GtkApplication to
+        automatically set it as the application wide menu.
+    -->
+    <!-- file alias="gtk/menus.ui" compressed="true" preprocess="xml-stripblanks">Menus.ui</file -->
     <file compressed="true" preprocess="xml-stripblanks">Menus.ui</file>
+
     <!-- file compressed="true" preprocess="xml-stripblanks">PreferencesDialog.ui</file -->
+
   </gresource>
 </gresources>
 

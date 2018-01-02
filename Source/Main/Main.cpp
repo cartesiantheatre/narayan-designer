@@ -70,18 +70,6 @@ int main(int ArgumentCount, char *Arguments[])
     // Try to run the application...
     try
     {
-        // Explicit instantiation of several subsystem singletons. Order can
-        //  matter...
-        CommandLineOptions::CreateSingleton();
-
-        // Get a shortcut to the options singleton...
-        CommandLineOptions &Options = CommandLineOptions::GetInstance();
-
-        // Parse command line and user configuration, continuing if non-fatal
-        //  error...
-        if(!Options.Parse(ArgumentCount, Arguments))
-            return EXIT_FAILURE;
-        
         // Create an instance of the main application class...
         auto ApplicationInstance = NarayanDesignerApplication::create();
         
@@ -92,7 +80,7 @@ int main(int ArgumentCount, char *Arguments[])
     }
 
         // Runtime general error...
-        catch(const std::runtime_error &Error)
+        catch(const runtime_error &Error)
         {
             // Exit with failure condition...
             return FatalError(Error);

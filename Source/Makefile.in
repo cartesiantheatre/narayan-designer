@@ -147,11 +147,12 @@ am__objects_3 =
 am_narayan_designer_OBJECTS = $(am__objects_3) $(am__objects_3) \
 	GUI/narayan_designer-MainWindow.$(OBJEXT) \
 	GUI/narayan_designer-PreferencesDialog.$(OBJEXT) \
-	Main/narayan_designer-CommandLineOptions.$(OBJEXT) \
 	Main/narayan_designer-Main.$(OBJEXT) \
-	Main/narayan_designer-NarayanDesignerApplication.$(OBJEXT) \
+	Main/narayan_designer-NarayanDesignerApplication.$(OBJEXT)
+nodist_narayan_designer_OBJECTS =  \
 	Main/narayan_designer-Resources.$(OBJEXT)
-narayan_designer_OBJECTS = $(am_narayan_designer_OBJECTS)
+narayan_designer_OBJECTS = $(am_narayan_designer_OBJECTS) \
+	$(nodist_narayan_designer_OBJECTS)
 narayan_designer_DEPENDENCIES = liblexerparser.la
 narayan_designer_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
@@ -209,7 +210,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(liblexerparser_la_SOURCES) $(narayan_designer_SOURCES)
+SOURCES = $(liblexerparser_la_SOURCES) $(narayan_designer_SOURCES) \
+	$(nodist_narayan_designer_SOURCES)
 DIST_SOURCES = $(liblexerparser_la_SOURCES) \
 	$(narayan_designer_SOURCES)
 am__can_run_installinfo = \
@@ -505,26 +507,26 @@ narayan_designer_LDADD = $(AM_LDFLAGS) liblexerparser.la
 #  source and build directory as per Automake manual §8.7 to facilitate VPATH
 #  builds...
 narayan_designer_CPPFLAGS = \
-    -DSYSCONFDIR='"$(sysconfdir)"'                              \
-    -I$(srcdir)/                                                \
-    -I$(builddir)/                                              \
-    -I$(srcdir)/Compiler                                        \
-    -I$(builddir)/Compiler                                      \
-    -I$(srcdir)/GUI                                             \
-    -I$(builddir)/GUI                                           \
-    -I$(srcdir)/Main                                            \
-    -I$(builddir)/Main                                          \
+    -DSYSCONFDIR='"$(sysconfdir)"'                                                  \
+    -I$(srcdir)/                                                                    \
+    -I$(builddir)/                                                                  \
+    -I$(srcdir)/Compiler                                                            \
+    -I$(builddir)/Compiler                                                          \
+    -I$(srcdir)/GUI                                                                 \
+    -I$(builddir)/GUI                                                               \
+    -I$(srcdir)/Main                                                                \
+    -I$(builddir)/Main                                                              \
     $(AM_CPPFLAGS)
 
 
 # Source files for NarayanLogic lexer clobbered by each flexc++(1) invocation.
 #  These should always be created within $(builddir)...
 lexer_clobbered_source_files_only = \
-    NarayanLogicLexerBase.cpp                                   \
+    NarayanLogicLexerBase.cpp                                                       \
     NarayanLogicLexerBase.h
 
 lexer_clobbered_source_full_paths = \
-    Compiler/NarayanLogicLexerBase.cpp                          \
+    Compiler/NarayanLogicLexerBase.cpp                                              \
     Compiler/NarayanLogicLexerBase.h
 
 
@@ -532,22 +534,22 @@ lexer_clobbered_source_full_paths = \
 #  subsequently owned by the user. These should always be maintained within
 #  $(sourcedir)...
 lexer_unclobbered_source_files_only = \
-    NarayanLogicLexer.h                                         \
+    NarayanLogicLexer.h                                                             \
     NarayanLogicLexer.ih
 
 lexer_unclobbered_source_full_paths = \
-    Compiler/NarayanLogicLexer.h                                \
+    Compiler/NarayanLogicLexer.h                                                    \
     Compiler/NarayanLogicLexer.ih
 
 
 # Source files for NarayanLogic parser clobbered by each bisonc++(1) invocation.
 #  These should always be created within $(builddir)...
 parser_clobbered_source_files_only = \
-    NarayanLogicParserBase.h                                    \
+    NarayanLogicParserBase.h                                                        \
     NarayanLogicParser.cpp
 
 parser_clobbered_source_full_paths = \
-    Compiler/NarayanLogicParserBase.h                           \
+    Compiler/NarayanLogicParserBase.h                                               \
     Compiler/NarayanLogicParser.cpp
 
 
@@ -555,32 +557,35 @@ parser_clobbered_source_full_paths = \
 #  subsequently owned by the user. These should always be maintained within
 #  $(sourcedir)...
 parser_unclobbered_source_files_only = \
-    NarayanLogicParser.h                                        \
+    NarayanLogicParser.h                                                            \
     NarayanLogicParser.ih
 
 parser_unclobbered_source_full_paths = \
-    Compiler/NarayanLogicParser.h                               \
+    Compiler/NarayanLogicParser.h                                                   \
     Compiler/NarayanLogicParser.ih
 
 
 # narayan-designer product option variables containing list of sources that need
 #  to be compiled and linked to produce the product...
 narayan_designer_SOURCES = \
-    $(lexer_unclobbered_source_full_paths)                      \
-    $(parser_unclobbered_source_full_paths)                     \
-    GUI/MainWindow.cpp                                          \
-    GUI/MainWindow.h                                            \
-    GUI/PreferencesDialog.cpp                                   \
-    GUI/PreferencesDialog.h                                     \
-    Main/CommandLineOptions.cpp                                 \
-    Main/CommandLineOptions.h                                   \
-    Main/gettext.h                                              \
-    Main/Main.cpp                                               \
-    Main/NarayanDesignerApplication.cpp                         \
-    Main/NarayanDesignerApplication.h                           \
-    Main/Resources.cpp                                          \
-    Main/Resources.h                                            \
+    $(lexer_unclobbered_source_full_paths)                                          \
+    $(parser_unclobbered_source_full_paths)                                         \
+    GUI/MainWindow.cpp                                                              \
+    GUI/MainWindow.h                                                                \
+    GUI/PreferencesDialog.cpp                                                       \
+    GUI/PreferencesDialog.h                                                         \
+    Main/gettext.h                                                                  \
+    Main/Main.cpp                                                                   \
+    Main/NarayanDesignerApplication.cpp                                             \
+    Main/NarayanDesignerApplication.h                                               \
     Patterns/ExplicitSingleton.h
+
+
+# Don't redistribute the resources files which are large and generated by
+#  glib-compile-resources(1)...
+nodist_narayan_designer_SOURCES = \
+    Main/Resources.cpp                                                              \
+    Main/Resources.h
 
 
 # Both flexc++(1) and bisonc++(1) at the time of writing emit code that can
@@ -798,8 +803,6 @@ Main/$(am__dirstamp):
 Main/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) Main/$(DEPDIR)
 	@: > Main/$(DEPDIR)/$(am__dirstamp)
-Main/narayan_designer-CommandLineOptions.$(OBJEXT):  \
-	Main/$(am__dirstamp) Main/$(DEPDIR)/$(am__dirstamp)
 Main/narayan_designer-Main.$(OBJEXT): Main/$(am__dirstamp) \
 	Main/$(DEPDIR)/$(am__dirstamp)
 Main/narayan_designer-NarayanDesignerApplication.$(OBJEXT):  \
@@ -825,7 +828,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@GUI/$(DEPDIR)/narayan_designer-MainWindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-CommandLineOptions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-Main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-Resources.Po@am__quote@
@@ -895,20 +897,6 @@ GUI/narayan_designer-PreferencesDialog.obj: GUI/PreferencesDialog.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='GUI/PreferencesDialog.cpp' object='GUI/narayan_designer-PreferencesDialog.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o GUI/narayan_designer-PreferencesDialog.obj `if test -f 'GUI/PreferencesDialog.cpp'; then $(CYGPATH_W) 'GUI/PreferencesDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/GUI/PreferencesDialog.cpp'; fi`
-
-Main/narayan_designer-CommandLineOptions.o: Main/CommandLineOptions.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Main/narayan_designer-CommandLineOptions.o -MD -MP -MF Main/$(DEPDIR)/narayan_designer-CommandLineOptions.Tpo -c -o Main/narayan_designer-CommandLineOptions.o `test -f 'Main/CommandLineOptions.cpp' || echo '$(srcdir)/'`Main/CommandLineOptions.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Main/$(DEPDIR)/narayan_designer-CommandLineOptions.Tpo Main/$(DEPDIR)/narayan_designer-CommandLineOptions.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main/CommandLineOptions.cpp' object='Main/narayan_designer-CommandLineOptions.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Main/narayan_designer-CommandLineOptions.o `test -f 'Main/CommandLineOptions.cpp' || echo '$(srcdir)/'`Main/CommandLineOptions.cpp
-
-Main/narayan_designer-CommandLineOptions.obj: Main/CommandLineOptions.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Main/narayan_designer-CommandLineOptions.obj -MD -MP -MF Main/$(DEPDIR)/narayan_designer-CommandLineOptions.Tpo -c -o Main/narayan_designer-CommandLineOptions.obj `if test -f 'Main/CommandLineOptions.cpp'; then $(CYGPATH_W) 'Main/CommandLineOptions.cpp'; else $(CYGPATH_W) '$(srcdir)/Main/CommandLineOptions.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Main/$(DEPDIR)/narayan_designer-CommandLineOptions.Tpo Main/$(DEPDIR)/narayan_designer-CommandLineOptions.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Main/CommandLineOptions.cpp' object='Main/narayan_designer-CommandLineOptions.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Main/narayan_designer-CommandLineOptions.obj `if test -f 'Main/CommandLineOptions.cpp'; then $(CYGPATH_W) 'Main/CommandLineOptions.cpp'; else $(CYGPATH_W) '$(srcdir)/Main/CommandLineOptions.cpp'; fi`
 
 Main/narayan_designer-Main.o: Main/Main.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Main/narayan_designer-Main.o -MD -MP -MF Main/$(DEPDIR)/narayan_designer-Main.Tpo -c -o Main/narayan_designer-Main.o `test -f 'Main/Main.cpp' || echo '$(srcdir)/'`Main/Main.cpp
