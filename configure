@@ -2937,7 +2937,7 @@ PACKAGE_BUILD_DATE=$package_build_date
 
 
 # Copyright notice...
-copyright_notice="Copyright (C) 2017 Cartesian Theatre™. All rights reserved."
+copyright_notice="Copyright (C) 2017-2018 Cartesian Theatre™."
 
 
 cat >>confdefs.h <<_ACEOF

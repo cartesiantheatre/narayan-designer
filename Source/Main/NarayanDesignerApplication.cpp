@@ -1,6 +1,6 @@
 /*
     Narayan Designer, a modelling tool for the Narayan simulation engine.
-    Copyright (C) 2017 Cartesian Theatre. All rights reserved.
+    Copyright (C) 2017-2018 Cartesian Theatre. All rights reserved.
 */
 
 // Includes...
@@ -19,6 +19,9 @@
     
     // Glibmm...
     #include <glibmm/miscutils.h>
+    #include <glibmm/optioncontext.h>
+    #include <glibmm/optionentry.h>
+    #include <glibmm/optiongroup.h>
 
     // Standard C++ / POSIX system headers...
     #include <cassert>
@@ -50,9 +53,10 @@ NarayanDesignerApplication::NarayanDesignerApplication()
     // Set the application name...
     Glib::set_application_name(_("Narayan Designer"));
 
-    // Connect command line handler signal...
+    // Connect command line handler signal with after=false because we want it
+    //  to be called before the default signal handler...
     signal_command_line().connect(
-        sigc::mem_fun(*this, &NarayanDesignerApplication::on_command_line));
+        sigc::mem_fun(*this, &NarayanDesignerApplication::on_command_line), false);
 
     // Try to load Glade resources that were compiled into us. This can throw an
     //  exception for Glib FileError, MarkupError, or BuilderError...
@@ -170,7 +174,7 @@ void NarayanDesignerApplication::OnActionQuit()
 {
     // Get the list of all windows...
     auto Windows = get_windows();
-    
+
     // Hide all of the windows to ensure their destructors are called.
     //  Otherwise simply calling Gio::Application::quit() will cause 
     //  Gio::Application::run() to return, but without calling destructors
@@ -181,7 +185,7 @@ void NarayanDesignerApplication::OnActionQuit()
         //  it may need to prompt the user to save changes...
         if(CurrentWindow == m_MainWindow)
             CurrentWindow->close();
-        
+
         // All other windows hide them...
         else
             CurrentWindow->hide();
@@ -194,10 +198,58 @@ void NarayanDesignerApplication::OnActionQuit()
 }
 
 // Command line signal...
-int NarayanDesignerApplication::on_command_line([[maybe_unused]] const Glib::RefPtr<Gio::ApplicationCommandLine> &CommandLine)
+int NarayanDesignerApplication::on_command_line(
+    const Glib::RefPtr<Gio::ApplicationCommandLine> &CommandLine)
 {
-    // Stubbed...
-    return false;
+    // Option variable command line parser will initialize...
+    bool DisplayVersion = false;
+
+    // Create option parser...
+    Glib::OptionContext Parser;
+
+    // Main options group...
+        
+        // Create group...
+        Glib::OptionGroup MainGroup("main", _("main group"));
+
+        // Version...
+        Glib::OptionEntry VersionEntry;
+        VersionEntry.set_long_name("version");
+        VersionEntry.set_description(_("show version information"));
+        MainGroup.add_entry(VersionEntry, DisplayVersion);
+
+    // Add groups to parser...
+    
+        // Main group. Note that set_main_group() also has the effect of calling
+        //  add_group()...
+        Parser.set_main_group(MainGroup);
+    
+        // Gtk+ and GDK option groups...
+        Glib::OptionGroup GtkGroup(gtk_get_option_group(true));
+        Parser.add_group(GtkGroup);
+
+    // Retrieve command line vector...
+    int     ArgumentCount   = 0;
+    char  **Arguments       = CommandLine->get_arguments(ArgumentCount);
+
+    // Parse the given command line options...
+    Parser.parse(ArgumentCount, Arguments);
+
+    // Show version requested...
+    if(DisplayVersion)
+    {
+        // Display it...
+        ShowVersion();
+        
+        // Don't activate the application...
+        return EXIT_SUCCESS;
+    }
+
+    // Now activate the application...
+    activate();
+
+    // Everything was just peachy...
+    return EXIT_SUCCESS;
 }
 
 // Main window is now hidden...
@@ -206,5 +258,27 @@ void NarayanDesignerApplication::on_hide([[maybe_unused]] Gtk::Window *Window)
     // Delete it...
     delete m_MainWindow;
     m_MainWindow = nullptr;
+}
+
+// Show version information...
+void NarayanDesignerApplication::ShowVersion() noexcept
+{
+    // Application name and vendor copyright notice...
+    cout << PACKAGE_NAME " " PACKAGE_VERSION << endl
+         << _(COPYRIGHT_NOTICE) << endl << endl;
+
+    // Show build date...
+    cout << _("Built on: ") << PACKAGE_BUILD_DATE << endl << endl;
+
+    // Relevant dependencies...
+    cout << _("Compiled against:") << endl
+
+         <<  "  Gtkmm "
+            << GTKMM_MAJOR_VERSION << "."
+            << GTKMM_MINOR_VERSION << "."
+            << GTKMM_MICRO_VERSION << endl << endl;
+
+    // Show full argument vector passed to configure before building...
+    cout << _("Configured with: ") << CONFIGURATION_FLAGS << endl;
 }
 

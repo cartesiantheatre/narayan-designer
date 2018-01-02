@@ -1,6 +1,6 @@
 /*
     Narayan Designer, a modelling tool for the Narayan simulation engine.
-    Copyright (C) 2017 Cartesian Theatre. All rights reserved.
+    Copyright (C) 2017-2018 Cartesian Theatre. All rights reserved.
 */
 
 // Multiple include protection...
@@ -50,32 +50,37 @@ class NarayanDesignerApplication : public Gtk::Application
         // Protected constructor...
         NarayanDesignerApplication();
 
-        // Overridden default signal handlers...
+        // Signals...
 
-            // Override the signal_startup() signal which is emitted on the
-            //  primary instance immediately after registration. Perform various
-            //  initialisation tasks not directly related to showing a new
-            //  window...
-            void on_startup() override;
+            // Overridden defaults...
 
-            // Override the signal_activate() signal which is emitted when the
-            //  application is activated. Called after startup signal. Typically
-            //  used to show the default first window of the application.
-            //  Corresponds to the application being launched by the desktop
-            //  environment...
-            void on_activate() override;
+                // Override the signal_startup() signal which is emitted on the
+                //  primary instance immediately after registration. Perform various
+                //  initialisation tasks not directly related to showing a new
+                //  window...
+                void on_startup() override;
 
-        // Manually registered signal handler callbacks...
+                // Override the signal_activate() signal which is emitted when the
+                //  application is activated. Called after startup signal. Typically
+                //  used to show the default first window of the application.
+                //  Corresponds to the application being launched by the desktop
+                //  environment...
+                void on_activate() override;
 
-            // Command line signal...
-            int on_command_line(const Glib::RefPtr<Gio::ApplicationCommandLine> &CommandLine);
+            // Manually registered...
 
-            // Window is being hidden...
-            void on_hide(Gtk::Window *Window);
-            
-            // Actions...
-            void OnActionPreferences();
-            void OnActionQuit();
+                // Command line signal...
+                int on_command_line(const Glib::RefPtr<Gio::ApplicationCommandLine> &CommandLine);
+
+                // Window is being hidden...
+                void on_hide(Gtk::Window *Window);
+                
+                // Actions...
+                void OnActionPreferences();
+                void OnActionQuit();
+
+        // Show version information...
+        void ShowVersion() noexcept;
 
     // Protected attributes...
     protected:

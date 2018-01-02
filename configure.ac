@@ -46,7 +46,7 @@ AC_DEFINE_UNQUOTED(
 AC_SUBST([PACKAGE_BUILD_DATE], [$package_build_date])
 
 # Copyright notice...
-copyright_notice="Copyright (C) 2017 Cartesian Theatre™. All rights reserved."
+copyright_notice="Copyright (C) 2017-2018 Cartesian Theatre™."
 AC_COPYRIGHT([$copyright_notice])
 AC_DEFINE_UNQUOTED(
     [COPYRIGHT_NOTICE],
