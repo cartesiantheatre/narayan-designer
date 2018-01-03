@@ -9,7 +9,6 @@
     #include <config.h>
 
     // Our headers...
-    #include "CommandLineOptions.h"
     #include "NarayanDesignerApplication.h"
 
     // Glibmm...
