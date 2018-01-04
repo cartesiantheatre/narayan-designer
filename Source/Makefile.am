@@ -28,7 +28,8 @@ desktop_DATA = $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.deskto
 GRESOURCE_LIST =                                                                \
     $(top_srcdir)/Data/Icons/48x48/com.cartesiantheatre.narayan-designer.png    \
     $(top_srcdir)/Data/MainWindow.ui                                            \
-    $(top_srcdir)/Data/Menus.ui
+    $(top_srcdir)/Data/Menus.ui                                                 \
+    $(top_srcdir)/Data/PreferencesDialog.ui
 
 # GSettings schema. Note that for some reason the expansion of the
 #  GLIB_GSETTINGS macro seems to know to find this within the srcdir and not
@@ -211,6 +212,7 @@ EXTRA_DIST =                                                                    
     Compiler/NarayanLogicParser.ypp                                                 \
     $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.desktop.in             \
     $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml          \
+    $(GRESOURCE_LIST)                                                               \
     $(gsettings_SCHEMAS)
 
 # Extend silent mode for flexc++(1) inputs per Automake manual §21.3...

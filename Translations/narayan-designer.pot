@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: narayan-designer 0.0.0\n"
 "Report-Msgid-Bugs-To: \"Cartesian Theatre <info@cartesiantheatre.com>\"\n"
-"POT-Creation-Date: 2017-11-18 17:39-0800\n"
+"POT-Creation-Date: 2018-01-04 15:04-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,135 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: Data/MainWindow.ui:36
+msgid ""
+"Welcome to Narayan Designer...\n"
+"Welcome to Narayan Designer...\n"
+"Welcome to Narayan Designer...\n"
+"Welcome to Narayan Designer..."
+msgstr ""
+
+#. Set the application name...
+#: Data/MainWindow.ui:44 Source/Main/NarayanDesignerApplication.cpp:54
+msgid "Narayan Designer"
+msgstr ""
+
+#: Data/MainWindow.ui:157
+msgid "Log"
+msgstr ""
+
+#: Data/Menus.ui:25 Data/Menus.ui:206
+msgid "_Documentation"
+msgstr ""
+
+#: Data/Menus.ui:31 Data/Menus.ui:218
+msgid "_About"
+msgstr ""
+
+#: Data/Menus.ui:36 Data/Menus.ui:99
+msgid "_Quit"
+msgstr ""
+
+#: Data/Menus.ui:53
+msgid "_File"
+msgstr ""
+
+#: Data/Menus.ui:56
+msgid "_New"
+msgstr ""
+
+#: Data/Menus.ui:62
+msgid "_Open"
+msgstr ""
+
+#: Data/Menus.ui:70
+msgid "_Save"
+msgstr ""
+
+#: Data/Menus.ui:76
+msgid "Save _As"
+msgstr ""
+
+#: Data/Menus.ui:81
+msgid "Revert"
+msgstr ""
+
+#: Data/Menus.ui:87
+msgid "Print Previe_w"
+msgstr ""
+
+#: Data/Menus.ui:92
+msgid "_Print"
+msgstr ""
+
+#: Data/Menus.ui:108
+msgid "_Edit"
+msgstr ""
+
+#: Data/Menus.ui:111
+msgid "_Preferences"
+msgstr ""
+
+#: Data/Menus.ui:121
+msgid "_View"
+msgstr ""
+
+#: Data/Menus.ui:124
+msgid "_Toolbar"
+msgstr ""
+
+#: Data/Menus.ui:129
+msgid "_Log"
+msgstr ""
+
+#: Data/Menus.ui:137
+msgid "_Full Screen"
+msgstr ""
+
+#: Data/Menus.ui:147
+msgid "_Tools"
+msgstr ""
+
+#: Data/Menus.ui:151
+msgid "_Simulators"
+msgstr ""
+
+#: Data/Menus.ui:155
+msgid "_Cellular Automata"
+msgstr ""
+
+#: Data/Menus.ui:161
+msgid "_Transport Handler"
+msgstr ""
+
+#: Data/Menus.ui:171
+msgid "_Editors"
+msgstr ""
+
+#: Data/Menus.ui:174
+msgid "_Units"
+msgstr ""
+
+#: Data/Menus.ui:180
+msgid "_Resource Maps"
+msgstr ""
+
+#: Data/Menus.ui:186
+msgid "_Events"
+msgstr ""
+
+#: Data/Menus.ui:192
+msgid "_Transport Paths"
+msgstr ""
+
+#: Data/Menus.ui:203
+msgid "_Help"
+msgstr ""
+
+#: Data/Menus.ui:212
+msgid "Report Bug"
+msgstr ""
 
 #. TODO: Fix this because this block is never executed.
 #: Source/Compiler/NarayanLogicLexer.lpp:43
@@ -31,54 +160,31 @@ msgstr ""
 msgid "syntax error: "
 msgstr ""
 
-#: Source/Main/CommandLineOptions.cpp:171
-msgid "need input file, see man page"
+#: Source/Main/NarayanDesignerApplication.cpp:81
+msgid "Error: Gtk::Builder cannot add resource: "
 msgstr ""
 
-#: Source/Main/CommandLineOptions.cpp:179
-msgid "error: "
+#. Main options group...
+#. Create group...
+#: Source/Main/NarayanDesignerApplication.cpp:213
+msgid "main group"
 msgstr ""
 
-#: Source/Main/CommandLineOptions.cpp:180
-msgid "unknown parameter: "
-msgstr ""
-
-#: Source/Main/CommandLineOptions.cpp:183
-msgid "), see man page"
-msgstr ""
-
-#: Source/Main/CommandLineOptions.cpp:196
-msgid "Usage: "
-msgstr ""
-
-#: Source/Main/CommandLineOptions.cpp:196
-msgid "[options] [file]"
-msgstr ""
-
-#: Source/Main/CommandLineOptions.cpp:197
-msgid ""
-"See man page.\n"
-"\n"
-msgstr ""
-
-#: Source/Main/CommandLineOptions.cpp:199
-msgid "Narayan Designer, a modelling tool for the Narayan simulation engine.\n"
-msgstr ""
-
-#: Source/Main/CommandLineOptions.cpp:202
-msgid "Report bugs to: "
+#: Source/Main/NarayanDesignerApplication.cpp:218
+msgid "show version information"
 msgstr ""
 
 #. Show build date...
-#: Source/Main/CommandLineOptions.cpp:213
+#: Source/Main/NarayanDesignerApplication.cpp:271
 msgid "Built on: "
 msgstr ""
 
 #. Relevant dependencies...
-#: Source/Main/CommandLineOptions.cpp:216
+#: Source/Main/NarayanDesignerApplication.cpp:274
 msgid "Compiled against:"
 msgstr ""
 
-#: Source/Main/CommandLineOptions.cpp:223
+#. Show full argument vector passed to configure before building...
+#: Source/Main/NarayanDesignerApplication.cpp:282
 msgid "Configured with: "
 msgstr ""
