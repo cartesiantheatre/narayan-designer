@@ -38,12 +38,6 @@ MainWindow::MainWindow(
  :  Gtk::ApplicationWindow(CTypeObject),
     m_Builder(Builder)
 {
-    /* Get widgets...
-    m_Builder->get_widget("QuitButton", m_QuitButton);
-
-    // Connect signals...
-    m_QuitButton->signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::OnButtonQuit));*/
-    
     // Set the window icon...
     set_icon(Gdk::Pixbuf::create_from_resource(
         NARAYAN_DESIGNER_RESOURCE_ROOT

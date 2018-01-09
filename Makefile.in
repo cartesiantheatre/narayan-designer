@@ -414,6 +414,8 @@ htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
+libOpenCL_CFLAGS = @libOpenCL_CFLAGS@
+libOpenCL_LIBS = @libOpenCL_LIBS@
 libcanberra_gtk3_CFLAGS = @libcanberra_gtk3_CFLAGS@
 libcanberra_gtk3_LIBS = @libcanberra_gtk3_LIBS@
 libdir = @libdir@
@@ -1128,8 +1130,8 @@ update-po: check-gettext
 	@echo "Checking if POTFILES.in needs to be updated..."
 	@cd $(srcdir) ; \
 	find Data \( -iname "*.desktop.in" \) -print > Translations/POTFILES.in.2 ; \
-	find Data \( -iname "*.gschema.xml" \) -print > Translations/POTFILES.in.2 ; \
-	find Data \( -iname "*.ui" \) -print > Translations/POTFILES.in.2 ; \
+	find Data \( -iname "*.gschema.xml" \) -print >> Translations/POTFILES.in.2 ; \
+	find Data \( -iname "*.ui" \) -print >> Translations/POTFILES.in.2 ; \
 	find Source \( -iname "*.lpp" -o -iname "*.ypp" \) -print >> Translations/POTFILES.in.2 ; \
 	find Source \( -iname "*.cpp" -o -iname "*.cpp.in" \) -print >> Translations/POTFILES.in.2 ; \
 	find Source \( -iname "*.h" -o -iname "*.h.in" -o -iname "*.ih" \) -print >> Translations/POTFILES.in.2 ; \

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: narayan-designer 0.0.0\n"
 "Report-Msgid-Bugs-To: \"Cartesian Theatre <info@cartesiantheatre.com>\"\n"
-"POT-Creation-Date: 2018-01-04 15:04-0800\n"
+"POT-Creation-Date: 2018-01-08 22:02-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,20 +17,47 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Data/MainWindow.ui:36
+#: Data/com.cartesiantheatre.narayan-designer.desktop.in:5
+msgid "Narayan-Designer"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.desktop.in:6
+msgid "Agent Based Simulation Model Designer"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.desktop.in:7
+msgid "Create agent based simulation models for the Narayan simulation engine"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.desktop.in:8
+msgid "com.cartesiantheatre.narayan-designer"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.desktop.in:13
 msgid ""
-"Welcome to Narayan Designer...\n"
-"Welcome to Narayan Designer...\n"
-"Welcome to Narayan Designer...\n"
-"Welcome to Narayan Designer..."
+"science;development;simulation;artificial intelligence;computer science;data "
+"visualization;parallel computing;building;avaneya;game;gaming;opencl;"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:7
+#: Data/PreferencesDialog.ui:77
+msgid "Show splash on startup"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:8
+msgid "Whether to display the application splash screen on startup"
+msgstr ""
+
+#: Data/MainWindow.ui:36
+msgid "Welcome to Narayan Designer..."
 msgstr ""
 
 #. Set the application name...
-#: Data/MainWindow.ui:44 Source/Main/NarayanDesignerApplication.cpp:54
+#: Data/MainWindow.ui:41 Source/Main/NarayanDesignerApplication.cpp:56
 msgid "Narayan Designer"
 msgstr ""
 
-#: Data/MainWindow.ui:157
+#: Data/MainWindow.ui:154
 msgid "Log"
 msgstr ""
 
@@ -160,31 +187,31 @@ msgstr ""
 msgid "syntax error: "
 msgstr ""
 
-#: Source/Main/NarayanDesignerApplication.cpp:81
+#: Source/Main/NarayanDesignerApplication.cpp:89
 msgid "Error: Gtk::Builder cannot add resource: "
 msgstr ""
 
 #. Main options group...
 #. Create group...
-#: Source/Main/NarayanDesignerApplication.cpp:213
+#: Source/Main/NarayanDesignerApplication.cpp:230
 msgid "main group"
 msgstr ""
 
-#: Source/Main/NarayanDesignerApplication.cpp:218
+#: Source/Main/NarayanDesignerApplication.cpp:235
 msgid "show version information"
 msgstr ""
 
 #. Show build date...
-#: Source/Main/NarayanDesignerApplication.cpp:271
+#: Source/Main/NarayanDesignerApplication.cpp:288
 msgid "Built on: "
 msgstr ""
 
 #. Relevant dependencies...
-#: Source/Main/NarayanDesignerApplication.cpp:274
+#: Source/Main/NarayanDesignerApplication.cpp:291
 msgid "Compiled against:"
 msgstr ""
 
 #. Show full argument vector passed to configure before building...
-#: Source/Main/NarayanDesignerApplication.cpp:282
+#: Source/Main/NarayanDesignerApplication.cpp:299
 msgid "Configured with: "
 msgstr ""

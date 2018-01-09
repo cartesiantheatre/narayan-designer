@@ -288,18 +288,39 @@ AC_LANG([C++])
     CXXFLAGS="$CXXFLAGS $libcanberra_gtk3_CFLAGS"
     LIBS="$LIBS $libcanberra_gtk3_LIBS"
 
-    # OpenCL C++...
-    
-        # Headers...
-        AC_CHECK_HEADERS(
-            [CL/cl2.hpp],
-            [], [AC_MSG_ERROR([missing OpenCL 2.0 header...])])
+    # OpenCL dispatch library acts as a proxy to actual vendor implementation,
+    #  such as fd.o Beignet (Intel), nVidia, AMD, Mesa, etc...
 
-        # Dispatch library acts as a proxy to actual vendor implementation, such
-        #  as Intel, nVidia, AMD, etc...
-        AC_CHECK_LIB(
-            [OpenCL], [clGetPlatformInfo], [],
-            [AC_MSG_ERROR([missing OpenCL dispatch library or no clGetPlatformfInfo function found...])])
+        # First try via pkg-config...
+        PKG_CHECK_MODULES(
+            [libOpenCL], [OpenCL >= 2.1], 
+            
+            # Found it...
+            [
+                # Save compiler and linker flags...
+                CXXFLAGS="$CXXFLAGS $libOpenCL_CFLAGS"
+                LIBS="$LIBS $libOpenCL_LIBS"
+            ],
+            
+            # Didn't find it...
+            [
+                # Notify user...
+                AC_MSG_NOTICE([OpenCL not detected via pkg-config, attempting manual fallback...])
+
+                # Try compiling and linking against any available OpenCL library
+                #  installed on the system. Then try dynamically loading an
+                #  expecting function. If successful store compiler and linker
+                #  flags...
+                AC_CHECK_LIB(
+                    [OpenCL], [clGetPlatformInfo], 
+                    [],
+                    [AC_MSG_ERROR([missing OpenCL dispatch library or no clGetPlatformfInfo function found...])])
+            ])
+
+    # OpenCL C++ headers...
+    AC_CHECK_HEADERS(
+        [CL/cl2.hpp],
+        [], [AC_MSG_ERROR([missing OpenCL 2.0 header...])])
 
     # YAML C++ headers and libraries...
     PKG_CHECK_MODULES(

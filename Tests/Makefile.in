@@ -543,6 +543,8 @@ htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
+libOpenCL_CFLAGS = @libOpenCL_CFLAGS@
+libOpenCL_LIBS = @libOpenCL_LIBS@
 libcanberra_gtk3_CFLAGS = @libcanberra_gtk3_CFLAGS@
 libcanberra_gtk3_LIBS = @libcanberra_gtk3_LIBS@
 libdir = @libdir@
@@ -1178,7 +1180,7 @@ TestNarayanLogic: TestLexer TestParser
 #  linked correctly...
 TestRuntimeSane: Makefile.am
 	@echo 'set -e -u' > $@
-	@echo '$(top_builddir)/Source/narayan-designer --version | $(GREP) -q "@PACKAGE_NAME@"' >> $@
+	@echo 'GSETTINGS_SCHEMA_DIR=$(top_builddir)/Data $(top_builddir)/Source/narayan-designer --version | $(GREP) -q "@PACKAGE_NAME@"' >> $@
 	@$(CHMOD) +x $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

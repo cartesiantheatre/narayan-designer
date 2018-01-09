@@ -641,6 +641,8 @@ LTLIBOBJS
 LIBOBJS
 libyaml_cpp_LIBS
 libyaml_cpp_CFLAGS
+libOpenCL_LIBS
+libOpenCL_CFLAGS
 libcanberra_gtk3_LIBS
 libcanberra_gtk3_CFLAGS
 libgtksourceviewmm_LIBS
@@ -867,6 +869,8 @@ libgtksourceviewmm_CFLAGS
 libgtksourceviewmm_LIBS
 libcanberra_gtk3_CFLAGS
 libcanberra_gtk3_LIBS
+libOpenCL_CFLAGS
+libOpenCL_LIBS
 libyaml_cpp_CFLAGS
 libyaml_cpp_LIBS'
 
@@ -1574,6 +1578,10 @@ Some influential environment variables:
               C compiler flags for libcanberra_gtk3, overriding pkg-config
   libcanberra_gtk3_LIBS
               linker flags for libcanberra_gtk3, overriding pkg-config
+  libOpenCL_CFLAGS
+              C compiler flags for libOpenCL, overriding pkg-config
+  libOpenCL_LIBS
+              linker flags for libOpenCL, overriding pkg-config
   libyaml_cpp_CFLAGS
               C compiler flags for libyaml_cpp, overriding pkg-config
   libyaml_cpp_LIBS
@@ -22541,27 +22549,80 @@ fi
     CXXFLAGS="$CXXFLAGS $libcanberra_gtk3_CFLAGS"
     LIBS="$LIBS $libcanberra_gtk3_LIBS"
 
-    # OpenCL C++...
+    # OpenCL dispatch library acts as a proxy to actual vendor implementation,
+    #  such as fd.o Beignet (Intel), nVidia, AMD, Mesa, etc...
 
-        # Headers...
-        for ac_header in CL/cl2.hpp
-do :
-  ac_fn_cxx_check_header_mongrel "$LINENO" "CL/cl2.hpp" "ac_cv_header_CL_cl2_hpp" "$ac_includes_default"
-if test "x$ac_cv_header_CL_cl2_hpp" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_CL_CL2_HPP 1
-_ACEOF
+        # First try via pkg-config...
 
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for libOpenCL" >&5
+$as_echo_n "checking for libOpenCL... " >&6; }
+
+if test -n "$libOpenCL_CFLAGS"; then
+    pkg_cv_libOpenCL_CFLAGS="$libOpenCL_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"OpenCL >= 2.1\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "OpenCL >= 2.1") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_libOpenCL_CFLAGS=`$PKG_CONFIG --cflags "OpenCL >= 2.1" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
-  as_fn_error $? "missing OpenCL 2.0 header..." "$LINENO" 5
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$libOpenCL_LIBS"; then
+    pkg_cv_libOpenCL_LIBS="$libOpenCL_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"OpenCL >= 2.1\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "OpenCL >= 2.1") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_libOpenCL_LIBS=`$PKG_CONFIG --libs "OpenCL >= 2.1" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
 fi
 
-done
 
 
-        # Dispatch library acts as a proxy to actual vendor implementation, such
-        #  as Intel, nVidia, AMD, etc...
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for clGetPlatformInfo in -lOpenCL" >&5
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        libOpenCL_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "OpenCL >= 2.1" 2>&1`
+        else
+	        libOpenCL_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "OpenCL >= 2.1" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$libOpenCL_PKG_ERRORS" >&5
+
+	# Didn't find it...
+
+                # Notify user...
+                { $as_echo "$as_me:${as_lineno-$LINENO}: OpenCL not detected via pkg-config, attempting manual fallback..." >&5
+$as_echo "$as_me: OpenCL not detected via pkg-config, attempting manual fallback..." >&6;}
+
+                # Try compiling and linking against any available OpenCL library
+                #  installed on the system. Then try dynamically loading an
+                #  expecting function. If successful store compiler and linker
+                #  flags...
+                { $as_echo "$as_me:${as_lineno-$LINENO}: checking for clGetPlatformInfo in -lOpenCL" >&5
 $as_echo_n "checking for clGetPlatformInfo in -lOpenCL... " >&6; }
 if ${ac_cv_lib_OpenCL_clGetPlatformInfo+:} false; then :
   $as_echo_n "(cached) " >&6
@@ -22607,6 +22668,96 @@ _ACEOF
 else
   as_fn_error $? "missing OpenCL dispatch library or no clGetPlatformfInfo function found..." "$LINENO" 5
 fi
+
+
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	# Didn't find it...
+
+                # Notify user...
+                { $as_echo "$as_me:${as_lineno-$LINENO}: OpenCL not detected via pkg-config, attempting manual fallback..." >&5
+$as_echo "$as_me: OpenCL not detected via pkg-config, attempting manual fallback..." >&6;}
+
+                # Try compiling and linking against any available OpenCL library
+                #  installed on the system. Then try dynamically loading an
+                #  expecting function. If successful store compiler and linker
+                #  flags...
+                { $as_echo "$as_me:${as_lineno-$LINENO}: checking for clGetPlatformInfo in -lOpenCL" >&5
+$as_echo_n "checking for clGetPlatformInfo in -lOpenCL... " >&6; }
+if ${ac_cv_lib_OpenCL_clGetPlatformInfo+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lOpenCL  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char clGetPlatformInfo ();
+int
+main ()
+{
+return clGetPlatformInfo ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"; then :
+  ac_cv_lib_OpenCL_clGetPlatformInfo=yes
+else
+  ac_cv_lib_OpenCL_clGetPlatformInfo=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_OpenCL_clGetPlatformInfo" >&5
+$as_echo "$ac_cv_lib_OpenCL_clGetPlatformInfo" >&6; }
+if test "x$ac_cv_lib_OpenCL_clGetPlatformInfo" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBOPENCL 1
+_ACEOF
+
+  LIBS="-lOpenCL $LIBS"
+
+else
+  as_fn_error $? "missing OpenCL dispatch library or no clGetPlatformfInfo function found..." "$LINENO" 5
+fi
+
+
+else
+	libOpenCL_CFLAGS=$pkg_cv_libOpenCL_CFLAGS
+	libOpenCL_LIBS=$pkg_cv_libOpenCL_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	# Found it...
+
+                # Save compiler and linker flags...
+                CXXFLAGS="$CXXFLAGS $libOpenCL_CFLAGS"
+                LIBS="$LIBS $libOpenCL_LIBS"
+
+fi
+
+    # OpenCL C++ headers...
+    for ac_header in CL/cl2.hpp
+do :
+  ac_fn_cxx_check_header_mongrel "$LINENO" "CL/cl2.hpp" "ac_cv_header_CL_cl2_hpp" "$ac_includes_default"
+if test "x$ac_cv_header_CL_cl2_hpp" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_CL_CL2_HPP 1
+_ACEOF
+
+else
+  as_fn_error $? "missing OpenCL 2.0 header..." "$LINENO" 5
+fi
+
+done
 
 
     # YAML C++ headers and libraries...

@@ -173,6 +173,7 @@ BUILT_SOURCES =                                                                 
     $(lexer_clobbered_source_full_paths)                                            \
     $(parser_clobbered_source_full_paths)                                           \
     Compiler/parser.stamp                                                           \
+    ../Data/gschemas.compiled                                                       \
     Main/Resources.cpp                                                              \
     Main/Resources.h                                                                \
     Main/Version.h
@@ -198,6 +199,7 @@ CLEANFILES =                                                                    
     $(lexer_clobbered_source_full_paths)                                            \
     $(parser_clobbered_source_full_paths)                                           \
     Compiler/parser.stamp                                                           \
+    ../Data/gschemas.compiled                                                       \
     Main/Resources.cpp                                                              \
     Main/Resources.h                                                                \
     $(desktop_DATA)
@@ -261,6 +263,13 @@ Compiler/parser.stamp: Compiler/NarayanLogicParser.ypp
 
 # Insert GSettings compilation rules...
 @GSETTINGS_RULES@
+
+# Compile the GSettings schema within the tree so we can run the binary without
+#  installing it. The rules Automake imports from gsettings.m4 re-compiles this
+#  schema again out of the build tree into the installation prefix at install
+#  time...
+../Data/gschemas.compiled: $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.gschema.valid
+	$(AM_V_GEN)$(GLIB_COMPILE_SCHEMAS) --targetdir=../Data $(top_srcdir)/Data
 
 # During the install hook target, run the following...
 install-data-hook: install-update-icon-cache

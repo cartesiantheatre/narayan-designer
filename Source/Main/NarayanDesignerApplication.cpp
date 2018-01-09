@@ -11,6 +11,7 @@
     // Our headers...
     #include "NarayanDesignerApplication.h"
     #include "MainWindow.h"
+    #include "PreferencesDialog.h"
     #include "Resources.h"
 
     // Giomm...
@@ -24,7 +25,6 @@
     #include <glibmm/optiongroup.h>
 
     // Standard C++ / POSIX system headers...
-    #include <cassert>
     #include <iostream>
     #include <memory>
     #include <stdexcept>
@@ -48,7 +48,9 @@ NarayanDesignerApplication::NarayanDesignerApplication()
           Gio::ApplicationFlags::APPLICATION_NON_UNIQUE),
       m_ApplicationMenu(nullptr),
       m_Builder(Gtk::Builder::create()),
-      m_MainWindow(nullptr)
+      m_MainWindow(nullptr),
+      m_PreferencesDialog(nullptr),
+      m_Settings(nullptr)
 {
     // Set the application name...
     Glib::set_application_name(_("Narayan Designer"));
@@ -57,6 +59,27 @@ NarayanDesignerApplication::NarayanDesignerApplication()
     //  to be called before the default signal handler...
     signal_command_line().connect(
         sigc::mem_fun(*this, &NarayanDesignerApplication::on_command_line), false);
+
+    // Initialize GSettings backend...
+
+        // This environment variable can be set to the name of a directory that
+        //  is considered in addition to the glib-2.0/schemas subdirectories of
+        //  the XDG system data dirs when looking for the compiled schema for
+        //  GSettings. Since we may be running our binary from a location other
+        //  than where it was configured, not setting this would lead to
+        //  GLib-GIO throwing an exception because it wouldn't be able to find
+        //  gschemas.compiled. Note that the third parameter here is set to
+        //  false to ensure this call is ignored if the environment variable was
+        //  already set, such as by the user on the command line or during a
+        //  Makefile.am unit test...
+        Glib::setenv("GSETTINGS_SCHEMA_DIR", "Data/", false);
+
+        // Allocate backend...
+        m_Settings = Gio::Settings::create(NARAYAN_DESIGNER_APPLICATION_ID);
+
+        // Documentation isn't totally clear on how all errors are handled so
+        //  verify it at least allocated...
+        g_assert(m_Settings);
 
     // Try to load Glade resources that were compiled into us. This can throw an
     //  exception for Glib FileError, MarkupError, or BuilderError...
@@ -70,6 +93,9 @@ NarayanDesignerApplication::NarayanDesignerApplication()
         // Application menu with id="menubar" is automatically loaded and set as
         //  a menubar in the traditional sense...
         m_Builder->add_from_resource(NARAYAN_DESIGNER_RESOURCE_ROOT "Menus.ui");
+        
+        // Load the preferences dialog...
+        m_Builder->add_from_resource(NARAYAN_DESIGNER_RESOURCE_ROOT "PreferencesDialog.ui");
     }
 
         // Failed...
@@ -87,12 +113,16 @@ NarayanDesignerApplication::NarayanDesignerApplication()
 
     // Get the main window...
     m_Builder->get_widget_derived("MainWindow", m_MainWindow);
-    assert(m_MainWindow);
+    g_assert(m_MainWindow);
+    
+    // Get the preferences dialog...
+    m_Builder->get_widget_derived("PreferencesDialog", m_PreferencesDialog, m_Settings);
+    g_assert(m_PreferencesDialog);
 
     // Get the application menu...
     m_ApplicationMenu = Glib::RefPtr<Gio::MenuModel>::cast_dynamic(m_Builder->get_object("menubar"));
 //    m_ApplicationMenu = get_menubar();
-    assert(m_ApplicationMenu);
+    g_assert(m_ApplicationMenu);
     
     // Prepare command line parser...
 //    add_main_option_entry
@@ -139,8 +169,9 @@ void NarayanDesignerApplication::on_startup()
 
 //    set_app_menu(m_ApplicationMenu);
 
+    // Set the menu bar and verify it was set...
     set_menubar(m_ApplicationMenu);
-    assert(get_menubar());
+    g_assert(get_menubar());
 }
 
 // Override the signal_activate() signal which is emitted when the application
@@ -165,8 +196,12 @@ void NarayanDesignerApplication::on_activate()
 // Actions to open the preferences dialog...
 void NarayanDesignerApplication::OnActionPreferences()
 {
-    // TODO: Implement this...
-    cout << __PRETTY_FUNCTION__ << endl;
+    // Tell window manager to put dialog centred over main window and always
+    //  above it...
+    m_PreferencesDialog->set_transient_for(*m_MainWindow);
+    
+    // Show it...
+    m_PreferencesDialog->present();
 }
 
 // Action to quit the application...

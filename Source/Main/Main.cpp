@@ -11,9 +11,6 @@
     // Our headers...
     #include "NarayanDesignerApplication.h"
 
-    // Glibmm...
-    #include <glibmm/miscutils.h>
-
     // Standard C++ / POSIX system headers...
     #include <cstdlib>
     #include <iostream>
@@ -58,13 +55,6 @@ int main(int ArgumentCount, char *Arguments[])
         }
 
     #endif
-
-    // This environment variable can be set to the name of a directory that is
-    //  considered in addition to the glib-2.0/schemas subdirectories of the XDG
-    //  system data dirs when looking for compiled schemas for GSettings. Since
-    //  we may be running this application from a location other than where it
-    //  was configured to be installed, we should set it...
-    Glib::setenv("GSETTINGS_SCHEMA_DIR", ".", false);
 
     // Try to run the application...
     try

@@ -106,8 +106,8 @@ update-po: check-gettext
 	@echo "Checking if POTFILES.in needs to be updated..."
 	@cd $(srcdir) ; \
 	find Data \( -iname "*.desktop.in" \) -print > Translations/POTFILES.in.2 ; \
-	find Data \( -iname "*.gschema.xml" \) -print > Translations/POTFILES.in.2 ; \
-	find Data \( -iname "*.ui" \) -print > Translations/POTFILES.in.2 ; \
+	find Data \( -iname "*.gschema.xml" \) -print >> Translations/POTFILES.in.2 ; \
+	find Data \( -iname "*.ui" \) -print >> Translations/POTFILES.in.2 ; \
 	find Source \( -iname "*.lpp" -o -iname "*.ypp" \) -print >> Translations/POTFILES.in.2 ; \
 	find Source \( -iname "*.cpp" -o -iname "*.cpp.in" \) -print >> Translations/POTFILES.in.2 ; \
 	find Source \( -iname "*.h" -o -iname "*.h.in" -o -iname "*.ih" \) -print >> Translations/POTFILES.in.2 ; \

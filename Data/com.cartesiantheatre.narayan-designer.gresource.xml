@@ -21,7 +21,8 @@
     <!-- file alias="gtk/menus.ui" compressed="true" preprocess="xml-stripblanks">Menus.ui</file -->
     <file compressed="true" preprocess="xml-stripblanks">Menus.ui</file>
 
-    <!-- file compressed="true" preprocess="xml-stripblanks">PreferencesDialog.ui</file -->
+    <!-- Preferences dialog -->
+    <file compressed="true" preprocess="xml-stripblanks">PreferencesDialog.ui</file>
 
   </gresource>
 </gresources>
