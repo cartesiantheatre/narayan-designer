@@ -1,6 +1,6 @@
 /*
     Narayan Designer, a modelling tool for the Narayan simulation engine.
-    Copyright (C) 2017 Cartesian Theatre. All rights reserved.
+    Copyright (C) 2017-2018 Cartesian Theatre. All rights reserved.
 */
 
 // Example unit rule with a chaining effect to create mustard from GlassBox

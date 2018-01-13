@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="narayan-designer">
 
-    <schema id="com.cartesiantheatre.narayan-designer" path="/com/cartesiantheatre/narayan-designer/">
+    <schema path="/com/cartesiantheatre/narayan-designer/" id="com.cartesiantheatre.narayan-designer">
 
-        <key name="show-splash" type="b">
-            <summary>Show splash on startup</summary>
-            <description>Whether to display the application splash screen on startup</description>
+        <key name="tab-index" type="i">
+            <default>0</default>
+            <range min="0"/>
+            <summary>Preferences tab index</summary>
+            <description>The index of the last selected tab in the preferences dialog.</description>
+        </key>
+
+        <key name="general-show-log" type="b">
             <default>true</default>
+            <summary>Log visibility</summary>
+            <description>Whether to expand the log view.</description>
+        </key>
+
+        <key name="general-show-splash" type="b">
+            <default>true</default>
+            <summary>Show splash on startup</summary>
+            <description>Whether to display the application splash screen on startup.</description>
         </key>
 
     </schema>
+
 </schemalist>
 

@@ -12,9 +12,14 @@
     // Provided by Autoconf...
     #include <config.h>
 
+    // Giomm...
+    #include <giomm/settings.h>
+
     // Gtkmm...
     #include <gtkmm/applicationwindow.h>
     #include <gtkmm/builder.h>
+    #include <gtkmm/expander.h>
+    #include <gtkmm/notebook.h>
 
     // i18n...
     #include "gettext.h"
@@ -30,7 +35,8 @@ class MainWindow : public Gtk::ApplicationWindow
         // Constructor around already Glade instantiated window...
         MainWindow(
             BaseObjectType *CTypeObject,
-            const Glib::RefPtr<Gtk::Builder> &Builder);
+            const Glib::RefPtr<Gtk::Builder> &Builder,
+            Glib::RefPtr<Gio::Settings> &Settings);
 
         // Deconstructor...
         virtual ~MainWindow();
@@ -55,6 +61,17 @@ class MainWindow : public Gtk::ApplicationWindow
 
         // Gtk::Builder...
         Glib::RefPtr<Gtk::Builder>  m_Builder;
+        
+        // Settings backend...
+        Glib::RefPtr<Gio::Settings> m_Settings;
+        
+        // Widgets...
+            
+            // Documents notebook...
+            Gtk::Notebook          *m_Notebook_Documents;
+            
+            // Log expander...
+            Gtk::Expander          *m_Expander_Log;
 };
 
 // Multiple include protection...

@@ -112,7 +112,7 @@ NarayanDesignerApplication::NarayanDesignerApplication()
         }
 
     // Get the main window...
-    m_Builder->get_widget_derived("MainWindow", m_MainWindow);
+    m_Builder->get_widget_derived("MainWindow", m_MainWindow, m_Settings);
     g_assert(m_MainWindow);
     
     // Get the preferences dialog...

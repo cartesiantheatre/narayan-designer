@@ -1,5 +1,5 @@
 # Narayan Designer, a modelling tool for the Narayan simulation engine.
-# Copyright (C) 2017 Cartesian Theatre™. All rights reserved.
+# Copyright (C) 2017-2018 Cartesian Theatre™. All rights reserved.
 
 # Minimum version of Autoconf used to successfully process configure.ac...
 AC_PREREQ([2.67])
