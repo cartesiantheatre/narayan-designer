@@ -68,7 +68,7 @@ MainWindow::MainWindow(
     m_Notebook_Documents->remove_page(0);
 
     // Bind settings to relevant widgets...
-    m_Settings->bind("general-show-log", m_Expander_Log->property_expanded());
+    m_Settings->bind("show-log", m_Expander_Log->property_expanded());
 }
 
 // Action to show the log...

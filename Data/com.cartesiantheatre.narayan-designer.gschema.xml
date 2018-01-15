@@ -3,23 +3,47 @@
 
     <schema path="/com/cartesiantheatre/narayan-designer/" id="com.cartesiantheatre.narayan-designer">
 
-        <key name="tab-index" type="i">
+        <key name="show-log" type="b">
+            <default>true</default>
+            <summary>Log visibility</summary>
+            <description>Whether to expand the log view.</description>
+        </key>
+
+        <key name="preferences-tab-index" type="i">
             <default>0</default>
             <range min="0"/>
             <summary>Preferences tab index</summary>
             <description>The index of the last selected tab in the preferences dialog.</description>
         </key>
 
-        <key name="general-show-log" type="b">
-            <default>true</default>
-            <summary>Log visibility</summary>
-            <description>Whether to expand the log view.</description>
-        </key>
-
         <key name="general-show-splash" type="b">
             <default>true</default>
             <summary>Show splash on startup</summary>
             <description>Whether to display the application splash screen on startup.</description>
+        </key>
+
+        <key name="editor-use-system-default-monospace-font" type="b">
+            <default>true</default>
+            <summary>Use default fixed width font</summary>
+            <description>Whether to use the system's default fixed width (monospace) font instead of a custom font.</description>
+        </key>
+
+        <key name="editor-custom-font" type="s">
+            <default>"Monospace Regular 20"</default>
+            <summary>Custom editor font</summary>
+            <description>If not configured to use the system's default fixed width font, use this font for the editor.</description>
+        </key>
+        
+        <key name="editor-use-dark-theme" type="b">
+            <default>true</default>
+            <summary>Prefer dark theme variations</summary>
+            <description>If a dark theme variation of the currently selected colour scheme is available, use it</description>
+        </key>
+
+        <key name="editor-colour-scheme" type="s">
+            <default>"solarized-dark"</default>
+            <summary>Editor colour scheme</summary>
+            <description>Selected editor colour scheme</description>
         </key>
 
     </schema>

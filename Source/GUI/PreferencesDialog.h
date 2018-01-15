@@ -48,12 +48,11 @@ class PreferencesDialog : public Gtk::Dialog
     protected:
 
         // Find a widget and bind it to a particular setting...
-        template <typename WidgetType, typename PropertyType>
-        void FindAndBind(
+        template <typename WidgetType>
+        void FindAndBindActiveProperty(
             const std::string &WidgetName,
-            const WidgetType *WidgetObject,
-            const std::string &Key,
-            const Glib::PropertyProxy<PropertyType> Property) const;
+            WidgetType *& WidgetObject,
+            const std::string &Key) const;
 
         // Signals...
 
@@ -66,6 +65,9 @@ class PreferencesDialog : public Gtk::Dialog
                 
                 // Close button clicked...
                 void OnCloseButton();
+
+                // Colour scheme cursor changed in tree view...
+                void OnColourSchemeChanged();
 
     // Protected attributes and enumerated types...
     protected:

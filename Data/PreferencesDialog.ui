@@ -179,7 +179,7 @@ Author: Cartesian Theatre
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
-                                <property name="font">Monospace 20</property>
+                                <property name="font">Sans 12</property>
                                 <property name="preview_text"/>
                                 <property name="title" translatable="yes">Pick Editor Font</property>
                                 <property name="use_font">True</property>

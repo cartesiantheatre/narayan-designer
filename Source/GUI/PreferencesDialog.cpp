@@ -11,6 +11,9 @@
     // Our headers...
     #include "PreferencesDialog.h"
 
+    // OpenCL C++...
+    #include <CL/cl2.hpp>
+
     // Standard C++ / POSIX system headers...
     #include <sstream>
 
@@ -39,39 +42,58 @@ PreferencesDialog::PreferencesDialog(
     m_Button_Help(nullptr),
     m_Button_Close(nullptr)
 {
-    // Find widgets...
-    
+    // Find widgets and bind to settings backend if they are associated with a
+    //  user configurable setting...
+
         // Preferences notebook...
         m_Builder->get_widget("Notebook_Preferences", m_Notebook_Preferences);
         g_assert(m_Notebook_Preferences);
+        m_Settings->bind("preferences-tab-index", m_Notebook_Preferences->property_page());
 
-        /* General tab...
-        m_Builder->get_widget("CheckButton_General_ShowSplash", m_CheckButton_General_ShowSplash);*/
-
+        // General tab...
+        
+            // Show splash check button...
+            FindAndBindActiveProperty(
+                "CheckButton_General_ShowSplash", 
+                m_CheckButton_General_ShowSplash, 
+                "general-show-splash");
+        
         // Editor tab...
-        m_Builder->get_widget("CheckButton_Editor_UseSystemDefaultMonospaceFont", m_CheckButton_Editor_UseSystemDefaultMonospaceFont);
-        m_Builder->get_widget("FontButton_Editor_CustomFont", m_FontButton_Editor_CustomFont);
-        m_Builder->get_widget("CheckButton_Editor_UseDarkTheme", m_CheckButton_Editor_UseDarkTheme);
-        m_Builder->get_widget("TreeView_Editor_ColourScheme", m_TreeView_Editor_ColourScheme);
+            
+            // Use system default monospace font check button...
+            FindAndBindActiveProperty(
+                "CheckButton_Editor_UseSystemDefaultMonospaceFont", 
+                m_CheckButton_Editor_UseSystemDefaultMonospaceFont, 
+                "editor-use-system-default-monospace-font");
+
+            // Custom font button...
+            m_Builder->get_widget("FontButton_Editor_CustomFont", m_FontButton_Editor_CustomFont);
+            g_assert(m_FontButton_Editor_CustomFont);
+            m_Settings->bind("editor-custom-font", m_FontButton_Editor_CustomFont->property_font_name());
+
+            // Use dark theme if available check button...
+            FindAndBindActiveProperty(
+                "CheckButton_Editor_UseDarkTheme",
+                m_CheckButton_Editor_UseDarkTheme,
+                "editor-use-dark-theme");
+            
+            // Colour scheme tree view...
+            m_Builder->get_widget("TreeView_Editor_ColourScheme", m_TreeView_Editor_ColourScheme);
+            g_assert(m_TreeView_Editor_ColourScheme);
 
         // Help and Close buttons...
         m_Builder->get_widget("Button_Help", m_Button_Help);
         m_Builder->get_widget("Button_Close", m_Button_Close);
 
     // Connect signals...
-    m_Button_Close->signal_clicked().connect(sigc::mem_fun(*this, &PreferencesDialog::OnCloseButton));
-
-    // Bind settings to preference dialog's widgets...
-    m_Settings->bind("tab-index", m_Notebook_Preferences->property_page());
-    //m_Settings->bind("general-show-splash", m_CheckButton_General_ShowSplash->property_state());
-
-    FindAndBind(
-        "CheckButton_General_ShowSplash",
-        m_CheckButton_General_ShowSplash,
-        "general-show-splash",
-        m_CheckButton_General_ShowSplash->property_related_action());
-
-//    m_Settings->bind("editor-", m_CheckButton_General_ShowSplash->property_state());
+        
+        // Colour scheme tree view cursor changed...
+        m_TreeView_Editor_ColourScheme->signal_cursor_changed().connect(
+            sigc::mem_fun(*this, &PreferencesDialog::OnColourSchemeChanged));
+        
+        // Close button clicked...
+        m_Button_Close->signal_clicked().connect(
+            sigc::mem_fun(*this, &PreferencesDialog::OnCloseButton));
 
     // Initialize General tab...
     m_Notebook_Preferences->set_tab_label_text(
@@ -98,15 +120,11 @@ PreferencesDialog::PreferencesDialog(
             stringstream UseSystemMonospaceFontLabelText;
             UseSystemMonospaceFontLabelText
                 << _("Use the system's monospace font")
-                << "(" << MonospaceFontString << ")";
+                << " (" << MonospaceFontString << ")";
             
             // Set label...
             m_CheckButton_Editor_UseSystemDefaultMonospaceFont->set_label(
                 UseSystemMonospaceFontLabelText.str());
-
-            // Create a font description from the string which contains the name
-            //  followed by the size of the face...
-            //Pango::FontDescription MonospaceFontDescription(MonospaceFontString);
 
     // Initialize Hardware tab...
     m_Notebook_Preferences->set_tab_label_text(
@@ -114,18 +132,44 @@ PreferencesDialog::PreferencesDialog(
 }
 
 // Find a widget and bind it to a particular setting...
-template <typename WidgetType, typename PropertyType>
-void PreferencesDialog::FindAndBind(
+template <typename WidgetType>
+void PreferencesDialog::FindAndBindActiveProperty(
     const string &WidgetName,
-    const WidgetType *WidgetObject,
-    const string &Key,
-    const Glib::PropertyProxy<PropertyType> Property) const
+    WidgetType *& WidgetObject,
+    const string &Key) const
 {
     // Find the widget...
     m_Builder->get_widget(WidgetName, WidgetObject);
+    g_assert(WidgetObject);
+
+    // Get the active property of the widget we will bind settings backend to...
+    const auto Property = WidgetObject->property_active();
 
     // Bind settings...
     m_Settings->bind(Key, Property);
+}
+
+// Colour scheme cursor changed in tree view...
+void PreferencesDialog::OnColourSchemeChanged()
+{
+    /* Retrieve the name of the currently selected colour scheme...
+    
+        // Find the current cursor path and focus column in the treeview...
+        TreeModel::Path CurrentCursorPath;
+        TreeViewColumn::FocusColumn CurrentFocusColumn;
+        m_TreeView_Editor_ColourScheme->get_cursor(CurrentCursorPath, CurrentFocusColumn);
+    
+        // Verify path iterator is valid...
+        if(!CursorPath)
+            return;
+    
+        // Now use the path iterator of the tree view to get the iterator inside
+        //  of the tree view's model...
+        auto Model = m_TreeView_Editor_ColourScheme->get_modal();
+        auto ModelIterator = Model->get_iter(CurrentCursorPath);
+    
+    // Store the string in the settings backend...
+    m_Settings->set_string("editor-colour-scheme", ColourSchemeName);*/
 }
 
 // Close button clicked...
