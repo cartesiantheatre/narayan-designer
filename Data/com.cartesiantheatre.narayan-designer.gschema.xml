@@ -9,11 +9,11 @@
             <description>Whether to expand the log view.</description>
         </key>
 
-        <key name="preferences-tab-index" type="i">
+        <key name="preferences-page-index" type="i">
             <default>0</default>
             <range min="0"/>
-            <summary>Preferences tab index</summary>
-            <description>The index of the last selected tab in the preferences dialog.</description>
+            <summary>Preferences page index</summary>
+            <description>The index of the last selected page in the preferences dialog.</description>
         </key>
 
         <key name="general-show-splash" type="b">
@@ -44,6 +44,13 @@
             <default>"solarized-dark"</default>
             <summary>Editor colour scheme</summary>
             <description>Selected editor colour scheme</description>
+        </key>
+
+        <key name="hardware-platform-id" type="i">
+            <default>0</default>
+            <range min="0"/>
+            <summary>Selected hardware platform ID</summary>
+            <description>The selected hardware platform ID the simulation will execute on.</description>
         </key>
 
     </schema>

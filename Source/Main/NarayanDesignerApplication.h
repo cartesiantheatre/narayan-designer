@@ -35,6 +35,9 @@
 
 // OpenCL C++ compile time settings until we move this into libnarayan...
 
+    // Enable exceptions...
+    #define CL_HPP_ENABLE_EXCEPTIONS
+
     // Target version 2.0...
     #define CL_HPP_TARGET_OPENCL_VERSION 200
 
