@@ -11,9 +11,6 @@
     // Our headers...
     #include "PreferencesDialog.h"
 
-    // OpenCL C++...
-    #include <CL/cl2.hpp>
-
     // Standard C++ / POSIX system headers...
     #include <sstream>
     #include <iostream>
@@ -36,17 +33,18 @@ PreferencesDialog::PreferencesDialog(
     m_Builder(Builder),
     m_Notebook_Preferences(nullptr),
     m_Settings(Settings),
-    m_TreeModel_Hardware_Platform(Gtk::ListStore::create(m_TreeColumns_Hardware_Platform)),
     m_CheckButton_General_ShowSplash(nullptr),
     m_CheckButton_Editor_UseSystemDefaultMonospaceFont(nullptr),
     m_FontButton_Editor_CustomFont(nullptr),
     m_CheckButton_Editor_UseDarkTheme(nullptr),
     m_TreeView_Editor_ColourScheme(nullptr),
     m_ComboBoxText_Hardware_Platform(nullptr),
+    m_ListStore_Hardware_Platform(Gtk::ListStore::create(m_TreeColumns_Hardware_Platform)),
     m_Label_Hardware_Platform_Profile(nullptr),
     m_Label_Hardware_Platform_Version(nullptr),
     m_Label_Hardware_Platform_Vendor(nullptr),
     m_ComboBoxText_Hardware_Devices(nullptr),
+    m_ListStore_Hardware_Devices(Gtk::ListStore::create(m_TreeColumns_Hardware_Devices)),
     m_TextView_Hardware_DeviceInfo(nullptr),
     m_Button_Hardware_Refresh(nullptr),
     m_Button_Help(nullptr),
@@ -146,7 +144,7 @@ PreferencesDialog::PreferencesDialog(
             g_assert(m_ComboBoxText_Hardware_Platform);
             
             // Set its storage tree model...
-            m_ComboBoxText_Hardware_Platform->set_model(m_TreeModel_Hardware_Platform);
+            m_ComboBoxText_Hardware_Platform->set_model(m_ListStore_Hardware_Platform);
             
             // Add columns, but only show platform name for now...
             m_ComboBoxText_Hardware_Platform->clear();
@@ -170,7 +168,20 @@ PreferencesDialog::PreferencesDialog(
             // Find it...
             m_Builder->get_widget("ComboBoxText_Hardware_Devices", m_ComboBoxText_Hardware_Devices);
             g_assert(m_ComboBoxText_Hardware_Devices);
+
+            // Set its storage tree model...
+            m_ComboBoxText_Hardware_Devices->set_model(m_ListStore_Hardware_Devices);
+
+            // Add simple columns...
+            m_ComboBoxText_Hardware_Devices->clear();
+            m_ComboBoxText_Hardware_Devices->pack_start(m_TreeColumns_Hardware_Devices.m_Column_Name);
             
+            // Add more sophisticated columns requiring a custom cell renderer...
+            m_ComboBoxText_Hardware_Devices->set_cell_data_func(
+                m_CellRendererText_Hardware_Devices_Type,
+                sigc::mem_fun(*this, &PreferencesDialog::OnCellDataOpenCLDeviceType));
+            m_ComboBoxText_Hardware_Devices->pack_start(m_CellRendererText_Hardware_Devices_Type);
+
             // Connect selection change signal...
             m_ComboBoxText_Hardware_Devices->signal_changed().connect(
                 sigc::mem_fun(*this, &PreferencesDialog::OnHardwareDeviceChanged));
@@ -211,6 +222,45 @@ PreferencesDialog::PreferencesDialog(
         // Connect clicked signal...
         m_Button_Close->signal_clicked().connect(
             sigc::mem_fun(*this, &PreferencesDialog::OnCloseButton));
+}
+
+// OpenCL device type needing to be rendered in a combobox cell...
+void PreferencesDialog::OnCellDataOpenCLDeviceType(
+    const Gtk::TreeModel::const_iterator &Iterator)
+{
+    // Retrieve the row from the iterator...
+    Gtk::TreeModel::Row CurrentRow = *Iterator;
+    
+    // Obtain the OpenCL device type stored within the row...
+    const cl_device_type DeviceType = CurrentRow[m_TreeColumns_Hardware_Devices.m_Column_Type];
+
+    // Transform the OpenCL device type into a human readable string and set a
+    //  colour too based on expected capability...
+    switch(DeviceType)
+    {
+        // CPU...
+        case CL_DEVICE_TYPE_CPU:
+            m_CellRendererText_Hardware_Devices_Type.property_text()        = _("(CPU)");
+            m_CellRendererText_Hardware_Devices_Type.property_foreground()  = "yellow";
+            break;
+
+        // GPU...
+        case CL_DEVICE_TYPE_GPU: 
+            m_CellRendererText_Hardware_Devices_Type.property_text()        = _("(GPU)");
+            m_CellRendererText_Hardware_Devices_Type.property_foreground()  = "green";
+            break;
+        
+        // Dedicated OpenCL hardware accelerator, such as the IBM CELL Blade...
+        case CL_DEVICE_TYPE_ACCELERATOR:
+            m_CellRendererText_Hardware_Devices_Type.property_text()        = _("(dedicated OpenCL accelerator)");
+            m_CellRendererText_Hardware_Devices_Type.property_foreground()  = "green";
+            break;
+        
+        // Unknown...
+        default:
+            m_CellRendererText_Hardware_Devices_Type.property_text()        = _("(unknown)"); break;
+            m_CellRendererText_Hardware_Devices_Type.property_foreground()  = "yellow";
+    }
 }
 
 // Find a widget and bind it to a particular setting...
@@ -274,7 +324,9 @@ bool PreferencesDialog::on_delete_event([[maybe_unused]] GdkEventAny *Event)
 // Hardware device combobox text selection changed...
 void PreferencesDialog::OnHardwareDeviceChanged()
 {
-
+    cout << __PRETTY_FUNCTION__ << endl;
+    
+    /* TODO: Finish this. */
 }
 
 // Hardware platform combobox text selection changed...
@@ -285,20 +337,20 @@ void PreferencesDialog::OnHardwarePlatformChanged()
     m_Label_Hardware_Platform_Version->set_label("");
     m_Label_Hardware_Platform_Vendor->set_label("");
 
-    // Get the selected text...
-    Gtk::TreeModel::iterator Index = m_ComboBoxText_Hardware_Platform->get_active();
+    // Get the platform selected...
+    const Gtk::TreeModel::iterator TreeModelIterator =
+        m_ComboBoxText_Hardware_Platform->get_active();
 
-        // Nothing selected...
-        if(!Index)
-        {
-            // De-select any device of the platform that may have been selected...
+        // None selected. De-select any device of the platform that may have
+        //  been selected...
+        if(!TreeModelIterator)
             m_ComboBoxText_Hardware_Devices->set_active(-1);
-        }
 
     // Get the row...
-    Gtk::TreeModel::Row CurrentRow = *Index;
+    Gtk::TreeModel::Row CurrentRow = *TreeModelIterator;
 
     // Get the hardware platform's information...
+    const int PlatformID            = CurrentRow[m_TreeColumns_Hardware_Platform.m_Column_ID];
     const string PlatformProfile    = CurrentRow[m_TreeColumns_Hardware_Platform.m_Column_Profile];
     const string PlatformVersion    = CurrentRow[m_TreeColumns_Hardware_Platform.m_Column_Version];
     const string PlatformName       = CurrentRow[m_TreeColumns_Hardware_Platform.m_Column_Name];
@@ -308,6 +360,63 @@ void PreferencesDialog::OnHardwarePlatformChanged()
     m_Label_Hardware_Platform_Profile->set_label(PlatformProfile);
     m_Label_Hardware_Platform_Version->set_label(PlatformVersion);
     m_Label_Hardware_Platform_Vendor->set_label(PlatformVendor);
+
+    // Populate the list of devices...
+
+        // Clear old ones...
+        m_ListStore_Hardware_Devices = Gtk::ListStore::create(m_TreeColumns_Hardware_Devices);
+        m_ComboBoxText_Hardware_Devices->set_model(m_ListStore_Hardware_Devices);
+
+        // Get the list of hardware platforms since we need to query the
+        //  selected one for its available devices...
+        vector<cl::Platform> Platforms;
+        cl::Platform::get(&Platforms);
+        
+        // Find the selected platform...
+        const cl::Platform &SelectedPlatform = Platforms.at(PlatformID);
+
+        // Storage for list of devices...
+        vector<cl::Device> Devices;
+        
+        // Try to query its devices. Some implementations have a bug where if
+        //  no devices are detected, CL_DEVICE_NOT_FOUND isn't returned, but an
+        //  exception is thrown...
+        try
+        {
+            // Perform query...
+            SelectedPlatform.getDevices(CL_DEVICE_TYPE_ALL, &Devices);
+        }
+            // Failed...
+            catch(const exception &CLException)
+            {
+                return;
+            }
+
+        // Add each device OpenCL provided us...
+        for(size_t Index = 0; Index < Devices.size(); ++Index)
+        {
+            // Get a device...
+            const cl::Device  &CurrentDevice = Devices.at(Index);
+
+            // Allocate a new row...
+            Gtk::TreeModel::Row NewRow = *(m_ListStore_Hardware_Devices->append());
+
+            // Query current platform for profile, version, name, and vendor...
+            const string DeviceName             = CurrentDevice.getInfo<CL_DEVICE_NAME>();
+            const cl_device_type DeviceType     = CurrentDevice.getInfo<CL_DEVICE_TYPE>();
+            
+            // Populate the new row...
+            NewRow[m_TreeColumns_Hardware_Devices.m_Column_Name]    = DeviceName;
+            NewRow[m_TreeColumns_Hardware_Devices.m_Column_Type]    = DeviceType;
+        }
+
+        // If the list had any devices at all, select the first one...
+        if(!Devices.empty())
+            m_ComboBoxText_Hardware_Devices->set_active(0);
+        
+        // Otherwise deselect, though I don't think this is necessary...
+        else
+            m_ComboBoxText_Hardware_Devices->set_active(-1);
 }
 
 // Help button clicked...
@@ -329,16 +438,18 @@ void PreferencesDialog::OnRefreshHardware()
     // Populate model with the list of platforms...
     
         // Remove the old ones...
-        m_TreeModel_Hardware_Platform->clear();
+        //This emits a bunch of warnings: m_ListStore_Hardware_Platform->clear(); 
+        m_ListStore_Hardware_Platform = Gtk::ListStore::create(m_TreeColumns_Hardware_Platform);
+        m_ComboBoxText_Hardware_Platform->set_model(m_ListStore_Hardware_Platform);
 
-        // Add each one OpenCL provided us...
+        // Add each platform OpenCL provided us...
         for(size_t Index = 0; Index < Platforms.size(); ++Index)
         {
             // Get a platform...
             const cl::Platform  &CurrentPlatform = Platforms.at(Index);
 
             // Allocate a new row...
-            Gtk::TreeModel::Row NewRow = *(m_TreeModel_Hardware_Platform->append());
+            Gtk::TreeModel::Row NewRow = *(m_ListStore_Hardware_Platform->append());
 
             // Query current platform for profile, version, name, and vendor...
             auto PlatformProfile    = CurrentPlatform.getInfo<CL_PLATFORM_PROFILE>();

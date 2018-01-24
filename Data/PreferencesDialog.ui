@@ -240,7 +240,6 @@ Author: Cartesian Theatre
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">20</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
