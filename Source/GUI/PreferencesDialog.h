@@ -131,16 +131,35 @@ class PreferencesDialog : public Gtk::Dialog
                     // ...merely adds columns...
                     add(m_Column_Name);
                     add(m_Column_Type);
+                    add(m_Column_Vendor);
+                    add(m_Column_MaxComputeUnits);
+                    add(m_Column_GlobalMemory);
+                    add(m_Column_MaxClockFrequency);
+                    add(m_Column_MaxAllocatableMemory);
+                    add(m_Column_LocalMemory);
+                    add(m_Column_Available);
+                    add(m_Column_Extensions);
                 }
                 
                 // Columns...
                 Gtk::TreeModelColumn<std::string>   m_Column_Name;
                 /*
-                    This should be cl_device_type, but there appears to be a bug
-                    in GCC 7.1 which emits a false positive error regarding
-                    ignored template parameter attributes being ignored. 
+                    These should be using OpenCL types like cl_uint, 
+                    cl_device_type, etc., but there appears to be a bug in GCC
+                    7.2 which emits a false positive error regarding ignored
+                    template parameter attributes being ignored.
+                    
+                    <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=84055>
                 */
-                Gtk::TreeModelColumn<unsigned long> m_Column_Type; 
+                Gtk::TreeModelColumn<unsigned long> m_Column_Type;
+                Gtk::TreeModelColumn<std::string>   m_Column_Vendor;
+                Gtk::TreeModelColumn<unsigned int>  m_Column_MaxComputeUnits;
+                Gtk::TreeModelColumn<unsigned long> m_Column_GlobalMemory;
+                Gtk::TreeModelColumn<unsigned int>  m_Column_MaxClockFrequency;
+                Gtk::TreeModelColumn<unsigned long> m_Column_MaxAllocatableMemory;
+                Gtk::TreeModelColumn<unsigned long> m_Column_LocalMemory;
+                Gtk::TreeModelColumn<bool>          m_Column_Available;
+                Gtk::TreeModelColumn<std::string>   m_Column_Extensions;
         };
 
         // Notebook tab ordinals...
