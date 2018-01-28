@@ -16,7 +16,17 @@
     #include "NarayanDesignerApplication.h"
 
     // OpenCL C++...
-    #include <CL/cl2.hpp>
+
+        // Enable throwing of exceptions...
+        #define CL_HPP_ENABLE_EXCEPTIONS
+
+        // Target version 1.2 since at this time hardly anything supports
+        //  anything version 2 and up...
+        #define CL_HPP_TARGET_OPENCL_VERSION 120
+        #define CL_HPP_MINIMUM_OPENCL_VERSION 120
+
+        // Wrapper...
+        #include <CL/cl2.hpp>
 
     // Gtkmm...
     #include <gtkmm/builder.h>
@@ -29,6 +39,9 @@
     #include <gtkmm/notebook.h>
     #include <gtkmm/textview.h>
     #include <gtkmm/treeview.h>
+
+    // GtkSourceViewMM...
+    #include <gtksourceviewmm.h>
 
     // Standard C++ / POSIX system headers...
     #include <string>
@@ -57,7 +70,7 @@ class PreferencesDialog : public Gtk::Dialog
         template <typename WidgetType>
         void FindAndBindActiveProperty(
             const std::string &WidgetName,
-            WidgetType *& WidgetObject,
+            WidgetType &&WidgetObject,
             const std::string &Key) const;
 
         // Signals...

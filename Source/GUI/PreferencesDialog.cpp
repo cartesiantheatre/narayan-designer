@@ -226,6 +226,22 @@ PreferencesDialog::PreferencesDialog(
             sigc::mem_fun(*this, &PreferencesDialog::OnCloseButton));
 }
 
+// Find a widget and bind it to a particular setting...
+template <typename WidgetType>
+void PreferencesDialog::FindAndBindActiveProperty(
+    const string &WidgetName, WidgetType &&WidgetObject, const string &Key) const
+{
+    // Find the widget...
+    m_Builder->get_widget(WidgetName, std::forward<WidgetType>(WidgetObject));
+    g_assert(WidgetObject);
+
+    // Get the active property of the widget we will bind settings backend to...
+    const auto Property = WidgetObject->property_active();
+
+    // Bind settings...
+    m_Settings->bind(Key, Property);
+}
+
 // OpenCL device type needing to be rendered in a combobox cell...
 void PreferencesDialog::OnCellDataOpenCLDeviceType(
     const Gtk::TreeModel::const_iterator &Iterator)
@@ -270,24 +286,6 @@ void PreferencesDialog::OnCellDataOpenCLDeviceType(
             m_CellRendererText_Hardware_Devices_Type.property_foreground_rgba() = Gdk::RGBA("#0000fe");
             break;
     }
-}
-
-// Find a widget and bind it to a particular setting...
-template <typename WidgetType>
-void PreferencesDialog::FindAndBindActiveProperty(
-    const string &WidgetName,
-    WidgetType *& WidgetObject,
-    const string &Key) const
-{
-    // Find the widget...
-    m_Builder->get_widget(WidgetName, WidgetObject);
-    g_assert(WidgetObject);
-
-    // Get the active property of the widget we will bind settings backend to...
-    const auto Property = WidgetObject->property_active();
-
-    // Bind settings...
-    m_Settings->bind(Key, Property);
 }
 
 // Colour scheme cursor changed in tree view...
@@ -449,8 +447,9 @@ void PreferencesDialog::OnHardwarePlatformChanged()
         vector<cl::Device> Devices;
         
         // Try to query its devices. Some implementations have a bug where if
-        //  no devices are detected, CL_SUCCESS is returned instead of 
-        //  CL_DEVICE_NOT_FOUND, and a nasty exception is thrown...
+        //  no devices are detected, CL_HPP_ENABLE_EXCEPTIONS is defined and
+        //  CL_SUCCESS is returned instead of CL_DEVICE_NOT_FOUND a nasty
+        //  unexpected exception is thrown...
         cl_int GetDevicesStatus = 0;
         try
         {
@@ -458,12 +457,12 @@ void PreferencesDialog::OnHardwarePlatformChanged()
             GetDevicesStatus = SelectedPlatform.getDevices(CL_DEVICE_TYPE_ALL, &Devices);
         }
             // Failed...
-            catch(const exception &CLException)
+            catch(const cl::Error &Exception)
             {
                 // This isn't an implementation bug we recognize, so pass up
                 //  the exception handler chain...
-                if((GetDevicesStatus != CL_SUCCESS) || (CLException.what() != string("clGetDeviceIDs")))
-                    throw CLException;
+                if((GetDevicesStatus != CL_SUCCESS) || (Exception.what() != string("clGetDeviceIDs")))
+                    throw Exception;
             }
 
         // Add each device OpenCL provided us...

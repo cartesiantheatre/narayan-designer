@@ -121,8 +121,8 @@ AC_CANONICAL_HOST
 AM_GNU_GETTEXT([external], [need-ngettext])
 AM_GNU_GETTEXT_VERSION([0.19.8])
 
-    # These options get passed to xgettext. These are the full GLib-approved list of
-    #  options for use in a Gtk+ project...
+    # These options get passed to xgettext. These are the full GLib-approved
+    #  list of options for use in a Gtk+ project...
     AM_XGETTEXT_OPTION([--from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=C_:1c,2 --keyword=NC_:1c,2 --keyword=g_dngettext:2,3 --add-comments])
 
 # Make sure we are not being run as root...
@@ -289,7 +289,7 @@ AC_LANG([C++])
     LIBS="$LIBS $libcanberra_gtk3_LIBS"
 
     # OpenCL dispatch library acts as a proxy to actual vendor implementation,
-    #  such as fd.o Beignet (Intel), nVidia, AMD, Mesa, etc...
+    #  such as fd.o Beignet (Intel), nVidia, AMD, Clover (Mesa), etc...
 
         # First try via pkg-config...
         PKG_CHECK_MODULES(

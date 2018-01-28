@@ -15114,8 +15114,8 @@ $as_echo "#define HAVE_DCGETTEXT 1" >>confdefs.h
 
 
 
-    # These options get passed to xgettext. These are the full GLib-approved list of
-    #  options for use in a Gtk+ project...
+    # These options get passed to xgettext. These are the full GLib-approved
+    #  list of options for use in a Gtk+ project...
 
   XGETTEXT_EXTRA_OPTIONS=
 
@@ -22550,7 +22550,7 @@ fi
     LIBS="$LIBS $libcanberra_gtk3_LIBS"
 
     # OpenCL dispatch library acts as a proxy to actual vendor implementation,
-    #  such as fd.o Beignet (Intel), nVidia, AMD, Mesa, etc...
+    #  such as fd.o Beignet (Intel), nVidia, AMD, Clover (Mesa), etc...
 
         # First try via pkg-config...
 
