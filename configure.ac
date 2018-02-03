@@ -276,8 +276,8 @@ AC_LANG([C++])
 
     # GtkSourceView C++ headers and libraries...
     PKG_CHECK_MODULES(
-        [libgtksourceviewmm], [gtksourceviewmm-3.0 >= 3.18.0], [],
-        [AC_MSG_ERROR([gtksourceviewmm-3.0 >= 3.18.0 not found...])])
+        [libgtksourceviewmm], [gtksourceviewmm-3.0 >= 3.21.3], [],
+        [AC_MSG_ERROR([gtksourceviewmm-3.0 >= 3.21.3 not found...])])
     CXXFLAGS="$CXXFLAGS $libgtksourceviewmm_CFLAGS"
     LIBS="$LIBS $libgtksourceviewmm_LIBS"
 

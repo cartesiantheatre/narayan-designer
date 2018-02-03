@@ -22409,12 +22409,12 @@ if test -n "$libgtksourceviewmm_CFLAGS"; then
     pkg_cv_libgtksourceviewmm_CFLAGS="$libgtksourceviewmm_CFLAGS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtksourceviewmm-3.0 >= 3.18.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "gtksourceviewmm-3.0 >= 3.18.0") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtksourceviewmm-3.0 >= 3.21.3\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gtksourceviewmm-3.0 >= 3.21.3") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_libgtksourceviewmm_CFLAGS=`$PKG_CONFIG --cflags "gtksourceviewmm-3.0 >= 3.18.0" 2>/dev/null`
+  pkg_cv_libgtksourceviewmm_CFLAGS=`$PKG_CONFIG --cflags "gtksourceviewmm-3.0 >= 3.21.3" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
@@ -22426,12 +22426,12 @@ if test -n "$libgtksourceviewmm_LIBS"; then
     pkg_cv_libgtksourceviewmm_LIBS="$libgtksourceviewmm_LIBS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtksourceviewmm-3.0 >= 3.18.0\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "gtksourceviewmm-3.0 >= 3.18.0") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtksourceviewmm-3.0 >= 3.21.3\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gtksourceviewmm-3.0 >= 3.21.3") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_libgtksourceviewmm_LIBS=`$PKG_CONFIG --libs "gtksourceviewmm-3.0 >= 3.18.0" 2>/dev/null`
+  pkg_cv_libgtksourceviewmm_LIBS=`$PKG_CONFIG --libs "gtksourceviewmm-3.0 >= 3.21.3" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
@@ -22452,18 +22452,18 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        libgtksourceviewmm_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gtksourceviewmm-3.0 >= 3.18.0" 2>&1`
+	        libgtksourceviewmm_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gtksourceviewmm-3.0 >= 3.21.3" 2>&1`
         else
-	        libgtksourceviewmm_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gtksourceviewmm-3.0 >= 3.18.0" 2>&1`
+	        libgtksourceviewmm_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gtksourceviewmm-3.0 >= 3.21.3" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$libgtksourceviewmm_PKG_ERRORS" >&5
 
-	as_fn_error $? "gtksourceviewmm-3.0 >= 3.18.0 not found..." "$LINENO" 5
+	as_fn_error $? "gtksourceviewmm-3.0 >= 3.21.3 not found..." "$LINENO" 5
 elif test $pkg_failed = untried; then
      	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
-	as_fn_error $? "gtksourceviewmm-3.0 >= 3.18.0 not found..." "$LINENO" 5
+	as_fn_error $? "gtksourceviewmm-3.0 >= 3.21.3 not found..." "$LINENO" 5
 else
 	libgtksourceviewmm_CFLAGS=$pkg_cv_libgtksourceviewmm_CFLAGS
 	libgtksourceviewmm_LIBS=$pkg_cv_libgtksourceviewmm_LIBS

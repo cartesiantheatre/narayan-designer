@@ -42,6 +42,7 @@
 
     // GtkSourceViewMM...
     #include <gtksourceviewmm.h>
+    #include <gtksourceviewmm/styleschemechooserwidget.h>
 
     // Standard C++ / POSIX system headers...
     #include <string>
@@ -88,9 +89,6 @@ class PreferencesDialog : public Gtk::Dialog
                 
                 // Close button clicked...
                 void OnCloseButton();
-
-                // Colour scheme cursor changed in tree view...
-                void OnColourSchemeChanged();
 
                 // Hardware device combobox text selection changed...
                 void OnHardwareDeviceChanged();
@@ -178,73 +176,77 @@ class PreferencesDialog : public Gtk::Dialog
         // Notebook tab ordinals...
         enum
         {
-            Tab_General,
+            Tab_General = 0,
             Tab_Editor,
             Tab_Hardware
         };
 
         // Builder...
-        Glib::RefPtr<Gtk::Builder>          m_Builder;
+        Glib::RefPtr<Gtk::Builder>                  m_Builder;
 
         // Settings
 
             // Preferences notebook...
-            Gtk::Notebook                  *m_Notebook_Preferences;
+            Gtk::Notebook                          *m_Notebook_Preferences;
         
             // Backend...
-            Glib::RefPtr<Gio::Settings>     m_Settings;
+            Glib::RefPtr<Gio::Settings>             m_Settings;
             
 
         // General tab...
 
             // Show splash check button...
-            Gtk::CheckButton               *m_CheckButton_General_ShowSplash;
+            Gtk::CheckButton                       *m_CheckButton_General_ShowSplash;
+            
+            // Show usage tips check button...
+            Gtk::CheckButton                       *m_CheckButton_General_ShowUsageTips;
         
         // Editor tab...
             
             // Use system monospace font...
-            Gtk::CheckButton               *m_CheckButton_Editor_UseSystemDefaultMonospaceFont;
+            Gtk::CheckButton                       *m_CheckButton_Editor_UseSystemDefaultMonospaceFont;
             
             // Custom font to use...
-            Gtk::FontButton                *m_FontButton_Editor_CustomFont;
+            Gtk::FontButton                        *m_FontButton_Editor_CustomFont;
             
             // Use dark theme variant, if available...
-            Gtk::CheckButton               *m_CheckButton_Editor_UseDarkTheme;
+            Gtk::CheckButton                       *m_CheckButton_Editor_UseDarkTheme;
             
-            // Colour scheme...
-            Gtk::TreeView                  *m_TreeView_Editor_ColourScheme;
+            // Style scheme chooser...
+            Gsv::StyleSchemeChooserWidget          *m_StyleSchemeChooserWidget_Editor;
         
         // Hardware tab...
 
             // Platform combobox text, tree columns definition, and the actual
             //  ListStore for the storage each row...
-            Gtk::ComboBoxText              *m_ComboBoxText_Hardware_Platform;
-            HardwarePlatformTreeColumns     m_TreeColumns_Hardware_Platform;
-            Glib::RefPtr<Gtk::ListStore>    m_ListStore_Hardware_Platform;
+            Gtk::ComboBoxText                      *m_ComboBoxText_Hardware_Platform;
+            HardwarePlatformTreeColumns             m_TreeColumns_Hardware_Platform;
+            Glib::RefPtr<Gtk::ListStore>            m_ListStore_Hardware_Platform;
 
             // Platform labels...
-            Gtk::Label                     *m_Label_Hardware_Platform_Profile;
-            Gtk::Label                     *m_Label_Hardware_Platform_Version;
-            Gtk::Label                     *m_Label_Hardware_Platform_Vendor;
+            Gtk::Label                             *m_Label_Hardware_Platform_Profile;
+            Gtk::Label                             *m_Label_Hardware_Platform_Version;
+            Gtk::Label                             *m_Label_Hardware_Platform_Vendor;
 
             // Device combobox text, tree columns definition, the ListStore for
             //  the storage of the rows, and a custom cell renderer...
-            Gtk::ComboBoxText              *m_ComboBoxText_Hardware_Devices;
-            HardwareDevicesTreeColumns      m_TreeColumns_Hardware_Devices;
-            Glib::RefPtr<Gtk::ListStore>    m_ListStore_Hardware_Devices;
-            Gtk::CellRendererText           m_CellRendererText_Hardware_Devices_Type;
+            Gtk::ComboBoxText                      *m_ComboBoxText_Hardware_Devices;
+            HardwareDevicesTreeColumns              m_TreeColumns_Hardware_Devices;
+            Glib::RefPtr<Gtk::ListStore>            m_ListStore_Hardware_Devices;
+            Gtk::CellRendererText                   m_CellRendererText_Hardware_Devices_Type;
 
-            // Device textview...
-            Gtk::TextView                  *m_TextView_Hardware_DeviceInfo;
+            // Device textview and default text...
+            Gtk::TextView                          *m_TextView_Hardware_DeviceInfo;
+            const std::string                       m_Hardware_DeviceInfo_DefaultText;
 
             // Refresh hardware button...
-            Gtk::Button                    *m_Button_Hardware_Refresh;
+            Gtk::Button                            *m_Button_Hardware_Refresh;
 
         // Help button...
-        Gtk::Button                        *m_Button_Help;
+        Gtk::Button                                *m_Button_Help;
 
         // Close button...
-        Gtk::Button                        *m_Button_Close;
+        Gtk::Button                                *m_Button_Close;
 };
 
 // Multiple include protection...

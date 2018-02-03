@@ -85,6 +85,13 @@ NarayanDesignerApplication::NarayanDesignerApplication()
     //  exception for Glib FileError, MarkupError, or BuilderError...
     try
     {
+        // Initialize GtkSourceView internals. The documentation doesn't make it
+        //  clear when this is support to be called, or even that it needs to be
+        //  at all, but on my system with gtksourceviewmm 3.21.3, gtksourceview
+        //  3.24.5, gtk+ 3.22.25, and gtkmm 3.22.2, Gtk::Builder throws an
+        //  exception without it...
+        //Gsv::init();
+
         // Load main window...
         m_Builder->add_from_resource(NARAYAN_DESIGNER_RESOURCE_ROOT "MainWindow.ui");
 
@@ -93,7 +100,7 @@ NarayanDesignerApplication::NarayanDesignerApplication()
         // Application menu with id="menubar" is automatically loaded and set as
         //  a menubar in the traditional sense...
         m_Builder->add_from_resource(NARAYAN_DESIGNER_RESOURCE_ROOT "Menus.ui");
-        
+
         // Load the preferences dialog...
         m_Builder->add_from_resource(NARAYAN_DESIGNER_RESOURCE_ROOT "PreferencesDialog.ui");
     }

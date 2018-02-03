@@ -22,6 +22,12 @@
             <description>Whether to display the application splash screen on startup.</description>
         </key>
 
+        <key name="general-show-usage-tips" type="b">
+            <default>true</default>
+            <summary>Show usage tips on startup</summary>
+            <description>Whether to display helpful usage tips on application startup.</description>
+        </key>
+
         <key name="editor-use-system-default-monospace-font" type="b">
             <default>true</default>
             <summary>Use default fixed width font</summary>
@@ -40,10 +46,10 @@
             <description>If a dark theme variation of the currently selected colour scheme is available, use it</description>
         </key>
 
-        <key name="editor-colour-scheme" type="s">
+        <key name="editor-style-scheme" type="s">
             <default>"solarized-dark"</default>
-            <summary>Editor colour scheme</summary>
-            <description>Selected editor colour scheme</description>
+            <summary>Editor style scheme</summary>
+            <description>Selected editor style scheme</description>
         </key>
 
         <key name="hardware-platform-id" type="i">

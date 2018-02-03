@@ -18,6 +18,12 @@
     #include <vector>
     #include <regex>
 
+    // Gtkmm...
+    #include <gtkmm/scrolledwindow.h>
+    
+    // GtkSourceViewMM...
+    #include <gtksourceviewmm/styleschemechooser.h>
+
     // i18n...
     #include "gettext.h"
     #define _(str) gettext (str)
@@ -39,7 +45,7 @@ PreferencesDialog::PreferencesDialog(
     m_CheckButton_Editor_UseSystemDefaultMonospaceFont(nullptr),
     m_FontButton_Editor_CustomFont(nullptr),
     m_CheckButton_Editor_UseDarkTheme(nullptr),
-    m_TreeView_Editor_ColourScheme(nullptr),
+    m_StyleSchemeChooserWidget_Editor(nullptr),
     m_ComboBoxText_Hardware_Platform(nullptr),
     m_ListStore_Hardware_Platform(Gtk::ListStore::create(m_TreeColumns_Hardware_Platform)),
     m_Label_Hardware_Platform_Profile(nullptr),
@@ -48,6 +54,7 @@ PreferencesDialog::PreferencesDialog(
     m_ComboBoxText_Hardware_Devices(nullptr),
     m_ListStore_Hardware_Devices(Gtk::ListStore::create(m_TreeColumns_Hardware_Devices)),
     m_TextView_Hardware_DeviceInfo(nullptr),
+    m_Hardware_DeviceInfo_DefaultText(_("Select a device to see more information on its capabilities.")),
     m_Button_Hardware_Refresh(nullptr),
     m_Button_Help(nullptr),
     m_Button_Close(nullptr)
@@ -69,9 +76,15 @@ PreferencesDialog::PreferencesDialog(
 
         // Find show splash check button and bind to settings backend...
         FindAndBindActiveProperty(
-            "CheckButton_General_ShowSplash", 
-            m_CheckButton_General_ShowSplash, 
+            "CheckButton_General_ShowSplash",
+            m_CheckButton_General_ShowSplash,
             "general-show-splash");
+
+        // Find show usage tips check button and bind to settings backend...
+        FindAndBindActiveProperty(
+            "CheckButton_General_ShowUsageTips",
+            m_CheckButton_General_ShowUsageTips,
+            "general-show-usage-tips");
 
     // Editor tab...
 
@@ -113,7 +126,7 @@ PreferencesDialog::PreferencesDialog(
             // Find it...
             m_Builder->get_widget("FontButton_Editor_CustomFont", m_FontButton_Editor_CustomFont);
             g_assert(m_FontButton_Editor_CustomFont);
-            
+
             // Bind to settings backend...
             m_Settings->bind("editor-custom-font", m_FontButton_Editor_CustomFont->property_font_name());
 
@@ -122,16 +135,39 @@ PreferencesDialog::PreferencesDialog(
             "CheckButton_Editor_UseDarkTheme",
             m_CheckButton_Editor_UseDarkTheme,
             "editor-use-dark-theme");
-        
-        // Colour scheme tree view...
-        
-            // Find the widget...
-            m_Builder->get_widget("TreeView_Editor_ColourScheme", m_TreeView_Editor_ColourScheme);
-            g_assert(m_TreeView_Editor_ColourScheme);
-            
-            // Connect cursor changed signal...
-            m_TreeView_Editor_ColourScheme->signal_cursor_changed().connect(
-                sigc::mem_fun(*this, &PreferencesDialog::OnColourSchemeChanged));
+
+        // Style scheme chooser...
+
+            // Find the parent GtkScrolledWindow widget...
+            Gtk::ScrolledWindow *ScrolledWindowStyleSchemeChooserWidget_Editor = nullptr;
+            m_Builder->get_widget("ScrolledWindowStyleSchemeChooserWidget_Editor", ScrolledWindowStyleSchemeChooserWidget_Editor);
+            g_assert(ScrolledWindowStyleSchemeChooserWidget_Editor);
+
+            // Workaround for <https://bugzilla.gnome.org/show_bug.cgi?id=744478>
+
+                // Create StyleSchemeChooserWidget and let its lifetime be
+                //  managed by its parent container...
+                m_StyleSchemeChooserWidget_Editor =
+                    Gtk::manage(new Gsv::StyleSchemeChooserWidget());
+
+                // Add to parent GtkScrolledWindow container...
+                ScrolledWindowStyleSchemeChooserWidget_Editor->add(
+                    *m_StyleSchemeChooserWidget_Editor);
+
+                // Make it visible...
+                m_StyleSchemeChooserWidget_Editor->set_visible(true);
+
+            /*
+            GtkSourceStyleSchemeChooser *StyleSchemeChooserRawObject =
+                GTK_SOURCE_STYLE_SCHEME_CHOOSER(m_StyleSchemeChooserWidget_Editor->gobj());
+
+            Glib::RefPtr<Gsv::StyleSchemeChooser> Chooser
+                = Glib::wrap_interface(StyleSchemeChooserRawObject);
+
+            // Bind to settings backend...
+            m_Settings->bind("editor-style-scheme",
+                Chooser->property_style_scheme());
+            */
 
     // Hardware tab...
     
@@ -288,29 +324,6 @@ void PreferencesDialog::OnCellDataOpenCLDeviceType(
     }
 }
 
-// Colour scheme cursor changed in tree view...
-void PreferencesDialog::OnColourSchemeChanged()
-{
-    /* Retrieve the name of the currently selected colour scheme...
-    
-        // Find the current cursor path and focus column in the treeview...
-        TreeModel::Path CurrentCursorPath;
-        TreeViewColumn::FocusColumn CurrentFocusColumn;
-        m_TreeView_Editor_ColourScheme->get_cursor(CurrentCursorPath, CurrentFocusColumn);
-    
-        // Verify path iterator is valid...
-        if(!CursorPath)
-            return;
-    
-        // Now use the path iterator of the tree view to get the iterator inside
-        //  of the tree view's model...
-        auto Model = m_TreeView_Editor_ColourScheme->get_modal();
-        auto ModelIterator = Model->get_iter(CurrentCursorPath);
-    
-    // Store the string in the settings backend...
-    m_Settings->set_string("editor-colour-scheme", ColourSchemeName);*/
-}
-
 // Close button clicked...
 void PreferencesDialog::OnCloseButton()
 {
@@ -343,8 +356,7 @@ void PreferencesDialog::OnHardwareDeviceChanged()
     if(!TreeModelIterator)
     {
         // Clear the device information back to default...
-        TextBuffer->property_text() =
-            _("Select a device to see more information on its capabilities.");
+        TextBuffer->property_text() = m_Hardware_DeviceInfo_DefaultText;
 
         // Nothing to query then...
         return;
@@ -504,8 +516,7 @@ void PreferencesDialog::OnHardwarePlatformChanged()
                     m_TextView_Hardware_DeviceInfo->get_buffer();
 
                 // Clear the device information back to default...
-                TextBuffer->property_text() =
-                    _("Select a device to see more information on its capabilities.");
+                TextBuffer->property_text() = m_Hardware_DeviceInfo_DefaultText;
         }
 }
 
