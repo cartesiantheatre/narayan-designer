@@ -16,16 +16,22 @@
             <description>The index of the last selected page in the preferences dialog.</description>
         </key>
 
-        <key name="general-show-splash" type="b">
+        <key name="general-startup-show-splash" type="b">
             <default>true</default>
             <summary>Show splash on startup</summary>
             <description>Whether to display the application splash screen on startup.</description>
         </key>
 
-        <key name="general-show-usage-tips" type="b">
+        <key name="general-startup-show-usage-tips" type="b">
             <default>true</default>
             <summary>Show usage tips on startup</summary>
             <description>Whether to display helpful usage tips on application startup.</description>
+        </key>
+        
+        <key name="general-play-sound-effects" type="b">
+            <default>true</default>
+            <summary>Play sound effects</summary>
+            <description>Whether to play sound effects for various events.</description>
         </key>
 
         <key name="editor-use-system-default-monospace-font" type="b">

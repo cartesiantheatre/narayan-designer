@@ -89,8 +89,9 @@ NarayanDesignerApplication::NarayanDesignerApplication()
         //  clear when this is support to be called, or even that it needs to be
         //  at all, but on my system with gtksourceviewmm 3.21.3, gtksourceview
         //  3.24.5, gtk+ 3.22.25, and gtkmm 3.22.2, Gtk::Builder throws an
-        //  exception without it...
-        //Gsv::init();
+        //  exception without it. But with it we still get a glib warning about 
+        //  Class::register_derived_type(): base_query.type_name is NULL...
+        Gsv::init();
 
         // Load main window...
         m_Builder->add_from_resource(NARAYAN_DESIGNER_RESOURCE_ROOT "MainWindow.ui");

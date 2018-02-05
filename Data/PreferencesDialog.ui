@@ -102,7 +102,7 @@ Author: Cartesian Theatre
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="halign">start</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Application Startup&lt;/b&gt;</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Startup&lt;/b&gt;</property>
                         <property name="use_markup">True</property>
                         <property name="justify">fill</property>
                       </object>
@@ -120,7 +120,7 @@ Author: Cartesian Theatre
                         <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
-                          <object class="GtkCheckButton" id="CheckButton_General_ShowSplash">
+                          <object class="GtkCheckButton" id="CheckButton_General_StartupShowSplash">
                             <property name="label" translatable="yes">Show splash screen</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -134,7 +134,7 @@ Author: Cartesian Theatre
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkCheckButton" id="CheckButton_General_ShowUsageTips">
+                          <object class="GtkCheckButton" id="CheckButton_General_StartupShowUsageTips">
                             <property name="label" translatable="yes">Show usage tips</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -159,6 +159,62 @@ Author: Cartesian Theatre
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Feedback&lt;/b&gt;</property>
+                        <property name="use_markup">True</property>
+                        <property name="justify">fill</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">20</property>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkCheckButton" id="CheckButton_General_PlaySoundEffects">
+                            <property name="label" translatable="yes">Play sound effects</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
               </object>
@@ -586,14 +642,42 @@ Author: Cartesian Theatre
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="Button_Hardware_Refresh">
-                    <property name="label">gtk-refresh</property>
+                  <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">Click to refresh the list of OpenCL platforms and available computing devices.</property>
+                    <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="use_stock">True</property>
+                    <property name="spacing">6</property>
+                    <child>
+                      <object class="GtkButton" id="Button_DeviceInfo_Copy">
+                        <property name="label">gtk-copy</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Copy the device's information to the clipboard.</property>
+                        <property name="use_stock">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="Button_Hardware_Refresh">
+                        <property name="label">gtk-refresh</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="tooltip_text" translatable="yes">Click to refresh the list of OpenCL platforms and available computing devices.</property>
+                        <property name="halign">end</property>
+                        <property name="use_stock">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>

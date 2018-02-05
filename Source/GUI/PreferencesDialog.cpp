@@ -41,7 +41,9 @@ PreferencesDialog::PreferencesDialog(
     m_Builder(Builder),
     m_Notebook_Preferences(nullptr),
     m_Settings(Settings),
-    m_CheckButton_General_ShowSplash(nullptr),
+    m_CheckButton_General_StartupShowSplash(nullptr),
+    m_CheckButton_General_StartupShowUsageTips(nullptr),
+    m_CheckButton_General_PlaySoundEffects(nullptr),
     m_CheckButton_Editor_UseSystemDefaultMonospaceFont(nullptr),
     m_FontButton_Editor_CustomFont(nullptr),
     m_CheckButton_Editor_UseDarkTheme(nullptr),
@@ -55,6 +57,7 @@ PreferencesDialog::PreferencesDialog(
     m_ListStore_Hardware_Devices(Gtk::ListStore::create(m_TreeColumns_Hardware_Devices)),
     m_TextView_Hardware_DeviceInfo(nullptr),
     m_Hardware_DeviceInfo_DefaultText(_("Select a device to see more information on its capabilities.")),
+    m_Button_DeviceInfo_Copy(nullptr),
     m_Button_Hardware_Refresh(nullptr),
     m_Button_Help(nullptr),
     m_Button_Close(nullptr)
@@ -76,15 +79,21 @@ PreferencesDialog::PreferencesDialog(
 
         // Find show splash check button and bind to settings backend...
         FindAndBindActiveProperty(
-            "CheckButton_General_ShowSplash",
-            m_CheckButton_General_ShowSplash,
-            "general-show-splash");
+            "CheckButton_General_StartupShowSplash",
+            m_CheckButton_General_StartupShowSplash,
+            "general-startup-show-splash");
 
         // Find show usage tips check button and bind to settings backend...
         FindAndBindActiveProperty(
-            "CheckButton_General_ShowUsageTips",
-            m_CheckButton_General_ShowUsageTips,
-            "general-show-usage-tips");
+            "CheckButton_General_StartupShowUsageTips",
+            m_CheckButton_General_StartupShowUsageTips,
+            "general-startup-show-usage-tips");
+
+        // Find play sound effects check button and bind to settings backend...
+        FindAndBindActiveProperty(
+            "CheckButton_General_PlaySoundEffects",
+            m_CheckButton_General_PlaySoundEffects,
+            "general-play-sound-effects");
 
     // Editor tab...
 
@@ -144,6 +153,8 @@ PreferencesDialog::PreferencesDialog(
             g_assert(ScrolledWindowStyleSchemeChooserWidget_Editor);
 
             // Workaround for <https://bugzilla.gnome.org/show_bug.cgi?id=744478>
+            //  which requires us to manually create the chooser widget since
+            //  at the time of writing Glade would have clobbered it...
 
                 // Create StyleSchemeChooserWidget and let its lifetime be
                 //  managed by its parent container...
@@ -157,17 +168,45 @@ PreferencesDialog::PreferencesDialog(
                 // Make it visible...
                 m_StyleSchemeChooserWidget_Editor->set_visible(true);
 
-            /*
-            GtkSourceStyleSchemeChooser *StyleSchemeChooserRawObject =
-                GTK_SOURCE_STYLE_SCHEME_CHOOSER(m_StyleSchemeChooserWidget_Editor->gobj());
+            // Another workaround for setting its selected scheme...
 
-            Glib::RefPtr<Gsv::StyleSchemeChooser> Chooser
-                = Glib::wrap_interface(StyleSchemeChooserRawObject);
+                // What did the user previously have selected?
+                const std::string CurrentEditorStyleSchemeID =
+                    m_Settings->get_string("editor-style-scheme");
 
-            // Bind to settings backend...
-            m_Settings->bind("editor-style-scheme",
-                Chooser->property_style_scheme());
-            */
+                // Lookup that style scheme ID in the scheme manager...
+                Glib::RefPtr<Gsv::StyleSchemeManager> DefaultStyleSchemeManager
+                    = Gsv::StyleSchemeManager::get_default();
+                Glib::RefPtr<Gsv::StyleScheme> CurrentStyleScheme
+                    = DefaultStyleSchemeManager->get_scheme(CurrentEditorStyleSchemeID);
+
+                // Find the chooser object...
+                GtkSourceStyleSchemeChooser *Chooser =
+                    GTK_SOURCE_STYLE_SCHEME_CHOOSER(
+                        m_StyleSchemeChooserWidget_Editor->gobj());
+                
+                // Set the selected scheme...
+              ::gtk_source_style_scheme_chooser_set_style_scheme(
+                    Chooser,
+                    GTK_SOURCE_STYLE_SCHEME(CurrentStyleScheme->gobj()));
+
+            // Another workaround for tracking its selected scheme...
+            
+                // I can't find any way obtain the style-scheme property
+                //  directly from the chooser widget, so we wrap the property
+                //  manually...
+                Glib::PropertyProxy< Glib::RefPtr<Gsv::StyleScheme> >
+                    PropertyStyleScheme(
+                        m_StyleSchemeChooserWidget_Editor,
+                        "style-scheme");
+
+                // But even then, we can't this property directly to a GSettings
+                //  backend because it doesn't seem to be able to handle
+                //  GtkSourceStyleScheme types as keys with string values in the
+                //  settings schema. So we manually connect a callback to
+                //  monitor whenever the property changes...
+                PropertyStyleScheme.signal_changed().connect(
+                    sigc::mem_fun(*this, &PreferencesDialog::OnEditorColourSchemeChanged));
 
     // Hardware tab...
     
@@ -227,6 +266,16 @@ PreferencesDialog::PreferencesDialog(
         // Device information textview...
         m_Builder->get_widget("TextView_Hardware_DeviceInfo", m_TextView_Hardware_DeviceInfo);
         g_assert(m_TextView_Hardware_DeviceInfo);
+
+        // Copy device info button...
+
+            // Find it...
+            m_Builder->get_widget("Button_DeviceInfo_Copy", m_Button_DeviceInfo_Copy);
+            g_assert(m_Button_DeviceInfo_Copy);
+
+            // Connect clicked signal...
+            m_Button_DeviceInfo_Copy->signal_clicked().connect(
+                sigc::mem_fun(*this, &PreferencesDialog::OnCopyDeviceInfo));
 
         // Refresh hardware button...
 
@@ -329,6 +378,41 @@ void PreferencesDialog::OnCloseButton()
 {
     // Hide the dialog...
     hide();
+}
+
+// Copy device info button clicked...
+void PreferencesDialog::OnCopyDeviceInfo()
+{
+    // Retrieve the clipboard...
+    Glib::RefPtr<Gtk::Clipboard> ClipboardObject = Gtk::Clipboard::get();
+
+    // Get the text buffer for the device info textview...
+    Glib::RefPtr<Gtk::TextBuffer> TextBuffer =
+        m_TextView_Hardware_DeviceInfo->get_buffer();
+    
+    // Set the clipboard text to the contents of the device info...
+    ClipboardObject->set_text(TextBuffer->get_text());
+}
+
+// Colour scheme cursor changed...
+void PreferencesDialog::OnEditorColourSchemeChanged()
+{
+    // GtkStyleSchemeChooserWidget is not a GtkSourceStyleSchemeChooser so I
+    //  don't know why this works, but it does...
+    GtkSourceStyleSchemeChooser *Chooser =
+        GTK_SOURCE_STYLE_SCHEME_CHOOSER(
+            m_StyleSchemeChooserWidget_Editor->gobj());
+    
+    // Get the selected style scheme...
+    GtkSourceStyleScheme *SourceStyleScheme =
+        ::gtk_source_style_scheme_chooser_get_style_scheme(Chooser);
+    
+    // Get the ID string of the style scheme...
+    const std::string StyleSchemeID = 
+        ::gtk_source_style_scheme_get_id(SourceStyleScheme);
+
+    // Store it in the settings backend...
+    m_Settings->set_string("editor-style-scheme", StyleSchemeID);
 }
 
 // Something or someone is attempting to close the window...
