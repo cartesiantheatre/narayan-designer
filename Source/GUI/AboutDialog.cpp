@@ -15,8 +15,6 @@
     // Standard C++ / POSIX system headers...
     #include <vector>
 
-#include <iostream>
-
     // Gdkmm...
     #include <gdkmm/pixbuf.h>
 
