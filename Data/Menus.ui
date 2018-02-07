@@ -210,13 +210,14 @@
               </item>
               <item>
                 <attribute name="label" translatable="yes">Report Bug</attribute>
+                <attribute name="action">win.report-bug</attribute>
                 <attribute name="icon">application-community</attribute>
               </item>
             </section>
             <section>
               <item>
                 <attribute name="label" translatable="yes">_About</attribute>
-                <attribute name="action">app.help-about</attribute>
+                <attribute name="action">app.about</attribute>
                 <attribute name="icon">help-about</attribute>
               </item>
             </section>

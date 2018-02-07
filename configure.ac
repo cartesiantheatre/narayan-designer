@@ -8,7 +8,7 @@ AC_PREREQ([2.67])
 AC_INIT(
     [narayan-designer],
     [0.0.0],
-    [Cartesian Theatre <info@cartesiantheatre.com>],
+    [https://github.com/cartesiantheatre/narayan-designer/issues],
     [narayan-designer],
     [https://www.cartesiantheatre.com])
 

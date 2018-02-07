@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: narayan-designer 0.0.0\n"
 "Report-Msgid-Bugs-To: \"Cartesian Theatre <info@cartesiantheatre.com>\"\n"
-"POT-Creation-Date: 2018-01-08 22:02-0800\n"
+"POT-Creation-Date: 2018-02-06 19:58-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,25 +39,105 @@ msgid ""
 "visualization;parallel computing;building;avaneya;game;gaming;opencl;"
 msgstr ""
 
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:7
-#: Data/PreferencesDialog.ui:77
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:8
+msgid "Log visibility"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:9
+msgid "Whether to expand the log view."
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:15
+msgid "Preferences page index"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:16
+msgid "The index of the last selected page in the preferences dialog."
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:21
 msgid "Show splash on startup"
 msgstr ""
 
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:8
-msgid "Whether to display the application splash screen on startup"
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:22
+msgid "Whether to display the application splash screen on startup."
 msgstr ""
 
-#: Data/MainWindow.ui:36
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:27
+msgid "Show usage tips on startup"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:28
+msgid "Whether to display helpful usage tips on application startup."
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:33
+#: Data/PreferencesDialog.ui:194
+msgid "Play sound effects"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:34
+msgid "Whether to play sound effects for various events."
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:39
+msgid "Use default fixed width font"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:40
+msgid ""
+"Whether to use the system's default fixed width (monospace) font instead of "
+"a custom font."
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:45
+msgid "Custom editor font"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:46
+msgid ""
+"If not configured to use the system's default fixed width font, use this "
+"font for the editor."
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:51
+msgid "Prefer dark theme variations"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:52
+msgid ""
+"If a dark theme variation of the currently selected colour scheme is "
+"available, use it"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:57
+msgid "Editor style scheme"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:58
+msgid "Selected editor style scheme"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:64
+msgid "Selected hardware platform ID"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:65
+msgid "The selected hardware platform ID the simulation will execute on."
+msgstr ""
+
+#: Data/MainWindow.ui:32
 msgid "Welcome to Narayan Designer..."
 msgstr ""
 
+#. Set the program name...
 #. Set the application name...
-#: Data/MainWindow.ui:41 Source/Main/NarayanDesignerApplication.cpp:56
+#: Data/MainWindow.ui:37 Source/GUI/AboutDialog.cpp:39
+#: Source/Main/NarayanDesignerApplication.cpp:58
 msgid "Narayan Designer"
 msgstr ""
 
-#: Data/MainWindow.ui:154
+#: Data/MainWindow.ui:150
 msgid "Log"
 msgstr ""
 
@@ -65,7 +145,7 @@ msgstr ""
 msgid "_Documentation"
 msgstr ""
 
-#: Data/Menus.ui:31 Data/Menus.ui:218
+#: Data/Menus.ui:31 Data/Menus.ui:219
 msgid "_About"
 msgstr ""
 
@@ -173,6 +253,80 @@ msgstr ""
 msgid "Report Bug"
 msgstr ""
 
+#: Data/PreferencesDialog.ui:34
+msgid "Narayan Preferences"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:105
+msgid "<b>Startup</b>"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:124
+msgid "Show splash screen"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:138
+msgid "Show usage tips"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:175
+msgid "<b>Feedback</b>"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:246
+msgid "<b>Font</b>"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:265
+msgid "Use the system's monospace font (%s)"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:286
+msgid "Editor font: "
+msgstr ""
+
+#: Data/PreferencesDialog.ui:302
+msgid "Pick Editor Font"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:343
+msgid "<b>Colour Scheme</b>"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:361
+msgid "Use dark theme variant, if available"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:427
+msgid "<b>OpenCL Platform</b>"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:467
+msgid "Profile:"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:479
+msgid "Version:"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:491
+msgid "Vendor:"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:572
+msgid "<b>Query Device</b>"
+msgstr ""
+
+#: Data/PreferencesDialog.ui:656
+msgid "Copy the device's information to the clipboard."
+msgstr ""
+
+#: Data/PreferencesDialog.ui:671
+msgid ""
+"Click to refresh the list of OpenCL platforms and available computing "
+"devices."
+msgstr ""
+
 #. TODO: Fix this because this block is never executed.
 #: Source/Compiler/NarayanLogicLexer.lpp:43
 msgid "re-entering multiline comment"
@@ -187,31 +341,131 @@ msgstr ""
 msgid "syntax error: "
 msgstr ""
 
-#: Source/Main/NarayanDesignerApplication.cpp:89
+#. Set comments...
+#: Source/GUI/AboutDialog.cpp:48
+msgid "A modelling tool for the Narayan simulation engine used in Avaneya."
+msgstr ""
+
+#. Set website label and URL...
+#: Source/GUI/AboutDialog.cpp:54
+msgid "Website"
+msgstr ""
+
+#: Source/GUI/AboutDialog.cpp:62
+msgid "Engineering"
+msgstr ""
+
+#: Source/GUI/AboutDialog.cpp:80
+msgid "Testing"
+msgstr ""
+
+#. Translators: Put your name in this string, separating multiple names with
+#. \n character...
+#: Source/GUI/AboutDialog.cpp:84
+msgid "translator-credits"
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:59
+msgid "Select a device to see more information on its capabilities."
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:78
+msgid "General"
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:102
+msgid "Editor"
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:126
+msgid "Use the system's monospace font"
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:215
+msgid "Hardware"
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:346
+msgid "(CPU)"
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:352
+msgid "(GPU)"
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:358
+msgid "(dedicated OpenCL accelerator)"
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:364
+msgid "(dedicated accelerator)"
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:370
+msgid "(unknown)"
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:468
+msgid "Name: "
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:469
+msgid "Vendor: "
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:470
+msgid "Max Computing Units: "
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:471
+msgid "Global Memory: "
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:476
+msgid "Max Clock Frequency: "
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:477
+msgid "Max Allocatable Memory: "
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:482
+msgid "Local Memory: "
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:487
+msgid "Available: "
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:488
+msgid "Extensions: "
+msgstr ""
+
+#: Source/Main/NarayanDesignerApplication.cpp:118
 msgid "Error: Gtk::Builder cannot add resource: "
 msgstr ""
 
 #. Main options group...
 #. Create group...
-#: Source/Main/NarayanDesignerApplication.cpp:230
+#: Source/Main/NarayanDesignerApplication.cpp:278
 msgid "main group"
 msgstr ""
 
-#: Source/Main/NarayanDesignerApplication.cpp:235
+#: Source/Main/NarayanDesignerApplication.cpp:283
 msgid "show version information"
 msgstr ""
 
 #. Show build date...
-#: Source/Main/NarayanDesignerApplication.cpp:288
+#: Source/Main/NarayanDesignerApplication.cpp:336
 msgid "Built on: "
 msgstr ""
 
 #. Relevant dependencies...
-#: Source/Main/NarayanDesignerApplication.cpp:291
+#: Source/Main/NarayanDesignerApplication.cpp:339
 msgid "Compiled against:"
 msgstr ""
 
 #. Show full argument vector passed to configure before building...
-#: Source/Main/NarayanDesignerApplication.cpp:299
+#: Source/Main/NarayanDesignerApplication.cpp:347
 msgid "Configured with: "
 msgstr ""

@@ -1,3 +1,4 @@
+Data/AboutDialog.ui
 Data/com.cartesiantheatre.narayan-designer.desktop.in
 Data/com.cartesiantheatre.narayan-designer.gschema.xml
 Data/MainWindow.ui
@@ -9,6 +10,8 @@ Source/Compiler/NarayanLogicLexer.lpp
 Source/Compiler/NarayanLogicParser.h
 Source/Compiler/NarayanLogicParser.ih
 Source/Compiler/NarayanLogicParser.ypp
+Source/GUI/AboutDialog.cpp
+Source/GUI/AboutDialog.h
 Source/GUI/MainWindow.cpp
 Source/GUI/MainWindow.h
 Source/GUI/PreferencesDialog.cpp

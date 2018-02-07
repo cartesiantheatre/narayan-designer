@@ -55,6 +55,7 @@ class MainWindow : public Gtk::ApplicationWindow
 
                 // Actions...
                 void OnActionShowLog();
+                void OnActionReportBug();
 
     // Protected attributes...
     protected:

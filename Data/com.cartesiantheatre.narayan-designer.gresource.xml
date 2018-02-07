@@ -8,8 +8,12 @@
 <gresources>
   <gresource prefix="/com/cartesiantheatre/narayan-designer">
 
-    <!-- Icons -->
-    <file>Icons/48x48/com.cartesiantheatre.narayan-designer.png</file>
+    <!-- Artwork -->
+    <file>Artwork/Icons/48x48/com.cartesiantheatre.narayan-designer.png</file>
+    <file>Artwork/AboutDialog.png</file>
+
+    <!-- About dialog -->
+    <file compressed="true" preprocess="xml-stripblanks">AboutDialog.ui</file>
 
     <!-- Main user application window -->
     <file compressed="true" preprocess="xml-stripblanks">MainWindow.ui</file>

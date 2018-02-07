@@ -35,6 +35,7 @@
 
 // Forward declarations...
 class MainWindow;
+class AboutDialog;
 class PreferencesDialog;
 
 // Narayan Designer main application class...
@@ -72,12 +73,13 @@ class NarayanDesignerApplication : public Gtk::Application
             // Manually registered...
 
                 // Command line signal...
-                int on_command_line(const Glib::RefPtr<Gio::ApplicationCommandLine> &CommandLine);
+                int OnCommandLine(const Glib::RefPtr<Gio::ApplicationCommandLine> &CommandLine);
 
                 // Window is being hidden...
-                void on_hide(Gtk::Window *Window);
+                void OnHide(Gtk::Window *Window);
                 
                 // Actions...
+                void OnActionAbout();
                 void OnActionPreferences();
                 void OnActionQuit();
 
@@ -87,6 +89,9 @@ class NarayanDesignerApplication : public Gtk::Application
     // Protected attributes...
     protected:
 
+        // About dialog...
+        AboutDialog                    *m_AboutDialog;
+
         // Application menu...
         Glib::RefPtr<Gio::MenuModel>    m_ApplicationMenu;
 
@@ -95,7 +100,7 @@ class NarayanDesignerApplication : public Gtk::Application
 
         // Main window...
         MainWindow                     *m_MainWindow;
-        
+
         // Preferences dialog...
         PreferencesDialog              *m_PreferencesDialog;
         

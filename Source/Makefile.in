@@ -145,6 +145,7 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(desktopdir)" \
 PROGRAMS = $(bin_PROGRAMS)
 am__objects_3 =
 am_narayan_designer_OBJECTS = $(am__objects_3) $(am__objects_3) \
+	GUI/narayan_designer-AboutDialog.$(OBJEXT) \
 	GUI/narayan_designer-MainWindow.$(OBJEXT) \
 	GUI/narayan_designer-PreferencesDialog.$(OBJEXT) \
 	Main/narayan_designer-Main.$(OBJEXT) \
@@ -465,9 +466,11 @@ desktop_DATA = $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.deskto
 #  dependency list via a non-portable $(shell ) construct. For the time being,
 #  just manually list the contents referenced in the ...gsettings.xml file...
 GRESOURCE_LIST = \
-    $(top_srcdir)/Data/Icons/48x48/com.cartesiantheatre.narayan-designer.png    \
-    $(top_srcdir)/Data/MainWindow.ui                                            \
-    $(top_srcdir)/Data/Menus.ui                                                 \
+    $(top_srcdir)/Data/Artwork/Icons/48x48/com.cartesiantheatre.narayan-designer.png    \
+    $(top_srcdir)/Data/Artwork/AboutDialog.png                                          \
+    $(top_srcdir)/Data/AboutDialog.ui                                                   \
+    $(top_srcdir)/Data/MainWindow.ui                                                    \
+    $(top_srcdir)/Data/Menus.ui                                                         \
     $(top_srcdir)/Data/PreferencesDialog.ui
 
 
@@ -488,13 +491,13 @@ appicon48dir = $(iconthemedir)/48x48/apps
 appiconscalabledir = $(iconthemedir)/scalable/apps
 appiconsymbolicdir = $(iconthemedir)/symbolic/apps
 dist_appicon48_DATA = \
-	$(top_srcdir)/Data/Icons/48x48/com.cartesiantheatre.narayan-designer.png
+	$(top_srcdir)/Data/Artwork/Icons/48x48/com.cartesiantheatre.narayan-designer.png
 
 dist_appiconscalable_DATA = \
-	$(top_srcdir)/Data/Icons/scalable/com.cartesiantheatre.narayan-designer.svg
+	$(top_srcdir)/Data/Artwork/Icons/scalable/com.cartesiantheatre.narayan-designer.svg
 
 dist_appiconsymbolic_DATA = \
-	$(top_srcdir)/Data/Icons/symbolic/com.cartesiantheatre.narayan-designer.svg
+	$(top_srcdir)/Data/Artwork/Icons/symbolic/com.cartesiantheatre.narayan-designer.svg
 
 
 # Command to run to update the desktop environment's icon cache...
@@ -573,6 +576,8 @@ parser_unclobbered_source_full_paths = \
 narayan_designer_SOURCES = \
     $(lexer_unclobbered_source_full_paths)                                          \
     $(parser_unclobbered_source_full_paths)                                         \
+    GUI/AboutDialog.cpp                                                             \
+    GUI/AboutDialog.h                                                               \
     GUI/MainWindow.cpp                                                              \
     GUI/MainWindow.h                                                                \
     GUI/PreferencesDialog.cpp                                                       \
@@ -799,6 +804,8 @@ GUI/$(am__dirstamp):
 GUI/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) GUI/$(DEPDIR)
 	@: > GUI/$(DEPDIR)/$(am__dirstamp)
+GUI/narayan_designer-AboutDialog.$(OBJEXT): GUI/$(am__dirstamp) \
+	GUI/$(DEPDIR)/$(am__dirstamp)
 GUI/narayan_designer-MainWindow.$(OBJEXT): GUI/$(am__dirstamp) \
 	GUI/$(DEPDIR)/$(am__dirstamp)
 GUI/narayan_designer-PreferencesDialog.$(OBJEXT): GUI/$(am__dirstamp) \
@@ -832,6 +839,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicLexerBase.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@GUI/$(DEPDIR)/narayan_designer-AboutDialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@GUI/$(DEPDIR)/narayan_designer-MainWindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-Main.Po@am__quote@
@@ -875,6 +883,20 @@ Compiler/liblexerparser_la-NarayanLogicParser.lo: Compiler/NarayanLogicParser.cp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Compiler/NarayanLogicParser.cpp' object='Compiler/liblexerparser_la-NarayanLogicParser.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblexerparser_la_CPPFLAGS) $(CPPFLAGS) $(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) -c -o Compiler/liblexerparser_la-NarayanLogicParser.lo `test -f 'Compiler/NarayanLogicParser.cpp' || echo '$(srcdir)/'`Compiler/NarayanLogicParser.cpp
+
+GUI/narayan_designer-AboutDialog.o: GUI/AboutDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT GUI/narayan_designer-AboutDialog.o -MD -MP -MF GUI/$(DEPDIR)/narayan_designer-AboutDialog.Tpo -c -o GUI/narayan_designer-AboutDialog.o `test -f 'GUI/AboutDialog.cpp' || echo '$(srcdir)/'`GUI/AboutDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) GUI/$(DEPDIR)/narayan_designer-AboutDialog.Tpo GUI/$(DEPDIR)/narayan_designer-AboutDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='GUI/AboutDialog.cpp' object='GUI/narayan_designer-AboutDialog.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o GUI/narayan_designer-AboutDialog.o `test -f 'GUI/AboutDialog.cpp' || echo '$(srcdir)/'`GUI/AboutDialog.cpp
+
+GUI/narayan_designer-AboutDialog.obj: GUI/AboutDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT GUI/narayan_designer-AboutDialog.obj -MD -MP -MF GUI/$(DEPDIR)/narayan_designer-AboutDialog.Tpo -c -o GUI/narayan_designer-AboutDialog.obj `if test -f 'GUI/AboutDialog.cpp'; then $(CYGPATH_W) 'GUI/AboutDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/GUI/AboutDialog.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) GUI/$(DEPDIR)/narayan_designer-AboutDialog.Tpo GUI/$(DEPDIR)/narayan_designer-AboutDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='GUI/AboutDialog.cpp' object='GUI/narayan_designer-AboutDialog.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o GUI/narayan_designer-AboutDialog.obj `if test -f 'GUI/AboutDialog.cpp'; then $(CYGPATH_W) 'GUI/AboutDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/GUI/AboutDialog.cpp'; fi`
 
 GUI/narayan_designer-MainWindow.o: GUI/MainWindow.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT GUI/narayan_designer-MainWindow.o -MD -MP -MF GUI/$(DEPDIR)/narayan_designer-MainWindow.Tpo -c -o GUI/narayan_designer-MainWindow.o `test -f 'GUI/MainWindow.cpp' || echo '$(srcdir)/'`GUI/MainWindow.cpp
@@ -1326,6 +1348,11 @@ install-update-icon-cache:
 Main/Resources.cpp Main/Resources.h: $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml $(GRESOURCE_LIST)
 	$(AM_V_GEN) glib-compile-resources --target=$@ --sourcedir=$(top_srcdir)/Data --generate --c-name narayan_designer $<
 
+# Force a rebuild of all embedded resources...
+rebuild-resources:
+	touch $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml
+	$(MAKE) $(AM_MAKEFLAGS) Main/Resources.cpp Main/Resources.h
+
 # During the uninstall hook target, run the following...
 uninstall-hook: uninstall-update-icon-cache
 
@@ -1333,6 +1360,9 @@ uninstall-hook: uninstall-update-icon-cache
 uninstall-update-icon-cache:
 	$(AM_V_at)$(POST_UNINSTALL)
 	test -n "$(DESTDIR)" || $(UPDATE_ICON_CACHE) "$(iconthemedir)"
+
+# Phony targets...
+.PHONY: rebuild-resources
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -168,7 +168,7 @@ PreferencesDialog::PreferencesDialog(
                 // Make it visible...
                 m_StyleSchemeChooserWidget_Editor->set_visible(true);
 
-            // Another workaround for setting its selected scheme...
+            /* Another workaround for setting its selected scheme...
 
                 // What did the user previously have selected?
                 const std::string CurrentEditorStyleSchemeID =
@@ -188,7 +188,7 @@ PreferencesDialog::PreferencesDialog(
                 // Set the selected scheme...
               ::gtk_source_style_scheme_chooser_set_style_scheme(
                     Chooser,
-                    GTK_SOURCE_STYLE_SCHEME(CurrentStyleScheme->gobj()));
+                    GTK_SOURCE_STYLE_SCHEME(CurrentStyleScheme->gobj()));*/
 
             // Another workaround for tracking its selected scheme...
             

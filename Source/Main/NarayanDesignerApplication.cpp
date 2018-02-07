@@ -11,6 +11,7 @@
     // Our headers...
     #include "NarayanDesignerApplication.h"
     #include "MainWindow.h"
+    #include "AboutDialog.h"
     #include "PreferencesDialog.h"
     #include "Resources.h"
 
@@ -46,6 +47,7 @@ NarayanDesignerApplication::NarayanDesignerApplication()
           Gio::ApplicationFlags::APPLICATION_HANDLES_OPEN |
           Gio::ApplicationFlags::APPLICATION_HANDLES_COMMAND_LINE |
           Gio::ApplicationFlags::APPLICATION_NON_UNIQUE),
+      m_AboutDialog(nullptr),
       m_ApplicationMenu(nullptr),
       m_Builder(Gtk::Builder::create()),
       m_MainWindow(nullptr),
@@ -58,7 +60,7 @@ NarayanDesignerApplication::NarayanDesignerApplication()
     // Connect command line handler signal with after=false because we want it
     //  to be called before the default signal handler...
     signal_command_line().connect(
-        sigc::mem_fun(*this, &NarayanDesignerApplication::on_command_line), false);
+        sigc::mem_fun(*this, &NarayanDesignerApplication::OnCommandLine), false);
 
     // Initialize GSettings backend...
 
@@ -91,7 +93,7 @@ NarayanDesignerApplication::NarayanDesignerApplication()
         //  3.24.5, gtk+ 3.22.25, and gtkmm 3.22.2, Gtk::Builder throws an
         //  exception without it. But with it we still get a glib warning about 
         //  Class::register_derived_type(): base_query.type_name is NULL...
-        Gsv::init();
+        //Gsv::init();
 
         // Load main window...
         m_Builder->add_from_resource(NARAYAN_DESIGNER_RESOURCE_ROOT "MainWindow.ui");
@@ -102,7 +104,8 @@ NarayanDesignerApplication::NarayanDesignerApplication()
         //  a menubar in the traditional sense...
         m_Builder->add_from_resource(NARAYAN_DESIGNER_RESOURCE_ROOT "Menus.ui");
 
-        // Load the preferences dialog...
+        // Load the dialogs...
+        m_Builder->add_from_resource(NARAYAN_DESIGNER_RESOURCE_ROOT "AboutDialog.ui");
         m_Builder->add_from_resource(NARAYAN_DESIGNER_RESOURCE_ROOT "PreferencesDialog.ui");
     }
 
@@ -122,6 +125,10 @@ NarayanDesignerApplication::NarayanDesignerApplication()
     // Get the main window...
     m_Builder->get_widget_derived("MainWindow", m_MainWindow, m_Settings);
     g_assert(m_MainWindow);
+
+    // Get the about dialog...
+    m_Builder->get_widget_derived("AboutDialog", m_AboutDialog);
+    g_assert(m_AboutDialog);
     
     // Get the preferences dialog...
     m_Builder->get_widget_derived("PreferencesDialog", m_PreferencesDialog, m_Settings);
@@ -154,6 +161,10 @@ void NarayanDesignerApplication::on_startup()
 
     // Populate ActionMap using add_action() because our Gtk::Application
     //  derives from Gio::ActionMap...
+
+        // About...
+        add_action("about",
+            sigc::mem_fun(*this, &NarayanDesignerApplication::OnActionAbout));
 
         // Preferences...
         add_action("preferences",
@@ -195,10 +206,21 @@ void NarayanDesignerApplication::on_activate()
     
     // Delete the main window when it is hidden...
     m_MainWindow->signal_hide().connect(sigc::bind(sigc::mem_fun(*this,
-       &NarayanDesignerApplication::on_hide), m_MainWindow));
+       &NarayanDesignerApplication::OnHide), m_MainWindow));
 
     // Bring the main window to the forefront...
     m_MainWindow->present();
+}
+
+// Actions to open the about dialog...
+void NarayanDesignerApplication::OnActionAbout()
+{
+    // Tell window manager to put dialog centred over main window and always
+    //  above it...
+    m_AboutDialog->set_transient_for(*m_MainWindow);
+    
+    // Show it...
+    m_AboutDialog->present();
 }
 
 // Actions to open the preferences dialog...
@@ -241,7 +263,7 @@ void NarayanDesignerApplication::OnActionQuit()
 }
 
 // Command line signal...
-int NarayanDesignerApplication::on_command_line(
+int NarayanDesignerApplication::OnCommandLine(
     const Glib::RefPtr<Gio::ApplicationCommandLine> &CommandLine)
 {
     // Option variable command line parser will initialize...
@@ -296,7 +318,7 @@ int NarayanDesignerApplication::on_command_line(
 }
 
 // Main window is now hidden...
-void NarayanDesignerApplication::on_hide([[maybe_unused]] Gtk::Window *Window)
+void NarayanDesignerApplication::OnHide([[maybe_unused]] Gtk::Window *Window)
 {
     // Delete it...
     delete m_MainWindow;

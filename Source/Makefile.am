@@ -25,10 +25,12 @@ desktop_DATA = $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.deskto
 #  I can find incorporates its output into the generated source's target
 #  dependency list via a non-portable $(shell ) construct. For the time being,
 #  just manually list the contents referenced in the ...gsettings.xml file...
-GRESOURCE_LIST =                                                                \
-    $(top_srcdir)/Data/Icons/48x48/com.cartesiantheatre.narayan-designer.png    \
-    $(top_srcdir)/Data/MainWindow.ui                                            \
-    $(top_srcdir)/Data/Menus.ui                                                 \
+GRESOURCE_LIST =                                                                        \
+    $(top_srcdir)/Data/Artwork/Icons/48x48/com.cartesiantheatre.narayan-designer.png    \
+    $(top_srcdir)/Data/Artwork/AboutDialog.png                                          \
+    $(top_srcdir)/Data/AboutDialog.ui                                                   \
+    $(top_srcdir)/Data/MainWindow.ui                                                    \
+    $(top_srcdir)/Data/Menus.ui                                                         \
     $(top_srcdir)/Data/PreferencesDialog.ui
 
 # GSettings schema. Note that for some reason the expansion of the
@@ -48,11 +50,11 @@ appicon48dir = $(iconthemedir)/48x48/apps
 appiconscalabledir = $(iconthemedir)/scalable/apps
 appiconsymbolicdir = $(iconthemedir)/symbolic/apps
 dist_appicon48_DATA =                                                               \
-	$(top_srcdir)/Data/Icons/48x48/com.cartesiantheatre.narayan-designer.png
+	$(top_srcdir)/Data/Artwork/Icons/48x48/com.cartesiantheatre.narayan-designer.png
 dist_appiconscalable_DATA =                                                         \
-	$(top_srcdir)/Data/Icons/scalable/com.cartesiantheatre.narayan-designer.svg
+	$(top_srcdir)/Data/Artwork/Icons/scalable/com.cartesiantheatre.narayan-designer.svg
 dist_appiconsymbolic_DATA =                                                         \
-	$(top_srcdir)/Data/Icons/symbolic/com.cartesiantheatre.narayan-designer.svg
+	$(top_srcdir)/Data/Artwork/Icons/symbolic/com.cartesiantheatre.narayan-designer.svg
 
 # Command to run to update the desktop environment's icon cache...
 UPDATE_ICON_CACHE = gtk-update-icon-cache --ignore-theme-index --force
@@ -125,6 +127,8 @@ parser_unclobbered_source_full_paths =                                          
 narayan_designer_SOURCES =                                                          \
     $(lexer_unclobbered_source_full_paths)                                          \
     $(parser_unclobbered_source_full_paths)                                         \
+    GUI/AboutDialog.cpp                                                             \
+    GUI/AboutDialog.h                                                               \
     GUI/MainWindow.cpp                                                              \
     GUI/MainWindow.h                                                                \
     GUI/PreferencesDialog.cpp                                                       \
@@ -284,6 +288,11 @@ install-update-icon-cache:
 Main/Resources.cpp Main/Resources.h: $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml $(GRESOURCE_LIST)
 	$(AM_V_GEN) glib-compile-resources --target=$@ --sourcedir=$(top_srcdir)/Data --generate --c-name narayan_designer $<
 
+# Force a rebuild of all embedded resources...
+rebuild-resources:
+	touch $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml
+	$(MAKE) $(AM_MAKEFLAGS) Main/Resources.cpp Main/Resources.h
+
 # During the uninstall hook target, run the following...
 uninstall-hook: uninstall-update-icon-cache
 
@@ -291,4 +300,7 @@ uninstall-hook: uninstall-update-icon-cache
 uninstall-update-icon-cache:
 	$(AM_V_at)$(POST_UNINSTALL)
 	test -n "$(DESTDIR)" || $(UPDATE_ICON_CACHE) "$(iconthemedir)"
+
+# Phony targets...
+.PHONY: rebuild-resources
 

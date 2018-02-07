@@ -14,7 +14,10 @@
 
     // Gdkmm...
     #include <gdkmm/pixbuf.h>
-    
+
+    // Giomm...
+    #include <giomm/appinfo.h>
+
     // Gtkmm...
     #include <gtkmm/messagedialog.h>
 
@@ -45,7 +48,7 @@ MainWindow::MainWindow(
     // Set the window icon...
     set_icon(Gdk::Pixbuf::create_from_resource(
         NARAYAN_DESIGNER_RESOURCE_ROOT
-        "Icons/48x48/com.cartesiantheatre.narayan-designer.png"));
+        "Artwork/Icons/48x48/com.cartesiantheatre.narayan-designer.png"));
 
     // Find widgets...
         
@@ -63,12 +66,23 @@ MainWindow::MainWindow(
         // Show log...
         add_action("show-log",
             sigc::mem_fun(*this, &MainWindow::OnActionShowLog));
+
+        // Report a bug...
+        add_action("report-bug",
+            sigc::mem_fun(*this, &MainWindow::OnActionReportBug));
     
     // Initialize documents notebook...
     m_Notebook_Documents->remove_page(0);
 
     // Bind settings to relevant widgets...
     m_Settings->bind("show-log", m_Expander_Log->property_expanded());
+}
+
+// Action to report a bug...
+void MainWindow::OnActionReportBug()
+{
+    // Open URL...
+    Gio::AppInfo::launch_default_for_uri(PACKAGE_BUGREPORT);
 }
 
 // Action to show the log...
