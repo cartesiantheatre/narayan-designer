@@ -211,7 +211,7 @@
               <item>
                 <attribute name="label" translatable="yes">Report Bug</attribute>
                 <attribute name="action">win.report-bug</attribute>
-                <attribute name="icon">application-community</attribute>
+                <attribute name="icon">report-bug</attribute>
               </item>
             </section>
             <section>

@@ -466,7 +466,8 @@ desktop_DATA = $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.deskto
 #  dependency list via a non-portable $(shell ) construct. For the time being,
 #  just manually list the contents referenced in the ...gsettings.xml file...
 GRESOURCE_LIST = \
-    $(top_srcdir)/Data/Artwork/Icons/48x48/com.cartesiantheatre.narayan-designer.png    \
+    $(top_srcdir)/Data/Artwork/Icons/48x48/apps/com.cartesiantheatre.narayan-designer.png    \
+    $(top_srcdir)/Data/Artwork/Icons/48x48/actions/report-bug.png                       \
     $(top_srcdir)/Data/Artwork/AboutDialog.png                                          \
     $(top_srcdir)/Data/AboutDialog.ui                                                   \
     $(top_srcdir)/Data/MainWindow.ui                                                    \
@@ -491,13 +492,13 @@ appicon48dir = $(iconthemedir)/48x48/apps
 appiconscalabledir = $(iconthemedir)/scalable/apps
 appiconsymbolicdir = $(iconthemedir)/symbolic/apps
 dist_appicon48_DATA = \
-	$(top_srcdir)/Data/Artwork/Icons/48x48/com.cartesiantheatre.narayan-designer.png
+	$(top_srcdir)/Data/Artwork/Icons/48x48/apps/com.cartesiantheatre.narayan-designer.png
 
 dist_appiconscalable_DATA = \
-	$(top_srcdir)/Data/Artwork/Icons/scalable/com.cartesiantheatre.narayan-designer.svg
+	$(top_srcdir)/Data/Artwork/Icons/scalable/apps/com.cartesiantheatre.narayan-designer.svg
 
 dist_appiconsymbolic_DATA = \
-	$(top_srcdir)/Data/Artwork/Icons/symbolic/com.cartesiantheatre.narayan-designer.svg
+	$(top_srcdir)/Data/Artwork/Icons/symbolic/apps/com.cartesiantheatre.narayan-designer.svg
 
 
 # Command to run to update the desktop environment's icon cache...

@@ -6,28 +6,22 @@
 -->
 
 <gresources>
+
   <gresource prefix="/com/cartesiantheatre/narayan-designer">
-
-    <!-- Artwork -->
-    <file>Artwork/Icons/48x48/com.cartesiantheatre.narayan-designer.png</file>
     <file>Artwork/AboutDialog.png</file>
-
-    <!-- About dialog -->
     <file compressed="true" preprocess="xml-stripblanks">AboutDialog.ui</file>
-
-    <!-- Main user application window -->
     <file compressed="true" preprocess="xml-stripblanks">MainWindow.ui</file>
-    
-    <!-- 
-        Menus. The gtk/menus.ui path is necessary for GtkApplication to
-        automatically set it as the application wide menu.
-    -->
-    <!-- file alias="gtk/menus.ui" compressed="true" preprocess="xml-stripblanks">Menus.ui</file -->
     <file compressed="true" preprocess="xml-stripblanks">Menus.ui</file>
-
-    <!-- Preferences dialog -->
     <file compressed="true" preprocess="xml-stripblanks">PreferencesDialog.ui</file>
-
   </gresource>
+
+  <gresource prefix="/com/cartesiantheatre/narayan-designer/icons/48x48/apps">
+    <file alias="com.cartesiantheatre.narayan-designer.png">Artwork/Icons/48x48/apps/com.cartesiantheatre.narayan-designer.png</file>
+  </gresource>
+
+  <gresource prefix="/com/cartesiantheatre/narayan-designer/icons/48x48/actions">
+    <file alias="report-bug.png">Artwork/Icons/48x48/actions/report-bug.png</file>
+  </gresource>
+
 </gresources>
 

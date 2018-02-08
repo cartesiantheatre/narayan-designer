@@ -24,6 +24,9 @@
     #include <glibmm/optioncontext.h>
     #include <glibmm/optionentry.h>
     #include <glibmm/optiongroup.h>
+    
+    // Gtkmm...
+    #include <gtkmm/icontheme.h>
 
     // Standard C++ / POSIX system headers...
     #include <iostream>
@@ -87,6 +90,11 @@ NarayanDesignerApplication::NarayanDesignerApplication()
     //  exception for Glib FileError, MarkupError, or BuilderError...
     try
     {
+        // Add path to our icon theme...
+        Glib::RefPtr<Gtk::IconTheme> DefaultIconTheme 
+            = Gtk::IconTheme::get_default();
+        DefaultIconTheme->add_resource_path(NARAYAN_DESIGNER_RESOURCE_ROOT "icons/");
+
         // Initialize GtkSourceView internals. The documentation doesn't make it
         //  clear when this is support to be called, or even that it needs to be
         //  at all, but on my system with gtksourceviewmm 3.21.3, gtksourceview

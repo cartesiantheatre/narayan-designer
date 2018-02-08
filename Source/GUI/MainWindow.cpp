@@ -48,7 +48,7 @@ MainWindow::MainWindow(
     // Set the window icon...
     set_icon(Gdk::Pixbuf::create_from_resource(
         NARAYAN_DESIGNER_RESOURCE_ROOT
-        "Artwork/Icons/48x48/com.cartesiantheatre.narayan-designer.png"));
+        "icons/48x48/apps/com.cartesiantheatre.narayan-designer.png"));
 
     // Find widgets...
         

@@ -54,6 +54,11 @@ AboutDialog::AboutDialog(
 
     // Set contributors...
 
+        // Created by...
+        vector<Glib::ustring> CreatedBy;
+        CreatedBy.push_back("Cartesian Theatre https://www.cartesiantheatre.com");
+        add_credit_section(_("Created by"), CreatedBy);
+
         // Engineering...
         vector<Glib::ustring> Engineers;
         Engineers.push_back("Kip Warner <kip@thevertigo.com>");
