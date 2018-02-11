@@ -1,0 +1,6 @@
+## For innocuous warnings emit by lintian, as per DNMG § 5.14...
+
+# Ship binary unstripped as per GCS § 7.2.6. Disabled now that we ship the
+#  symbols as a separate narayan-designer-dbg package...
+#narayan-designer binary: unstripped-binary-or-object usr/bin/narayan-designer
+

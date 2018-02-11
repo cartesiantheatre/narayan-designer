@@ -11,6 +11,7 @@
     // Our headers...
     #include "NarayanDesignerApplication.h"
     #include "MainWindow.h"
+    #include "UnitEditorDialog.h"
 
     // Gdkmm...
     #include <gdkmm/pixbuf.h>
@@ -43,7 +44,8 @@ MainWindow::MainWindow(
     m_Builder(Builder),
     m_Settings(Settings),
     m_Notebook_Documents(nullptr),
-    m_Expander_Log(nullptr)
+    m_Expander_Log(nullptr),
+    m_UnitEditorDialog(nullptr)
 {
     // Set the window icon...
     set_icon(Gdk::Pixbuf::create_from_resource(
@@ -53,24 +55,32 @@ MainWindow::MainWindow(
     // Find widgets...
         
         // Documents notebook...
-        m_Builder->get_widget("Notebook_Documents", m_Notebook_Documents);
+        m_Builder->get_widget("MainWindow_Notebook_Documents", m_Notebook_Documents);
         g_assert(m_Notebook_Documents);
         
         // Log expander...
-        m_Builder->get_widget("Expander_Log", m_Expander_Log);
+        m_Builder->get_widget("MainWindow_Expander_Log", m_Expander_Log);
         g_assert(m_Expander_Log);
 
     // Populate ActionMap using add_action() because our Gtk::ApplicationWindow
     //  derives from Gio::ActionMap...
 
+        // Report a bug...
+        add_action("report-bug",
+            sigc::mem_fun(*this, &MainWindow::OnActionReportBug));
+
         // Show log...
         add_action("show-log",
             sigc::mem_fun(*this, &MainWindow::OnActionShowLog));
 
-        // Report a bug...
-        add_action("report-bug",
-            sigc::mem_fun(*this, &MainWindow::OnActionReportBug));
-    
+        // Unit editor...
+        add_action("editor-units",
+            sigc::mem_fun(*this, &MainWindow::OnActionUnitEditor));
+
+    // Get the unit editor dialog...
+    m_Builder->get_widget_derived("UnitEditorDialog", m_UnitEditorDialog);
+    g_assert(m_UnitEditorDialog);
+
     // Initialize documents notebook...
     m_Notebook_Documents->remove_page(0);
 
@@ -90,6 +100,17 @@ void MainWindow::OnActionShowLog()
 {
     // Toggle / untoggle...
     m_Expander_Log->set_expanded(!m_Expander_Log->get_expanded());
+}
+
+// Actions to open unit editor dialog...
+void MainWindow::OnActionUnitEditor()
+{
+    // Tell window manager to put dialog centred over main window and always
+    //  above it...
+    m_UnitEditorDialog->set_transient_for(*this);
+    
+    // Show it...
+    m_UnitEditorDialog->present();
 }
 
 // Something or someone is attempting to close the window...

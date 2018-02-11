@@ -1,0 +1,27 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: narayan-designer
+Upstream-Contact: Cartesian Theatre <info@cartesiantheatre.com>
+Source: https://github.com/cartesiantheatre/narayan-designer.git
+
+Files: *
+Copyright: 2017-2018, Cartesian Theatre
+License: GPL-3+
+ /usr/share/common-licenses/GPL-3
+
+Files: Source/Main/gettext.h
+Copyright: Copyright (C) 1995-1998, 2000-2002, 2004-2006, 2009-2011 Free Software Foundation, Inc.
+License: GPL-3+
+ /usr/share/common-licenses/GPL-3
+
+Files: Install
+Copyright: 1994-1996, 1999-2002, 2004-2010, Free Software Foundation, Inc.
+License: permissive
+ Copying and distribution of this file, with or without modification, are
+ permitted in any medium without royalty provided the copyright notice and this
+ notice are preserved. This file is offered as-is, without warranty of any kind.
+
+Files: debian/pbuilder-hooks/C10shell
+Copyright: Copyright 2001-2007 Junichi Uekawa
+License: GPL-2+
+ /usr/share/common-licenses/GPL-2
+

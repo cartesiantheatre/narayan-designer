@@ -148,6 +148,7 @@ am_narayan_designer_OBJECTS = $(am__objects_3) $(am__objects_3) \
 	GUI/narayan_designer-AboutDialog.$(OBJEXT) \
 	GUI/narayan_designer-MainWindow.$(OBJEXT) \
 	GUI/narayan_designer-PreferencesDialog.$(OBJEXT) \
+	GUI/narayan_designer-UnitEditorDialog.$(OBJEXT) \
 	Main/narayan_designer-Main.$(OBJEXT) \
 	Main/narayan_designer-NarayanDesignerApplication.$(OBJEXT)
 nodist_narayan_designer_OBJECTS =  \
@@ -472,7 +473,8 @@ GRESOURCE_LIST = \
     $(top_srcdir)/Data/AboutDialog.ui                                                   \
     $(top_srcdir)/Data/MainWindow.ui                                                    \
     $(top_srcdir)/Data/Menus.ui                                                         \
-    $(top_srcdir)/Data/PreferencesDialog.ui
+    $(top_srcdir)/Data/PreferencesDialog.ui                                             \
+    $(top_srcdir)/Data/UnitEditorDialog.ui
 
 
 # GSettings schema. Note that for some reason the expansion of the
@@ -583,6 +585,8 @@ narayan_designer_SOURCES = \
     GUI/MainWindow.h                                                                \
     GUI/PreferencesDialog.cpp                                                       \
     GUI/PreferencesDialog.h                                                         \
+    GUI/UnitEditorDialog.cpp                                                        \
+    GUI/UnitEditorDialog.h                                                          \
     Main/gettext.h                                                                  \
     Main/Main.cpp                                                                   \
     Main/NarayanDesignerApplication.cpp                                             \
@@ -811,6 +815,8 @@ GUI/narayan_designer-MainWindow.$(OBJEXT): GUI/$(am__dirstamp) \
 	GUI/$(DEPDIR)/$(am__dirstamp)
 GUI/narayan_designer-PreferencesDialog.$(OBJEXT): GUI/$(am__dirstamp) \
 	GUI/$(DEPDIR)/$(am__dirstamp)
+GUI/narayan_designer-UnitEditorDialog.$(OBJEXT): GUI/$(am__dirstamp) \
+	GUI/$(DEPDIR)/$(am__dirstamp)
 Main/$(am__dirstamp):
 	@$(MKDIR_P) Main
 	@: > Main/$(am__dirstamp)
@@ -843,6 +849,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@GUI/$(DEPDIR)/narayan_designer-AboutDialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@GUI/$(DEPDIR)/narayan_designer-MainWindow.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@GUI/$(DEPDIR)/narayan_designer-UnitEditorDialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-Main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@Main/$(DEPDIR)/narayan_designer-Resources.Po@am__quote@
@@ -926,6 +933,20 @@ GUI/narayan_designer-PreferencesDialog.obj: GUI/PreferencesDialog.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='GUI/PreferencesDialog.cpp' object='GUI/narayan_designer-PreferencesDialog.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o GUI/narayan_designer-PreferencesDialog.obj `if test -f 'GUI/PreferencesDialog.cpp'; then $(CYGPATH_W) 'GUI/PreferencesDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/GUI/PreferencesDialog.cpp'; fi`
+
+GUI/narayan_designer-UnitEditorDialog.o: GUI/UnitEditorDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT GUI/narayan_designer-UnitEditorDialog.o -MD -MP -MF GUI/$(DEPDIR)/narayan_designer-UnitEditorDialog.Tpo -c -o GUI/narayan_designer-UnitEditorDialog.o `test -f 'GUI/UnitEditorDialog.cpp' || echo '$(srcdir)/'`GUI/UnitEditorDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) GUI/$(DEPDIR)/narayan_designer-UnitEditorDialog.Tpo GUI/$(DEPDIR)/narayan_designer-UnitEditorDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='GUI/UnitEditorDialog.cpp' object='GUI/narayan_designer-UnitEditorDialog.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o GUI/narayan_designer-UnitEditorDialog.o `test -f 'GUI/UnitEditorDialog.cpp' || echo '$(srcdir)/'`GUI/UnitEditorDialog.cpp
+
+GUI/narayan_designer-UnitEditorDialog.obj: GUI/UnitEditorDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT GUI/narayan_designer-UnitEditorDialog.obj -MD -MP -MF GUI/$(DEPDIR)/narayan_designer-UnitEditorDialog.Tpo -c -o GUI/narayan_designer-UnitEditorDialog.obj `if test -f 'GUI/UnitEditorDialog.cpp'; then $(CYGPATH_W) 'GUI/UnitEditorDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/GUI/UnitEditorDialog.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) GUI/$(DEPDIR)/narayan_designer-UnitEditorDialog.Tpo GUI/$(DEPDIR)/narayan_designer-UnitEditorDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='GUI/UnitEditorDialog.cpp' object='GUI/narayan_designer-UnitEditorDialog.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o GUI/narayan_designer-UnitEditorDialog.obj `if test -f 'GUI/UnitEditorDialog.cpp'; then $(CYGPATH_W) 'GUI/UnitEditorDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/GUI/UnitEditorDialog.cpp'; fi`
 
 Main/narayan_designer-Main.o: Main/Main.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Main/narayan_designer-Main.o -MD -MP -MF Main/$(DEPDIR)/narayan_designer-Main.Tpo -c -o Main/narayan_designer-Main.o `test -f 'Main/Main.cpp' || echo '$(srcdir)/'`Main/Main.cpp

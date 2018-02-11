@@ -26,6 +26,9 @@
     #define _(str) gettext (str)
     #define N_(str) gettext_noop (str)
 
+// Forward declarations...
+class UnitEditorDialog;
+
 // Main window...
 class MainWindow : public Gtk::ApplicationWindow
 {
@@ -55,6 +58,7 @@ class MainWindow : public Gtk::ApplicationWindow
 
                 // Actions...
                 void OnActionShowLog();
+                void OnActionUnitEditor();
                 void OnActionReportBug();
 
     // Protected attributes...
@@ -73,6 +77,9 @@ class MainWindow : public Gtk::ApplicationWindow
             
             // Log expander...
             Gtk::Expander          *m_Expander_Log;
+        
+        // Dialogs...
+        UnitEditorDialog           *m_UnitEditorDialog;
 };
 
 // Multiple include protection...

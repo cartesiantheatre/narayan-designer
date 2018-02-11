@@ -115,6 +115,7 @@ NarayanDesignerApplication::NarayanDesignerApplication()
         // Load the dialogs...
         m_Builder->add_from_resource(NARAYAN_DESIGNER_RESOURCE_ROOT "AboutDialog.ui");
         m_Builder->add_from_resource(NARAYAN_DESIGNER_RESOURCE_ROOT "PreferencesDialog.ui");
+        m_Builder->add_from_resource(NARAYAN_DESIGNER_RESOURCE_ROOT "UnitEditorDialog.ui");
     }
 
         // Failed...

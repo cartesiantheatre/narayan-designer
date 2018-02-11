@@ -65,7 +65,7 @@ PreferencesDialog::PreferencesDialog(
     // Preferences notebook...
     
         // Find the widget...
-        m_Builder->get_widget("Notebook_Preferences", m_Notebook_Preferences);
+        m_Builder->get_widget("PreferencesDialog_Notebook_Preferences", m_Notebook_Preferences);
         g_assert(m_Notebook_Preferences);
         
         // Bind page index to settings backend...
@@ -79,19 +79,19 @@ PreferencesDialog::PreferencesDialog(
 
         // Find show splash check button and bind to settings backend...
         FindAndBindActiveProperty(
-            "CheckButton_General_StartupShowSplash",
+            "PreferencesDialog_CheckButton_General_StartupShowSplash",
             m_CheckButton_General_StartupShowSplash,
             "general-startup-show-splash");
 
         // Find show usage tips check button and bind to settings backend...
         FindAndBindActiveProperty(
-            "CheckButton_General_StartupShowUsageTips",
+            "PreferencesDialog_CheckButton_General_StartupShowUsageTips",
             m_CheckButton_General_StartupShowUsageTips,
             "general-startup-show-usage-tips");
 
         // Find play sound effects check button and bind to settings backend...
         FindAndBindActiveProperty(
-            "CheckButton_General_PlaySoundEffects",
+            "PreferencesDialog_CheckButton_General_PlaySoundEffects",
             m_CheckButton_General_PlaySoundEffects,
             "general-play-sound-effects");
 
@@ -105,7 +105,7 @@ PreferencesDialog::PreferencesDialog(
         
             // Find and bind to settings backend...
             FindAndBindActiveProperty(
-                "CheckButton_Editor_UseSystemDefaultMonospaceFont", 
+                "PreferencesDialog_CheckButton_Editor_UseSystemDefaultMonospaceFont", 
                 m_CheckButton_Editor_UseSystemDefaultMonospaceFont, 
                 "editor-use-system-default-monospace-font");
 
@@ -133,7 +133,7 @@ PreferencesDialog::PreferencesDialog(
         // Custom font button...
             
             // Find it...
-            m_Builder->get_widget("FontButton_Editor_CustomFont", m_FontButton_Editor_CustomFont);
+            m_Builder->get_widget("PreferencesDialog_FontButton_Editor_CustomFont", m_FontButton_Editor_CustomFont);
             g_assert(m_FontButton_Editor_CustomFont);
 
             // Bind to settings backend...
@@ -141,7 +141,7 @@ PreferencesDialog::PreferencesDialog(
 
         // Use dark theme if available check button...
         FindAndBindActiveProperty(
-            "CheckButton_Editor_UseDarkTheme",
+            "PreferencesDialog_CheckButton_Editor_UseDarkTheme",
             m_CheckButton_Editor_UseDarkTheme,
             "editor-use-dark-theme");
 
@@ -149,7 +149,7 @@ PreferencesDialog::PreferencesDialog(
 
             // Find the parent GtkScrolledWindow widget...
             Gtk::ScrolledWindow *ScrolledWindowStyleSchemeChooserWidget_Editor = nullptr;
-            m_Builder->get_widget("ScrolledWindowStyleSchemeChooserWidget_Editor", ScrolledWindowStyleSchemeChooserWidget_Editor);
+            m_Builder->get_widget("PreferencesDialog_ScrolledWindowStyleSchemeChooserWidget_Editor", ScrolledWindowStyleSchemeChooserWidget_Editor);
             g_assert(ScrolledWindowStyleSchemeChooserWidget_Editor);
 
             // Workaround for <https://bugzilla.gnome.org/show_bug.cgi?id=744478>
@@ -217,7 +217,7 @@ PreferencesDialog::PreferencesDialog(
         // Hardware platform combobox text...
             
             // Find it...
-            m_Builder->get_widget("ComboBoxText_Hardware_Platform", m_ComboBoxText_Hardware_Platform);
+            m_Builder->get_widget("PreferencesDialog_ComboBoxText_Hardware_Platform", m_ComboBoxText_Hardware_Platform);
             g_assert(m_ComboBoxText_Hardware_Platform);
             
             // Set its storage tree model...
@@ -236,14 +236,14 @@ PreferencesDialog::PreferencesDialog(
                 sigc::mem_fun(*this, &PreferencesDialog::OnHardwarePlatformChanged));
 
         // Hardware platform labels...
-        m_Builder->get_widget("Label_Hardware_Platform_Profile", m_Label_Hardware_Platform_Profile);
-        m_Builder->get_widget("Label_Hardware_Platform_Version", m_Label_Hardware_Platform_Version);
-        m_Builder->get_widget("Label_Hardware_Platform_Vendor", m_Label_Hardware_Platform_Vendor);
+        m_Builder->get_widget("PreferencesDialog_Label_Hardware_Platform_Profile", m_Label_Hardware_Platform_Profile);
+        m_Builder->get_widget("PreferencesDialog_Label_Hardware_Platform_Version", m_Label_Hardware_Platform_Version);
+        m_Builder->get_widget("PreferencesDialog_Label_Hardware_Platform_Vendor", m_Label_Hardware_Platform_Vendor);
 
         // Hardware device combobox text...
 
             // Find it...
-            m_Builder->get_widget("ComboBoxText_Hardware_Devices", m_ComboBoxText_Hardware_Devices);
+            m_Builder->get_widget("PreferencesDialog_ComboBoxText_Hardware_Devices", m_ComboBoxText_Hardware_Devices);
             g_assert(m_ComboBoxText_Hardware_Devices);
 
             // Set its storage tree model...
@@ -264,13 +264,13 @@ PreferencesDialog::PreferencesDialog(
                 sigc::mem_fun(*this, &PreferencesDialog::OnHardwareDeviceChanged));
         
         // Device information textview...
-        m_Builder->get_widget("TextView_Hardware_DeviceInfo", m_TextView_Hardware_DeviceInfo);
+        m_Builder->get_widget("PreferencesDialog_TextView_Hardware_DeviceInfo", m_TextView_Hardware_DeviceInfo);
         g_assert(m_TextView_Hardware_DeviceInfo);
 
         // Copy device info button...
 
             // Find it...
-            m_Builder->get_widget("Button_DeviceInfo_Copy", m_Button_DeviceInfo_Copy);
+            m_Builder->get_widget("PreferencesDialog_Button_DeviceInfo_Copy", m_Button_DeviceInfo_Copy);
             g_assert(m_Button_DeviceInfo_Copy);
 
             // Connect clicked signal...
@@ -280,7 +280,7 @@ PreferencesDialog::PreferencesDialog(
         // Refresh hardware button...
 
             // Find it...
-            m_Builder->get_widget("Button_Hardware_Refresh", m_Button_Hardware_Refresh);
+            m_Builder->get_widget("PreferencesDialog_Button_Hardware_Refresh", m_Button_Hardware_Refresh);
             g_assert(m_Button_Hardware_Refresh);
 
             // Connect clicked signal...
@@ -293,7 +293,7 @@ PreferencesDialog::PreferencesDialog(
     // Help button...
     
         // Find it...
-        m_Builder->get_widget("Button_Help", m_Button_Help);
+        m_Builder->get_widget("PreferencesDialog_Button_Help", m_Button_Help);
         g_assert(m_Button_Help);
         
         // Connect click signal...
@@ -303,7 +303,7 @@ PreferencesDialog::PreferencesDialog(
     // Close button...
     
         // Find it...
-        m_Builder->get_widget("Button_Close", m_Button_Close);
+        m_Builder->get_widget("PreferencesDialog_Button_Close", m_Button_Close);
         g_assert(m_Button_Close);
 
         // Connect clicked signal...

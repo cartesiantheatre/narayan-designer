@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: narayan-designer 0.0.0\n"
 "Report-Msgid-Bugs-To: \"Cartesian Theatre <info@cartesiantheatre.com>\"\n"
-"POT-Creation-Date: 2018-02-06 19:58-0800\n"
+"POT-Creation-Date: 2018-02-10 21:38-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -132,8 +132,8 @@ msgstr ""
 
 #. Set the program name...
 #. Set the application name...
-#: Data/MainWindow.ui:37 Source/GUI/AboutDialog.cpp:39
-#: Source/Main/NarayanDesignerApplication.cpp:58
+#: Data/MainWindow.ui:37 Source/GUI/AboutDialog.cpp:37
+#: Source/Main/NarayanDesignerApplication.cpp:61
 msgid "Narayan Designer"
 msgstr ""
 
@@ -342,26 +342,30 @@ msgid "syntax error: "
 msgstr ""
 
 #. Set comments...
-#: Source/GUI/AboutDialog.cpp:48
+#: Source/GUI/AboutDialog.cpp:46
 msgid "A modelling tool for the Narayan simulation engine used in Avaneya."
 msgstr ""
 
 #. Set website label and URL...
-#: Source/GUI/AboutDialog.cpp:54
+#: Source/GUI/AboutDialog.cpp:52
 msgid "Website"
 msgstr ""
 
-#: Source/GUI/AboutDialog.cpp:62
+#: Source/GUI/AboutDialog.cpp:60
+msgid "Created by"
+msgstr ""
+
+#: Source/GUI/AboutDialog.cpp:65
 msgid "Engineering"
 msgstr ""
 
-#: Source/GUI/AboutDialog.cpp:80
+#: Source/GUI/AboutDialog.cpp:83
 msgid "Testing"
 msgstr ""
 
 #. Translators: Put your name in this string, separating multiple names with
 #. \n character...
-#: Source/GUI/AboutDialog.cpp:84
+#: Source/GUI/AboutDialog.cpp:87
 msgid "translator-credits"
 msgstr ""
 
@@ -441,31 +445,31 @@ msgstr ""
 msgid "Extensions: "
 msgstr ""
 
-#: Source/Main/NarayanDesignerApplication.cpp:118
+#: Source/Main/NarayanDesignerApplication.cpp:127
 msgid "Error: Gtk::Builder cannot add resource: "
 msgstr ""
 
 #. Main options group...
 #. Create group...
-#: Source/Main/NarayanDesignerApplication.cpp:278
+#: Source/Main/NarayanDesignerApplication.cpp:287
 msgid "main group"
 msgstr ""
 
-#: Source/Main/NarayanDesignerApplication.cpp:283
+#: Source/Main/NarayanDesignerApplication.cpp:292
 msgid "show version information"
 msgstr ""
 
 #. Show build date...
-#: Source/Main/NarayanDesignerApplication.cpp:336
+#: Source/Main/NarayanDesignerApplication.cpp:345
 msgid "Built on: "
 msgstr ""
 
 #. Relevant dependencies...
-#: Source/Main/NarayanDesignerApplication.cpp:339
+#: Source/Main/NarayanDesignerApplication.cpp:348
 msgid "Compiled against:"
 msgstr ""
 
 #. Show full argument vector passed to configure before building...
-#: Source/Main/NarayanDesignerApplication.cpp:347
+#: Source/Main/NarayanDesignerApplication.cpp:356
 msgid "Configured with: "
 msgstr ""

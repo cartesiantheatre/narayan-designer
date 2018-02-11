@@ -1,0 +1,89 @@
+#!/usr/bin/make -f
+#
+#   Narayan Designer, a modelling tool for the Narayan simulation engine.
+#   Copyright (C) 2017-2018 Cartesian Theatre. All rights reserved.
+#
+
+# Output every command that modifies files on the build system...
+DH_VERBOSE = 1
+export DH_OPTIONS=-v
+
+# Set flags for how the package will be compiled and built. Note separated with
+#  white space and not comma, as per DPM § 4.9.1...
+
+    # Don't optimize, contrary to DPM § 10.1, but makes debugging easier for
+    #  the time being...
+    #DEB_BUILD_OPTIONS=noopt
+
+    # Skip unit testing...
+    #DEB_BUILD_OPTIONS += nocheck
+
+    # The above should be reflected when dpkg-buildflags is called and merged
+    #  with the defaults...
+    export DEB_BUILD_OPTIONS
+    export DPKG_EXPORT_BUILDFLAGS = 1
+
+# Set various group related security hardening build flags for format, fortify,
+#  stackprotector, relro, bindnow, and pie...
+DEB_BUILD_MAINT_OPTIONS=hardening=-all
+export DEB_BUILD_MAINT_OPTIONS
+
+# Standard rules and preset shell variables...
+include /usr/share/dpkg/default.mk
+
+# Directory containing package since may not be called from current working
+#  directory. MAKEFILE_LIST pre-defined by Make and appended each time another
+#  makefile is included, so first one should be debian/rules...
+PACKAGE_DIR = $(abspath $(dir $(firstword $(MAKEFILE_LIST))))
+
+# Source directory...
+SOURCE_DIR  = $(abspath $(PACKAGE_DIR)/../)
+
+# Main packaging script based on debhelper 7 syntax. The % is an implicit
+#  pattern rule that acts as a universal target...
+%:
+	dh $@  --with autotools-dev,bash-completion
+
+# Configure source...
+override_dh_auto_configure:
+	dh_auto_configure --
+
+# Prepare an upstream vanilla distribution tarball as per DPM § 4.9...
+#  http://wiki.debian.org/onlyjob/get-orig-source
+get-orig-source: $(DEB_SOURCE)_$(DEB_VERSION_UPSTREAM).orig.tar.bz2 $(info I: $(DEB_SOURCE)_$(DEB_VERSION_UPSTREAM))
+	@
+
+# Perform unit testing, but only if not disabled...
+ifeq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
+override_dh_auto_test:
+	make check || { cat $(BUILD_DIR)/Tests/test-suite.log; exit 99; }
+endif
+
+# Override for debhelper's strip. Strip debugging symbols and put in a separate
+#  package, but only in the case where there actually was a *-dbg package
+#  specified in debian/control...
+override_dh_strip:
+	set -e; \
+	for pkg in $(patsubst %-dbg,%,$(filter %-dbg,$(shell dh_listpackages))); do \
+		dh_strip -p$${pkg} --dbg-package=$${pkg}-dbg; \
+	done
+
+# Prepare an upstream vanilla distribution tarball...
+$(DEB_SOURCE)_$(DEB_VERSION_UPSTREAM).orig.tar.bz2:
+	@echo "# Preparing source for $(DEB_SOURCE) v$(DEB_VERSION_UPSTREAM)..."
+	cd $(SOURCE_DIR) \
+	&& cd $(PACKAGE_DIR) \
+	&& mkdir $(DEB_SOURCE)_$(DEB_VERSION_UPSTREAM) \
+	&& cd $(DEB_SOURCE)_$(DEB_VERSION_UPSTREAM) \
+	&& $(SOURCE_DIR)/configure \
+	&& make distcheck \
+	&& mv -v $(DEB_SOURCE)-$(DEB_VERSION_UPSTREAM).tar.bz2 $(SOURCE_DIR)/../$@
+	@echo "# Cleaning up..."
+	cd $(PACKAGE_DIR)/$(DEB_SOURCE)_$(DEB_VERSION_UPSTREAM) \
+	&& make clean
+	cd $(PACKAGE_DIR) \
+	&& $(RM) -r $(DEB_SOURCE)_$(DEB_VERSION_UPSTREAM)
+
+# Targets which aren't actually files...
+.PHONY: get-orig-source override_dh_strip
+

@@ -32,7 +32,8 @@ GRESOURCE_LIST =                                                                
     $(top_srcdir)/Data/AboutDialog.ui                                                   \
     $(top_srcdir)/Data/MainWindow.ui                                                    \
     $(top_srcdir)/Data/Menus.ui                                                         \
-    $(top_srcdir)/Data/PreferencesDialog.ui
+    $(top_srcdir)/Data/PreferencesDialog.ui                                             \
+    $(top_srcdir)/Data/UnitEditorDialog.ui
 
 # GSettings schema. Note that for some reason the expansion of the
 #  GLIB_GSETTINGS macro seems to know to find this within the srcdir and not
@@ -134,6 +135,8 @@ narayan_designer_SOURCES =                                                      
     GUI/MainWindow.h                                                                \
     GUI/PreferencesDialog.cpp                                                       \
     GUI/PreferencesDialog.h                                                         \
+    GUI/UnitEditorDialog.cpp                                                        \
+    GUI/UnitEditorDialog.h                                                          \
     Main/gettext.h                                                                  \
     Main/Main.cpp                                                                   \
     Main/NarayanDesignerApplication.cpp                                             \

@@ -28,7 +28,7 @@ Author: Cartesian Theatre
   <!-- interface-description Narayan Designer, a modelling tool for the Narayan simulation engine. -->
   <!-- interface-copyright Copyright (C) 2017-2018 Cartesian Theatre. All rights reserved. -->
   <!-- interface-authors Cartesian Theatre -->
-  <object class="GtkTextBuffer" id="TextBuffer_Hardware_DeviceInfo"/>
+  <object class="GtkTextBuffer" id="PreferencesDialog_TextBuffer_Hardware_DeviceInfo"/>
   <object class="GtkDialog" id="PreferencesDialog">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Narayan Preferences</property>
@@ -45,7 +45,7 @@ Author: Cartesian Theatre
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="Button_Help">
+              <object class="GtkButton" id="PreferencesDialog_Button_Help">
                 <property name="label">gtk-help</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -59,7 +59,7 @@ Author: Cartesian Theatre
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="Button_Close">
+              <object class="GtkButton" id="PreferencesDialog_Button_Close">
                 <property name="label">gtk-close</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -80,12 +80,12 @@ Author: Cartesian Theatre
           </packing>
         </child>
         <child>
-          <object class="GtkNotebook" id="Notebook_Preferences">
+          <object class="GtkNotebook" id="PreferencesDialog_Notebook_Preferences">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="scrollable">True</property>
             <child>
-              <object class="GtkBox" id="Box_General">
+              <object class="GtkBox" id="PreferencesDialog_Box_General">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="border_width">12</property>
@@ -120,7 +120,7 @@ Author: Cartesian Theatre
                         <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
-                          <object class="GtkCheckButton" id="CheckButton_General_StartupShowSplash">
+                          <object class="GtkCheckButton" id="PreferencesDialog_CheckButton_General_StartupShowSplash">
                             <property name="label" translatable="yes">Show splash screen</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -134,7 +134,7 @@ Author: Cartesian Theatre
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkCheckButton" id="CheckButton_General_StartupShowUsageTips">
+                          <object class="GtkCheckButton" id="PreferencesDialog_CheckButton_General_StartupShowUsageTips">
                             <property name="label" translatable="yes">Show usage tips</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -190,7 +190,7 @@ Author: Cartesian Theatre
                         <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
-                          <object class="GtkCheckButton" id="CheckButton_General_PlaySoundEffects">
+                          <object class="GtkCheckButton" id="PreferencesDialog_CheckButton_General_PlaySoundEffects">
                             <property name="label" translatable="yes">Play sound effects</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -226,7 +226,7 @@ Author: Cartesian Theatre
               <placeholder/>
             </child>
             <child>
-              <object class="GtkBox" id="Box_Editor">
+              <object class="GtkBox" id="PreferencesDialog_Box_Editor">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="border_width">12</property>
@@ -261,7 +261,7 @@ Author: Cartesian Theatre
                         <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
-                          <object class="GtkCheckButton" id="CheckButton_Editor_UseSystemDefaultMonospaceFont">
+                          <object class="GtkCheckButton" id="PreferencesDialog_CheckButton_Editor_UseSystemDefaultMonospaceFont">
                             <property name="label" translatable="yes">Use the system's monospace font (%s)</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -292,7 +292,7 @@ Author: Cartesian Theatre
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkFontButton" id="FontButton_Editor_CustomFont">
+                              <object class="GtkFontButton" id="PreferencesDialog_FontButton_Editor_CustomFont">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
@@ -357,7 +357,7 @@ Author: Cartesian Theatre
                         <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
-                          <object class="GtkCheckButton" id="CheckButton_Editor_UseDarkTheme">
+                          <object class="GtkCheckButton" id="PreferencesDialog_CheckButton_Editor_UseDarkTheme">
                             <property name="label" translatable="yes">Use dark theme variant, if available</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -372,7 +372,7 @@ Author: Cartesian Theatre
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkScrolledWindow" id="ScrolledWindowStyleSchemeChooserWidget_Editor">
+                          <object class="GtkScrolledWindow" id="PreferencesDialog_ScrolledWindowStyleSchemeChooserWidget_Editor">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="shadow_type">in</property>
@@ -407,7 +407,7 @@ Author: Cartesian Theatre
               <placeholder/>
             </child>
             <child>
-              <object class="GtkBox" id="Grid_Hardware">
+              <object class="GtkBox" id="PreferencesDialog_Grid_Hardware">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="border_width">12</property>
@@ -442,7 +442,7 @@ Author: Cartesian Theatre
                         <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
-                          <object class="GtkComboBoxText" id="ComboBoxText_Hardware_Platform">
+                          <object class="GtkComboBoxText" id="PreferencesDialog_ComboBoxText_Hardware_Platform">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                           </object>
@@ -496,7 +496,7 @@ Author: Cartesian Theatre
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="Label_Hardware_Platform_Vendor">
+                              <object class="GtkLabel" id="PreferencesDialog_Label_Hardware_Platform_Vendor">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
@@ -510,7 +510,7 @@ Author: Cartesian Theatre
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="Label_Hardware_Platform_Version">
+                              <object class="GtkLabel" id="PreferencesDialog_Label_Hardware_Platform_Version">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
@@ -524,7 +524,7 @@ Author: Cartesian Theatre
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="Label_Hardware_Platform_Profile">
+                              <object class="GtkLabel" id="PreferencesDialog_Label_Hardware_Platform_Profile">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
@@ -587,7 +587,7 @@ Author: Cartesian Theatre
                         <property name="orientation">vertical</property>
                         <property name="spacing">12</property>
                         <child>
-                          <object class="GtkComboBoxText" id="ComboBoxText_Hardware_Devices">
+                          <object class="GtkComboBoxText" id="PreferencesDialog_ComboBoxText_Hardware_Devices">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="margin_left">20</property>
@@ -607,7 +607,7 @@ Author: Cartesian Theatre
                             <property name="min_content_width">400</property>
                             <property name="min_content_height">75</property>
                             <child>
-                              <object class="GtkTextView" id="TextView_Hardware_DeviceInfo">
+                              <object class="GtkTextView" id="PreferencesDialog_TextView_Hardware_DeviceInfo">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="editable">False</property>
@@ -615,7 +615,7 @@ Author: Cartesian Theatre
                                 <property name="right_margin">6</property>
                                 <property name="top_margin">6</property>
                                 <property name="bottom_margin">6</property>
-                                <property name="buffer">TextBuffer_Hardware_DeviceInfo</property>
+                                <property name="buffer">PreferencesDialog_TextBuffer_Hardware_DeviceInfo</property>
                                 <property name="accepts_tab">False</property>
                                 <property name="monospace">True</property>
                               </object>
@@ -648,7 +648,7 @@ Author: Cartesian Theatre
                     <property name="halign">end</property>
                     <property name="spacing">6</property>
                     <child>
-                      <object class="GtkButton" id="Button_DeviceInfo_Copy">
+                      <object class="GtkButton" id="PreferencesDialog_Button_DeviceInfo_Copy">
                         <property name="label">gtk-copy</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
@@ -663,7 +663,7 @@ Author: Cartesian Theatre
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="Button_Hardware_Refresh">
+                      <object class="GtkButton" id="PreferencesDialog_Button_Hardware_Refresh">
                         <property name="label">gtk-refresh</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
