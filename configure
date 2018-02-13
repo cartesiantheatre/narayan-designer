@@ -22110,6 +22110,12 @@ done
 
     # Check for thread local storage...
 
+
+
+
+  save_CXXFLAGS_1=$CXXFLAGS   CXXFLAGS=""""
+
+
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for thread local storage (TLS) class" >&5
 $as_echo_n "checking for thread local storage (TLS) class... " >&6; }
   if ${ac_cv_tls+:} false; then :
@@ -22161,6 +22167,11 @@ _ACEOF
 else
   as_fn_error $? "thread local storage is not available on your compiler..." "$LINENO" 5
 fi
+
+
+
+  CXXFLAGS=$save_CXXFLAGS_1
+
 
 
     # POSIX headers for all sub-projects...

@@ -100,8 +100,9 @@ am__aclocal_m4_deps = $(top_srcdir)/Macros/ax_cxx_compile_stdcxx.m4 \
 	$(top_srcdir)/Macros/ax_cxx_compile_stdcxx_14.m4 \
 	$(top_srcdir)/Macros/ax_prog_bisoncpp.m4 \
 	$(top_srcdir)/Macros/ax_prog_flexcpp.m4 \
-	$(top_srcdir)/Macros/ax_tls.m4 $(top_srcdir)/Macros/gettext.m4 \
-	$(top_srcdir)/Macros/iconv.m4 \
+	$(top_srcdir)/Macros/ax_tls.m4 \
+	$(top_srcdir)/Macros/ax_var_push.m4 \
+	$(top_srcdir)/Macros/gettext.m4 $(top_srcdir)/Macros/iconv.m4 \
 	$(top_srcdir)/Macros/intlmacosx.m4 \
 	$(top_srcdir)/Macros/lib-ld.m4 \
 	$(top_srcdir)/Macros/lib-link.m4 \
@@ -643,9 +644,11 @@ EXTRA_DIST = \
 
 # List of files to clean up during clean target...
 CLEANFILES = \
-	$(check_SCRIPTS)                        \
-	$(check_PROGRAMS)                       \
-	TestNarayanLogic
+    TestDesktopFileValidate                 \
+    TestLexer                               \
+	TestNarayanLogic                        \
+    TestParser                              \
+    TestRuntimeSane
 
 
 # If valgrind was enabled, perform its unit test...

@@ -2,11 +2,12 @@ Source: narayan-designer
 Section: contrib/science
 Priority: extra
 Maintainer: Cartesian Theatre <info@cartesiantheatre.com>
-Standards-Version: 4.1.3.0
+Standards-Version: 4.1.1
 Build-Depends:
-    autoconf-archive (>= 20170321-1),
+    autoconf-archive (>= 20170321),
     autopoint (>= 0.19.8.1),
     autotools-dev (>= 20161112.1),
+    bash-completion (>= 1:2.1),
     debhelper (>= 10.7.2),
     dh-exec,
     gawk,
@@ -28,7 +29,8 @@ Package: narayan-designer
 Architecture: any
 Depends:
     ${shlibs:Depends},
-    ${misc:Depends}
+    ${misc:Depends},
+    bash-completion
 Description: graphical design tool for social simulation models
  Narayan Designer is a cross platform tool used to create agent based
  simulation models for the Narayan simulation engine. 

@@ -79,9 +79,11 @@ EXTRA_DIST =                                \
 
 # List of files to clean up during clean target...
 CLEANFILES =                                \
-	$(check_SCRIPTS)                        \
-	$(check_PROGRAMS)                       \
-	TestNarayanLogic
+    TestDesktopFileValidate                 \
+    TestLexer                               \
+	TestNarayanLogic                        \
+    TestParser                              \
+    TestRuntimeSane
 
 # If valgrind was enabled, perform its unit test...
 #if VALGRIND_ENABLED

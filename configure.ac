@@ -245,7 +245,9 @@ AC_LANG([C++])
         [], [AC_MSG_ERROR([missing some required standard C++ headers...])])
 
     # Check for thread local storage...
+    AX_VAR_PUSHVALUE([CXXFLAGS],[""])
     AX_TLS([], [AC_MSG_ERROR([thread local storage is not available on your compiler...])])
+    AX_VAR_POPVALUE([CXXFLAGS])
 
     # POSIX headers for all sub-projects...
     AC_LANG_PUSH([C])
