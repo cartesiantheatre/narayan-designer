@@ -56,7 +56,7 @@ get-orig-source: $(DEB_SOURCE)_$(DEB_VERSION_UPSTREAM).orig.tar.bz2 $(info I: $(
 # Perform unit testing, but only if not disabled...
 ifeq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
 override_dh_auto_test:
-	make check || { cat $(BUILD_DIR)/Tests/test-suite.log; exit 99; }
+	make check || { cat Tests/test-suite.log; exit 99; }
 endif
 
 # Override for debhelper's strip. Strip debugging symbols and put in a separate

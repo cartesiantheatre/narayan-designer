@@ -508,6 +508,7 @@ X86_FEATURE_CFLAGS = @X86_FEATURE_CFLAGS@
 XGETTEXT = @XGETTEXT@
 XGETTEXT_015 = @XGETTEXT_015@
 XGETTEXT_EXTRA_OPTIONS = @XGETTEXT_EXTRA_OPTIONS@
+XVFB_RUN = @XVFB_RUN@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -1183,7 +1184,7 @@ TestNarayanLogic: TestLexer TestParser
 #  linked correctly...
 TestRuntimeSane: Makefile.am
 	@echo 'set -e -u' > $@
-	@echo 'GSETTINGS_SCHEMA_DIR=$(top_builddir)/Data $(top_builddir)/Source/narayan-designer --version | $(GREP) -q "@PACKAGE_NAME@"' >> $@
+	@echo 'GSETTINGS_SCHEMA_DIR=$(top_builddir)/Data $(XVFB_RUN) $(top_builddir)/Source/narayan-designer --version | $(GREP) -q "@PACKAGE_NAME@"' >> $@
 	@$(CHMOD) +x $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

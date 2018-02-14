@@ -114,6 +114,6 @@ TestNarayanLogic: TestLexer TestParser
 #  linked correctly...
 TestRuntimeSane: Makefile.am
 	@echo 'set -e -u' > $@
-	@echo 'GSETTINGS_SCHEMA_DIR=$(top_builddir)/Data $(top_builddir)/Source/narayan-designer --version | $(GREP) -q "@PACKAGE_NAME@"' >> $@
+	@echo 'GSETTINGS_SCHEMA_DIR=$(top_builddir)/Data $(XVFB_RUN) $(top_builddir)/Source/narayan-designer --version | $(GREP) -q "@PACKAGE_NAME@"' >> $@
 	@$(CHMOD) +x $@
 

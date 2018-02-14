@@ -209,6 +209,9 @@ fi
         AC_MSG_ERROR([valgrind required to perform test suite, but not found; either install or reconfigure with --disable-valgrind])
     fi
 
+    # xvfb-run for unit test...
+    AC_PATH_PROG([XVFB_RUN], [xvfb-run])
+
 # Select our native language of C++ to perform tests in, unless we specify
 #  otherwise later...
 AC_LANG([C++])
