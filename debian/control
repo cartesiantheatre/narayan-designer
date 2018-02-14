@@ -39,9 +39,8 @@ Architecture: any
 Depends:
     ${shlibs:Depends},
     ${misc:Depends},
-    bash-completion,
-    libgtksourceviewmm-3.0-0v5 (>= 3.21.3)
-Description: graphical design tool for social simulation models
+    bash-completion
+Description: graphical design tool for social simulation modelling
  Narayan Designer is a cross platform tool used to create agent based
  simulation models for the Narayan simulation engine. 
  .
@@ -61,17 +60,4 @@ Description: graphical design tool for social simulation models
  Narayan Designer uses a graphical Gtk+ based user interface via the C++
  Gtkmm bindings. The Narayan simulation engine is used in Avaneya, a cerebral
  science fiction metropolis city builder social simulation.
-
-Package: narayan-designer-dbg
-Architecture: any
-Section: contrib/debug
-Priority: extra
-Depends:
-    narayan-designer (= ${binary:Version}),
-    ${misc:Depends}
-Description: debugging symbols for narayan designer
- Narayan Designer is a cross platform tool used to create agent based
- simulation models for the Narayan simulation engine. 
- .
- This package contains the debugging symbols for the narayan-designer package.
 

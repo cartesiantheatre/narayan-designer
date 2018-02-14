@@ -4,6 +4,7 @@ Data/com.cartesiantheatre.narayan-designer.gschema.xml
 Data/MainWindow.ui
 Data/Menus.ui
 Data/PreferencesDialog.ui
+Data/UnitEditorDialog.ui
 Source/Compiler/NarayanLogicLexer.h
 Source/Compiler/NarayanLogicLexer.ih
 Source/Compiler/NarayanLogicLexer.lpp
@@ -16,6 +17,8 @@ Source/GUI/MainWindow.cpp
 Source/GUI/MainWindow.h
 Source/GUI/PreferencesDialog.cpp
 Source/GUI/PreferencesDialog.h
+Source/GUI/UnitEditorDialog.cpp
+Source/GUI/UnitEditorDialog.h
 Source/Main/config.h.in
 Source/Main/gettext.h
 Source/Main/Main.cpp

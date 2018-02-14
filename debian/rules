@@ -6,7 +6,7 @@
 
 # Output every command that modifies files on the build system...
 DH_VERBOSE = 1
-export DH_OPTIONS=-v
+#export DH_OPTIONS=-v
 
 # Set flags for how the package will be compiled and built. Note separated with
 #  white space and not comma, as per DPM § 4.9.1...
@@ -25,7 +25,7 @@ export DH_OPTIONS=-v
 
 # Set various group related security hardening build flags for format, fortify,
 #  stackprotector, relro, bindnow, and pie...
-DEB_BUILD_MAINT_OPTIONS=hardening=-all
+DEB_BUILD_MAINT_OPTIONS=hardening=+all
 export DEB_BUILD_MAINT_OPTIONS
 
 # Standard rules and preset shell variables...
@@ -59,15 +59,6 @@ override_dh_auto_test:
 	make check || { cat Tests/test-suite.log; exit 99; }
 endif
 
-# Override for debhelper's strip. Strip debugging symbols and put in a separate
-#  package, but only in the case where there actually was a *-dbg package
-#  specified in debian/control...
-override_dh_strip:
-	set -e; \
-	for pkg in $(patsubst %-dbg,%,$(filter %-dbg,$(shell dh_listpackages))); do \
-		dh_strip -p$${pkg} --dbg-package=$${pkg}-dbg; \
-	done
-
 # Prepare an upstream vanilla distribution tarball...
 $(DEB_SOURCE)_$(DEB_VERSION_UPSTREAM).orig.tar.bz2:
 	@echo "# Preparing source for $(DEB_SOURCE) v$(DEB_VERSION_UPSTREAM)..."
@@ -85,5 +76,5 @@ $(DEB_SOURCE)_$(DEB_VERSION_UPSTREAM).orig.tar.bz2:
 	&& $(RM) -r $(DEB_SOURCE)_$(DEB_VERSION_UPSTREAM)
 
 # Targets which aren't actually files...
-.PHONY: get-orig-source override_dh_strip
+.PHONY: get-orig-source override_dh_auto_configure
 

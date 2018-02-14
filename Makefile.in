@@ -121,7 +121,8 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/Source/Main/config.h
-CONFIG_CLEAN_FILES = Manual/narayan-designer.man Source/Main/Version.h
+CONFIG_CLEAN_FILES = Manual/narayan-designer.man Source/Main/Version.h \
+	Data/com.cartesiantheatre.narayan-designer.desktop
 CONFIG_CLEAN_VPATH_FILES =
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -220,11 +221,12 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/Auxiliary/ar-lib \
 	$(top_srcdir)/Auxiliary/install-sh \
 	$(top_srcdir)/Auxiliary/ltmain.sh \
 	$(top_srcdir)/Auxiliary/missing \
+	$(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.desktop.in \
 	$(top_srcdir)/Manual/narayan-designer.man.in \
 	$(top_srcdir)/Source/Main/Version.h.in \
 	$(top_srcdir)/Source/Main/config.h.in ABOUT-NLS \
 	Auxiliary/ar-lib Auxiliary/compile Auxiliary/config.guess \
-	Auxiliary/config.rpath Auxiliary/config.sub Auxiliary/depcomp \
+	Auxiliary/config.rpath Auxiliary/config.sub \
 	Auxiliary/install-sh Auxiliary/ltmain.sh Auxiliary/missing \
 	ChangeLog
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -336,6 +338,7 @@ LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
+MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
@@ -522,7 +525,7 @@ all: all-recursive
 .SUFFIXES:
 am--refresh: Makefile
 	@:
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -548,9 +551,9 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
 
-$(top_srcdir)/configure:  $(am__configure_deps)
+$(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 	$(am__cd) $(srcdir) && $(AUTOCONF)
-$(ACLOCAL_M4):  $(am__aclocal_m4_deps)
+$(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
 
@@ -561,7 +564,7 @@ Source/Main/config.h: Source/Main/stamp-h1
 Source/Main/stamp-h1: $(top_srcdir)/Source/Main/config.h.in $(top_builddir)/config.status
 	@rm -f Source/Main/stamp-h1
 	cd $(top_builddir) && $(SHELL) ./config.status Source/Main/config.h
-$(top_srcdir)/Source/Main/config.h.in:  $(am__configure_deps) 
+$(top_srcdir)/Source/Main/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps) 
 	($(am__cd) $(top_srcdir) && $(AUTOHEADER))
 	rm -f Source/Main/stamp-h1
 	touch $@
@@ -571,6 +574,8 @@ distclean-hdr:
 Manual/narayan-designer.man: $(top_builddir)/config.status $(top_srcdir)/Manual/narayan-designer.man.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 Source/Main/Version.h: $(top_builddir)/config.status $(top_srcdir)/Source/Main/Version.h.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+Data/com.cartesiantheatre.narayan-designer.desktop: $(top_builddir)/config.status $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.desktop.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 mostlyclean-libtool:

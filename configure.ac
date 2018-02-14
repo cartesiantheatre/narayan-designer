@@ -7,7 +7,7 @@ AC_PREREQ([2.67])
 # Initialize Autoconf...
 AC_INIT(
     [narayan-designer],
-    [0.0.0],
+    [0.0.0-1],
     [https://github.com/cartesiantheatre/narayan-designer/issues],
     [narayan-designer],
     [https://www.cartesiantheatre.com])
@@ -71,6 +71,9 @@ AC_SUBST([COPYRIGHT_NOTICE], [$copyright_notice])
     # Set by default to use silent build rules...
     AM_SILENT_RULES([yes])
 
+    # Always enable maintainer mode, but allow user the option to disable it...
+    AM_MAINTAINER_MODE([enable])
+
 # Initialize libtool...
 
     # We need the archiver because we build a static convenience library. We
@@ -126,9 +129,9 @@ AM_GNU_GETTEXT_VERSION([0.19.8])
     AM_XGETTEXT_OPTION([--from-code=UTF-8 --keyword=_ --keyword=N_ --keyword=C_:1c,2 --keyword=NC_:1c,2 --keyword=g_dngettext:2,3 --add-comments])
 
 # Make sure we are not being run as root...
-if test $UID == 0; then
-   AC_MSG_ERROR([there is never a good reason to run this script as root..."])
-fi
+#if test $UID == 0; then
+#   AC_MSG_ERROR([there is never a good reason to run this script as root..."])
+#fi
 
 # Make sure paths are sane...
 
@@ -366,10 +369,11 @@ AC_LANG([C++])
 
 # Generate makefiles from templates containing Autoconf substitution variables
 #  for root makefile...
-AC_CONFIG_FILES([               \
-    Makefile                    \
-    Source/Makefile             \
-    Tests/Makefile              \
+AC_CONFIG_FILES([                                       \
+    Makefile                                            \
+    Data/com.cartesiantheatre.narayan-designer.desktop  \
+    Source/Makefile                                     \
+    Tests/Makefile                                      \
     Translations/Makefile.in])
 
 # Generates config.status which generates all files from templates...

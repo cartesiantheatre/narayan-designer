@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: narayan-designer 0.0.0\n"
+"Project-Id-Version: narayan-designer 0.0.0-1\n"
 "Report-Msgid-Bugs-To: \"Cartesian Theatre <info@cartesiantheatre.com>\"\n"
-"POT-Creation-Date: 2018-02-10 21:38-0800\n"
+"POT-Creation-Date: 2018-02-13 23:32-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -325,6 +325,38 @@ msgstr ""
 msgid ""
 "Click to refresh the list of OpenCL platforms and available computing "
 "devices."
+msgstr ""
+
+#: Data/UnitEditorDialog.ui:88
+msgid "Name:"
+msgstr ""
+
+#: Data/UnitEditorDialog.ui:102
+msgid "new_unit_name"
+msgstr ""
+
+#: Data/UnitEditorDialog.ui:103
+msgid "The name of the new unit. Letters and numbers only with no spaces."
+msgstr ""
+
+#: Data/UnitEditorDialog.ui:138
+msgid "Unit Editor"
+msgstr ""
+
+#: Data/UnitEditorDialog.ui:204
+msgid "<b>Selected Unit</b>"
+msgstr ""
+
+#: Data/UnitEditorDialog.ui:236
+msgid "Create a new unit."
+msgstr ""
+
+#: Data/UnitEditorDialog.ui:250
+msgid "Rename currently selected unit."
+msgstr ""
+
+#: Data/UnitEditorDialog.ui:264
+msgid "Delete the currently selected unit."
 msgstr ""
 
 #. TODO: Fix this because this block is never executed.
