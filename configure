@@ -15204,9 +15204,9 @@ else
       bisoncpp_version_raw=`bisonc++ --version | sed -e 's/^bisonc++ V//'`
       bisoncpp_version=`echo $bisoncpp_version_raw | sed 's/^0*//;s/\.//g'`
       bisoncpp_version_ok=yes
-      if test -n "6.00.00"; then :
+      if test -n "6.01.01"; then :
 
-        bisoncpp_version_req=`echo "6.00.00" | sed 's/\.//g'`
+        bisoncpp_version_req=`echo "6.01.01" | sed 's/\.//g'`
         if test $bisoncpp_version -ge $bisoncpp_version_req; then :
 
 else
@@ -15222,7 +15222,7 @@ fi
 elif test "x$bisoncpp_version_ok" = "xno"; then :
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: not found" >&5
 $as_echo "not found" >&6; }
-          as_fn_error $? "bisonc++ version is $bisoncpp_version_raw, but >= 6.00.00 requested" "$LINENO" 5
+          as_fn_error $? "bisonc++ version is $bisoncpp_version_raw, but >= 6.01.01 requested" "$LINENO" 5
 else
   ax_cv_prog_bisoncpp=yes
            { $as_echo "$as_me:${as_lineno-$LINENO}: result: found, version = $bisoncpp_version_raw" >&5

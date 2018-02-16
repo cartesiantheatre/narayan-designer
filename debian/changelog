@@ -2,7 +2,7 @@ narayan-designer (0.0.0-1-kip1~artful) artful; urgency=medium
 
   * Fixed more build issues. Builds locally in sbuild.
 
- -- Kip Warner <kip@thevertigo.com>  Tue, 13 Feb 2018 23:32:59 -0800
+ -- Kip Warner <kip@thevertigo.com>  Thu, 15 Feb 2018 22:27:26 -0800
 
 narayan-designer (0.0.0-kip2~artful) artful; urgency=medium
 

@@ -8,7 +8,7 @@ Build-Depends:
     autopoint (>= 0.19.8.1),
     autotools-dev (>= 20161112.1),
     bash-completion (>= 1:2.1),
-    bisonc++ (>= 6.00.00-2kip3),
+    bisonc++ (>= 6.01.01-git20180123-kip),
     debhelper (>= 10.7.2),
     dh-exec,
     flexc++ (>= 2.06.02-2kip),
@@ -40,9 +40,9 @@ Depends:
     ${shlibs:Depends},
     ${misc:Depends},
     bash-completion
-Description: graphical design tool for social simulation modelling
+Description: graphical design tool for agent based social simulation models
  Narayan Designer is a cross platform tool used to create agent based
- simulation models for the Narayan simulation engine. 
+ simulation models for the Narayan simulation engine.
  .
  The Narayan simulation engine can be embedded within a variety of creative
  applications. These might range from an urban dynamics simulator assisting
