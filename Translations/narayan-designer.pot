@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: narayan-designer 0.0.0-1\n"
+"Project-Id-Version: narayan-designer 0.0.001\n"
 "Report-Msgid-Bugs-To: \"Cartesian Theatre <info@cartesiantheatre.com>\"\n"
-"POT-Creation-Date: 2018-02-14 10:21-0800\n"
+"POT-Creation-Date: 2018-02-20 00:14-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -43,110 +43,64 @@ msgid ""
 "visualization;parallel computing;building;avaneya;game;gaming;opencl;"
 msgstr ""
 
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:8
-msgid "Log visibility"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:9
-msgid "Whether to expand the log view."
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:15
-msgid "Preferences page index"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:16
-msgid "The index of the last selected page in the preferences dialog."
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:21
-msgid "Show splash on startup"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:22
-msgid "Whether to display the application splash screen on startup."
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:27
-msgid "Show usage tips on startup"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:28
-msgid "Whether to display helpful usage tips on application startup."
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:33
-#: Data/PreferencesDialog.ui:194
-msgid "Play sound effects"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:34
-msgid "Whether to play sound effects for various events."
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:39
-msgid "Use default fixed width font"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:40
-msgid ""
-"Whether to use the system's default fixed width (monospace) font instead of "
-"a custom font."
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:45
-msgid "Custom editor font"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:46
-msgid ""
-"If not configured to use the system's default fixed width font, use this "
-"font for the editor."
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:51
-msgid "Prefer dark theme variations"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:52
-msgid ""
-"If a dark theme variation of the currently selected colour scheme is "
-"available, use it"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:57
-msgid "Editor style scheme"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:58
-msgid "Selected editor style scheme"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:64
-msgid "Selected hardware platform ID"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.gschema.xml:65
-msgid "The selected hardware platform ID the simulation will execute on."
-msgstr ""
-
 #: Data/MainWindow.ui:32
 msgid "Welcome to Narayan Designer..."
 msgstr ""
 
-#: Data/MainWindow.ui:150
+#: Data/MainWindow.ui:92
+msgid "Ready"
+msgstr ""
+
+#: Data/MainWindow.ui:109
+msgid ""
+"Create an agent based model of artificial life in your city for the Narayan "
+"simulation engine."
+msgstr ""
+
+#: Data/MainWindow.ui:124
+msgid "page1"
+msgstr ""
+
+#: Data/MainWindow.ui:206
 msgid "Log"
 msgstr ""
 
-#: Data/Menus.ui:25 Data/Menus.ui:206
+#: Data/MainWindow.ui:231 Data/MainWindow.ui:298
+msgid "page0"
+msgstr ""
+
+#: Data/MainWindow.ui:260
+msgid "No dice, Mildred"
+msgstr ""
+
+#: Data/MainWindow.ui:276
+msgid ""
+"Don't panic, but I couldn't detect any usable OpenCL devices on your system. "
+"You might well have them, but you just don't have any compatible drivers "
+"installed. Usually one of the following packages is sufficient. Note that it "
+"is possible to install multiple in some cases.\n"
+"\n"
+"<b><a href=\"https://support.amd.com/en-us/kb-articles/Pages/OpenCL2-Driver."
+"aspx\">amd-opencl-icd</a></b> (AMD, non-free)\n"
+"<b><a href=\"https://www.freedesktop.org/wiki/Software/Beignet/\">beignet-"
+"opencl-icd</a></b> (Intel, free)\n"
+"<b><a href=\"https://people.freedesktop.org/~steckdenis/clover/\">mesa-"
+"opencl-icd</a></b> (AMD, free)\n"
+"<b><a href=\"https://developer.nvidia.com/opencl\">nvidia-opencl-icd</a></b> "
+"(nVidia, non-free)\n"
+"<b><a href=\"http://portablecl.org/\">pocl-opencl-icd</a></b> (generic "
+"software based, free)"
+msgstr ""
+
+#: Data/Menus.ui:25 Data/Menus.ui:210
 msgid "_Documentation"
 msgstr ""
 
-#: Data/Menus.ui:31 Data/Menus.ui:219
+#: Data/Menus.ui:31 Data/Menus.ui:223
 msgid "_About"
 msgstr ""
 
-#: Data/Menus.ui:36 Data/Menus.ui:99
+#: Data/Menus.ui:36 Data/Menus.ui:103
 msgid "_Quit"
 msgstr ""
 
@@ -170,83 +124,83 @@ msgstr ""
 msgid "Save _As"
 msgstr ""
 
-#: Data/Menus.ui:81
+#: Data/Menus.ui:82
 msgid "Revert"
 msgstr ""
 
-#: Data/Menus.ui:87
+#: Data/Menus.ui:89
 msgid "Print Previe_w"
 msgstr ""
 
-#: Data/Menus.ui:92
+#: Data/Menus.ui:95
 msgid "_Print"
 msgstr ""
 
-#: Data/Menus.ui:108
+#: Data/Menus.ui:112
 msgid "_Edit"
 msgstr ""
 
-#: Data/Menus.ui:111
+#: Data/Menus.ui:115
 msgid "_Preferences"
 msgstr ""
 
-#: Data/Menus.ui:121
+#: Data/Menus.ui:125
 msgid "_View"
 msgstr ""
 
-#: Data/Menus.ui:124
+#: Data/Menus.ui:128
 msgid "_Toolbar"
 msgstr ""
 
-#: Data/Menus.ui:129
+#: Data/Menus.ui:133
 msgid "_Log"
 msgstr ""
 
-#: Data/Menus.ui:137
+#: Data/Menus.ui:141
 msgid "_Full Screen"
 msgstr ""
 
-#: Data/Menus.ui:147
+#: Data/Menus.ui:151
 msgid "_Tools"
 msgstr ""
 
-#: Data/Menus.ui:151
+#: Data/Menus.ui:155
 msgid "_Simulators"
 msgstr ""
 
-#: Data/Menus.ui:155
+#: Data/Menus.ui:159
 msgid "_Cellular Automata"
 msgstr ""
 
-#: Data/Menus.ui:161
+#: Data/Menus.ui:165
 msgid "_Transport Handler"
 msgstr ""
 
-#: Data/Menus.ui:171
+#: Data/Menus.ui:175
 msgid "_Editors"
 msgstr ""
 
-#: Data/Menus.ui:174
+#: Data/Menus.ui:178
 msgid "_Units"
 msgstr ""
 
-#: Data/Menus.ui:180
+#: Data/Menus.ui:184
 msgid "_Resource Maps"
 msgstr ""
 
-#: Data/Menus.ui:186
+#: Data/Menus.ui:190
 msgid "_Events"
 msgstr ""
 
-#: Data/Menus.ui:192
+#: Data/Menus.ui:196
 msgid "_Transport Paths"
 msgstr ""
 
-#: Data/Menus.ui:203
+#: Data/Menus.ui:207
 msgid "_Help"
 msgstr ""
 
-#: Data/Menus.ui:212
+#: Data/Menus.ui:216
 msgid "Report Bug"
 msgstr ""
 
@@ -270,11 +224,16 @@ msgstr ""
 msgid "<b>Feedback</b>"
 msgstr ""
 
+#: Data/PreferencesDialog.ui:194
+msgid "Play sound effects"
+msgstr ""
+
 #: Data/PreferencesDialog.ui:246
 msgid "<b>Font</b>"
 msgstr ""
 
 #: Data/PreferencesDialog.ui:265
+#, c-format
 msgid "Use the system's monospace font (%s)"
 msgstr ""
 
@@ -298,27 +257,27 @@ msgstr ""
 msgid "<b>OpenCL Platform</b>"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:467
+#: Data/PreferencesDialog.ui:471
 msgid "Profile:"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:479
+#: Data/PreferencesDialog.ui:483
 msgid "Version:"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:491
+#: Data/PreferencesDialog.ui:495
 msgid "Vendor:"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:572
+#: Data/PreferencesDialog.ui:598
 msgid "<b>Query Device</b>"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:656
+#: Data/PreferencesDialog.ui:682
 msgid "Copy the device's information to the clipboard."
 msgstr ""
 
-#: Data/PreferencesDialog.ui:671
+#: Data/PreferencesDialog.ui:697
 msgid ""
 "Click to refresh the list of OpenCL platforms and available computing "
 "devices."
@@ -380,16 +339,16 @@ msgstr ""
 msgid "Website"
 msgstr ""
 
-#: Source/GUI/AboutDialog.cpp:60
+#: Source/GUI/AboutDialog.cpp:61
+msgid "Testing"
+msgstr ""
+
+#: Source/GUI/AboutDialog.cpp:66
 msgid "Created by"
 msgstr ""
 
-#: Source/GUI/AboutDialog.cpp:65
+#: Source/GUI/AboutDialog.cpp:71
 msgid "Engineering"
-msgstr ""
-
-#: Source/GUI/AboutDialog.cpp:83
-msgid "Testing"
 msgstr ""
 
 #. Translators: Put your name in this string, separating multiple names with
@@ -398,79 +357,100 @@ msgstr ""
 msgid "translator-credits"
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:59
+#: Source/GUI/MainWindow.cpp:164
+msgid "Select simulation model"
+msgstr ""
+
+#. Add response buttons to the dialog...
+#: Source/GUI/MainWindow.cpp:171
+msgid "_Cancel"
+msgstr ""
+
+#: Source/GUI/MainWindow.cpp:172
+msgid "Open"
+msgstr ""
+
+#: Source/GUI/MainWindow.cpp:179
+msgid "Narayan simulation model source"
+msgstr ""
+
+#: Source/GUI/MainWindow.cpp:186
+msgid "All Files"
+msgstr ""
+
+#: Source/GUI/PreferencesDialog.cpp:61
 msgid "Select a device to see more information on its capabilities."
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:78
+#: Source/GUI/PreferencesDialog.cpp:80
 msgid "General"
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:102
+#: Source/GUI/PreferencesDialog.cpp:104
 msgid "Editor"
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:126
+#: Source/GUI/PreferencesDialog.cpp:128
 msgid "Use the system's monospace font"
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:215
+#: Source/GUI/PreferencesDialog.cpp:217
 msgid "Hardware"
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:346
+#: Source/GUI/PreferencesDialog.cpp:368
 msgid "(CPU)"
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:352
+#: Source/GUI/PreferencesDialog.cpp:374
 msgid "(GPU)"
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:358
+#: Source/GUI/PreferencesDialog.cpp:380
 msgid "(dedicated OpenCL accelerator)"
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:364
+#: Source/GUI/PreferencesDialog.cpp:386
 msgid "(dedicated accelerator)"
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:370
+#: Source/GUI/PreferencesDialog.cpp:392
 msgid "(unknown)"
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:468
+#: Source/GUI/PreferencesDialog.cpp:490
 msgid "Name: "
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:469
+#: Source/GUI/PreferencesDialog.cpp:491
 msgid "Vendor: "
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:470
+#: Source/GUI/PreferencesDialog.cpp:492
 msgid "Max Computing Units: "
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:471
+#: Source/GUI/PreferencesDialog.cpp:493
 msgid "Global Memory: "
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:476
+#: Source/GUI/PreferencesDialog.cpp:498
 msgid "Max Clock Frequency: "
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:477
+#: Source/GUI/PreferencesDialog.cpp:499
 msgid "Max Allocatable Memory: "
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:482
+#: Source/GUI/PreferencesDialog.cpp:504
 msgid "Local Memory: "
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:487
+#: Source/GUI/PreferencesDialog.cpp:509
 msgid "Available: "
 msgstr ""
 
-#: Source/GUI/PreferencesDialog.cpp:488
+#: Source/GUI/PreferencesDialog.cpp:510
 msgid "Extensions: "
 msgstr ""
 

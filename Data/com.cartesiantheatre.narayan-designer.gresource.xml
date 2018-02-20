@@ -20,6 +20,14 @@
     <file alias="com.cartesiantheatre.narayan-designer.png">Artwork/Icons/48x48/apps/com.cartesiantheatre.narayan-designer.png</file>
   </gresource>
 
+  <gresource prefix="/com/cartesiantheatre/narayan-designer/icons/scalable/apps">
+    <file alias="com.cartesiantheatre.narayan-designer.svg">Artwork/Icons/scalable/apps/com.cartesiantheatre.narayan-designer.svg</file>
+  </gresource>
+
+  <gresource prefix="/com/cartesiantheatre/narayan-designer/icons/scalable/categories">
+    <file alias="broken-heart.svg">Artwork/Icons/scalable/categories/broken-heart.svg</file>
+  </gresource>
+
   <gresource prefix="/com/cartesiantheatre/narayan-designer/icons/48x48/actions">
     <file alias="report-bug.png">Artwork/Icons/48x48/actions/report-bug.png</file>
   </gresource>

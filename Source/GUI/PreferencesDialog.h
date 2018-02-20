@@ -63,9 +63,15 @@ class PreferencesDialog : public Gtk::Dialog
             BaseObjectType *CTypeObject,
             const Glib::RefPtr<Gtk::Builder> &Builder,
             Glib::RefPtr<Gio::Settings> &Settings);
+        
+        // Check if any usable hardware was detected...
+        bool IsAnyDeviceUsable() const { return m_AnyDeviceUsable; }
 
     // Protected methods...
     protected:
+
+        // Clear the devices list and information widget...
+        void ClearDevices();
 
         // Find a widget and bind it to a particular setting...
         template <typename WidgetType>
@@ -134,6 +140,11 @@ class PreferencesDialog : public Gtk::Dialog
                 Gtk::TreeModelColumn<std::string>   m_Column_Version;
                 Gtk::TreeModelColumn<std::string>   m_Column_Name;
                 Gtk::TreeModelColumn<std::string>   m_Column_Vendor;
+                
+                // Column to use for string IDs, the name column. This is a
+                //  Gtkmm construct and not to be confused with the numeric
+                //  OpenCL hardware ID...
+                static constexpr size_t             m_StringIDColumn =  3;
         };
         
         // Hardware devices tree model columns...
@@ -186,6 +197,9 @@ class PreferencesDialog : public Gtk::Dialog
             Tab_Editor,
             Tab_Hardware
         };
+
+        // True if we managed to detect at least one usable device...
+        bool                                        m_AnyDeviceUsable;
 
         // Builder...
         Glib::RefPtr<Gtk::Builder>                  m_Builder;

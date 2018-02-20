@@ -1,10 +1,17 @@
+<!--
+    Narayan Designer, a modelling tool for the Narayan simulation engine.
+    Copyright (C) 2017-2018 Cartesian Theatre. All rights reserved.
+    
+    GSETTINGS_SCHEMA_DIR=./Data dconf-editor
+-->
+
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="narayan-designer">
 
     <schema path="/com/cartesiantheatre/narayan-designer/" id="com.cartesiantheatre.narayan-designer">
 
         <key name="show-log" type="b">
-            <default>true</default>
+            <default>false</default>
             <summary>Log visibility</summary>
             <description>Whether to expand the log view.</description>
         </key>
@@ -58,11 +65,10 @@
             <description>Selected editor style scheme</description>
         </key>
 
-        <key name="hardware-platform-id" type="i">
-            <default>0</default>
-            <range min="0"/>
-            <summary>Selected hardware platform ID</summary>
-            <description>The selected hardware platform ID the simulation will execute on.</description>
+        <key name="hardware-platform-name" type="s">
+            <default>"Portable Computing Language"</default>
+            <summary>Selected hardware platform name</summary>
+            <description>The selected hardware platform name the simulation will execute on.</description>
         </key>
 
     </schema>

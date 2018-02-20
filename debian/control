@@ -39,7 +39,11 @@ Architecture: any
 Depends:
     ${shlibs:Depends},
     ${misc:Depends},
-    bash-completion
+    bash-completion,
+    clinfo
+Recommends:
+    opencl-icd,
+    pocl-opencl-icd
 Description: graphical design tool for agent based social simulation models
  Narayan Designer is a cross platform tool used to create agent based
  simulation models for the Narayan simulation engine.

@@ -7,7 +7,7 @@ AC_PREREQ([2.67])
 # Initialize Autoconf...
 AC_INIT(
     [narayan-designer],
-    [0.0.0-1],
+    [0.0.001],
     [https://github.com/cartesiantheatre/narayan-designer/issues],
     [narayan-designer],
     [https://www.cartesiantheatre.com])
@@ -296,10 +296,21 @@ AC_LANG([C++])
     CXXFLAGS="$CXXFLAGS $libcanberra_gtk3_CFLAGS"
     LIBS="$LIBS $libcanberra_gtk3_LIBS"
 
-    # OpenCL dispatch library acts as a proxy to actual vendor implementation,
-    #  such as fd.o Beignet (Intel), nVidia, AMD, Clover (Mesa), etc...
+    # OpenCL dispatch library (loader) acts as a proxy to the actual vendor
+    #  implementation. The dispatch library is what we link to, but the actual
+    #  vendor implementation (ICD), or Installable Client Driver, comes in the
+    #  form of...
+    #
+    #   [Package]           [Maintainer]    [Hardware]      [License]
+    #
+    #   amd-opencl-icd      AMD             AMD             non-free
+    #   beignet-opencl-icd  fd.o            Intel           free
+    #   mesa-opencl-icd     Mesa            AMD / Radeon    free
+    #   nvidia-opencl-icd   nVidia          nVidia          non-free
+    #   pocl-opencl-icd     pocl            Software based  free
+    #
 
-        # First try via pkg-config...
+        # First try to find loader via pkg-config...
         PKG_CHECK_MODULES(
             [libOpenCL], [OpenCL >= 2.1], 
             
@@ -313,7 +324,7 @@ AC_LANG([C++])
             # Didn't find it...
             [
                 # Notify user...
-                AC_MSG_NOTICE([OpenCL not detected via pkg-config, attempting manual fallback...])
+                AC_MSG_NOTICE([OpenCL dispatch library detected via pkg-config, attempting manual fallback...])
 
                 # Try compiling and linking against any available OpenCL library
                 #  installed on the system. Then try dynamically loading an

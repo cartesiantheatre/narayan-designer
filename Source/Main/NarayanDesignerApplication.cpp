@@ -50,11 +50,11 @@ NarayanDesignerApplication::NarayanDesignerApplication()
           Gio::ApplicationFlags::APPLICATION_HANDLES_OPEN |
           Gio::ApplicationFlags::APPLICATION_HANDLES_COMMAND_LINE |
           Gio::ApplicationFlags::APPLICATION_NON_UNIQUE),
-      m_AboutDialog(nullptr),
+      m_Dialog_About(nullptr),
       m_ApplicationMenu(nullptr),
       m_Builder(Gtk::Builder::create()),
       m_MainWindow(nullptr),
-      m_PreferencesDialog(nullptr),
+      m_Dialog_Preferences(nullptr),
       m_Settings(nullptr)
 {
     // Set the application name...
@@ -136,12 +136,12 @@ NarayanDesignerApplication::NarayanDesignerApplication()
     g_assert(m_MainWindow);
 
     // Get the about dialog...
-    m_Builder->get_widget_derived("AboutDialog", m_AboutDialog);
-    g_assert(m_AboutDialog);
+    m_Builder->get_widget_derived("AboutDialog", m_Dialog_About);
+    g_assert(m_Dialog_About);
     
     // Get the preferences dialog...
-    m_Builder->get_widget_derived("PreferencesDialog", m_PreferencesDialog, m_Settings);
-    g_assert(m_PreferencesDialog);
+    m_Builder->get_widget_derived("PreferencesDialog", m_Dialog_Preferences, m_Settings);
+    g_assert(m_Dialog_Preferences);
 
     // Get the application menu...
     m_ApplicationMenu = Glib::RefPtr<Gio::MenuModel>::cast_dynamic(m_Builder->get_object("menubar"));
@@ -226,10 +226,10 @@ void NarayanDesignerApplication::OnActionAbout()
 {
     // Tell window manager to put dialog centred over main window and always
     //  above it...
-    m_AboutDialog->set_transient_for(*m_MainWindow);
+    m_Dialog_About->set_transient_for(*m_MainWindow);
     
     // Show it...
-    m_AboutDialog->present();
+    m_Dialog_About->present();
 }
 
 // Actions to open the preferences dialog...
@@ -237,10 +237,10 @@ void NarayanDesignerApplication::OnActionPreferences()
 {
     // Tell window manager to put dialog centred over main window and always
     //  above it...
-    m_PreferencesDialog->set_transient_for(*m_MainWindow);
+    m_Dialog_Preferences->set_transient_for(*m_MainWindow);
     
     // Show it...
-    m_PreferencesDialog->present();
+    m_Dialog_Preferences->present();
 }
 
 // Action to quit the application...

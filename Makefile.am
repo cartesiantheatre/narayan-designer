@@ -58,6 +58,10 @@ dist_pkgdata_DATA =                                         \
 man1_MANS =                                                 \
     Manual/narayan-designer.man
 
+# Magic for file(1)...
+magicdir = $(datarootdir)/file/narayan/
+magic_DATA = Data/magic
+
 # Bash completion script...
 bash_completiondir=$(datarootdir)/bash-completion/completions/
 if USE_BASH_COMPLETION
@@ -67,13 +71,16 @@ bash_completion_DATA =
 endif
 
 # Manually add these things to distribution package when dist target is run...
-EXTRA_DIST =                                                \
-	Manual/narayan-designer                                 \
-    Authors                                                 \
-    ChangeLog                                               \
-    Copying                                                 \
-    Install                                                 \
-    News                                                    \
+EXTRA_DIST =                                                    \
+    Data/com.cartesiantheatre.narayan-designer.desktop.in       \
+    Data/com.cartesiantheatre.narayan-designer.gresource.xml    \
+    Data/magic                                                  \
+	Manual/narayan-designer                                     \
+    Authors                                                     \
+    ChangeLog                                                   \
+    Copying                                                     \
+    Install                                                     \
+    News                                                        \
     ReadMe
 
 # Make sure gettext is present...

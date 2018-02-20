@@ -54,6 +54,12 @@ AboutDialog::AboutDialog(
 
     // Set contributors...
 
+        // Testing...
+        vector<Glib::ustring> Testers;
+        Testers.push_back("Adam Gornowicz <adam@avaneya.com>");
+        Testers.push_back("Joseph Liau <joseph@liau.ca>");
+        add_credit_section(_("Testing"), Testers);
+
         // Created by...
         vector<Glib::ustring> CreatedBy;
         CreatedBy.push_back("Cartesian Theatre https://www.cartesiantheatre.com");
@@ -75,12 +81,6 @@ AboutDialog::AboutDialog(
         Documenters.push_back("Kip Warner <kip@thevertigo.com>");
         Documenters.push_back("Johann Tan <johanntan@ymail.com>");
         set_documenters(Documenters);
-
-        // Testing...
-        vector<Glib::ustring> Testers;
-        Testers.push_back("Adam Gornowicz <adam@avaneya.com>");
-        Testers.push_back("Joseph Liau <joseph@liau.ca>");
-        add_credit_section(_("Testing"), Testers);
 
     // Translators: Put your name in this string, separating multiple names with
     //  \n character...

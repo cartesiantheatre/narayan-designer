@@ -90,7 +90,7 @@ class NarayanDesignerApplication : public Gtk::Application
     protected:
 
         // About dialog...
-        AboutDialog                    *m_AboutDialog;
+        AboutDialog                    *m_Dialog_About;
 
         // Application menu...
         Glib::RefPtr<Gio::MenuModel>    m_ApplicationMenu;
@@ -102,7 +102,7 @@ class NarayanDesignerApplication : public Gtk::Application
         MainWindow                     *m_MainWindow;
 
         // Preferences dialog...
-        PreferencesDialog              *m_PreferencesDialog;
+        PreferencesDialog              *m_Dialog_Preferences;
         
         // Settings backend...
         Glib::RefPtr<Gio::Settings>     m_Settings;

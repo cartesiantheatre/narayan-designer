@@ -28,6 +28,7 @@ desktop_DATA = $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.deskto
 GRESOURCE_LIST =                                                                        \
     $(top_srcdir)/Data/Artwork/Icons/48x48/apps/com.cartesiantheatre.narayan-designer.png    \
     $(top_srcdir)/Data/Artwork/Icons/48x48/actions/report-bug.png                       \
+    $(top_srcdir)/Data/Artwork/Icons/scalable/categories/broken-heart.svg               \
     $(top_srcdir)/Data/Artwork/AboutDialog.png                                          \
     $(top_srcdir)/Data/AboutDialog.ui                                                   \
     $(top_srcdir)/Data/MainWindow.ui                                                    \
@@ -220,8 +221,6 @@ MAINTAINERCLEANFILES =                                                          
 EXTRA_DIST =                                                                        \
     Compiler/NarayanLogicLexer.lpp                                                  \
     Compiler/NarayanLogicParser.ypp                                                 \
-    $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.desktop.in             \
-    $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml          \
     $(GRESOURCE_LIST)                                                               \
     $(gsettings_SCHEMAS)
 

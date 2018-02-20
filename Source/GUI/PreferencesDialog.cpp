@@ -19,6 +19,7 @@
     #include <regex>
 
     // Gtkmm...
+    #include <gtkmm/messagedialog.h>
     #include <gtkmm/scrolledwindow.h>
     
     // GtkSourceViewMM...
@@ -38,6 +39,7 @@ PreferencesDialog::PreferencesDialog(
     const Glib::RefPtr<Gtk::Builder> &Builder,
     Glib::RefPtr<Gio::Settings> &Settings)
  :  Gtk::Dialog(CTypeObject),
+    m_AnyDeviceUsable(false),
     m_Builder(Builder),
     m_Notebook_Preferences(nullptr),
     m_Settings(Settings),
@@ -227,9 +229,12 @@ PreferencesDialog::PreferencesDialog(
             m_ComboBoxText_Hardware_Platform->clear();
             m_ComboBoxText_Hardware_Platform->pack_start(m_TreeColumns_Hardware_Platform.m_Column_ID);
             m_ComboBoxText_Hardware_Platform->pack_start(m_TreeColumns_Hardware_Platform.m_Column_Name);
+            
+            // Set the platform name column in the model to the column ID...
+            m_ComboBoxText_Hardware_Platform->set_id_column(m_TreeColumns_Hardware_Platform.m_StringIDColumn);
 
             // Bind to settings backend...
-            m_Settings->bind("hardware-platform-id", m_ComboBoxText_Hardware_Platform->property_active());
+            m_Settings->bind("hardware-platform-name", m_ComboBoxText_Hardware_Platform->property_active_id());
 
             // Connect selection change signal...
             m_ComboBoxText_Hardware_Platform->signal_changed().connect(
@@ -309,6 +314,23 @@ PreferencesDialog::PreferencesDialog(
         // Connect clicked signal...
         m_Button_Close->signal_clicked().connect(
             sigc::mem_fun(*this, &PreferencesDialog::OnCloseButton));
+}
+
+// Clear the devices list and information widget...
+void PreferencesDialog::ClearDevices()
+{
+    // Clear old list of devices...
+    m_ListStore_Hardware_Devices = Gtk::ListStore::create(m_TreeColumns_Hardware_Devices);
+    m_ComboBoxText_Hardware_Devices->set_model(m_ListStore_Hardware_Devices);
+
+    // Clear the device information textview back to default...
+
+        // Get the text buffer...
+        Glib::RefPtr<Gtk::TextBuffer> TextBuffer =
+            m_TextView_Hardware_DeviceInfo->get_buffer();
+
+        // Clear the device information back to default...
+        TextBuffer->property_text() = m_Hardware_DeviceInfo_DefaultText;
 }
 
 // Find a widget and bind it to a particular setting...
@@ -496,6 +518,9 @@ void PreferencesDialog::OnHardwareDeviceChanged()
 // Hardware platform combobox text selection changed...
 void PreferencesDialog::OnHardwarePlatformChanged()
 {
+    // No usable devices until we find one that is...
+    m_AnyDeviceUsable = false;
+
     // Clear previous hardware platform labels...
     m_Label_Hardware_Platform_Profile->set_label("");
     m_Label_Hardware_Platform_Version->set_label("");
@@ -513,6 +538,14 @@ void PreferencesDialog::OnHardwarePlatformChanged()
     // Get the row...
     Gtk::TreeModel::Row CurrentRow = *TreeModelIterator;
 
+        // No hardware platform to select...
+        if(!*CurrentRow)
+        {
+            // Clear devices and that's it...
+            ClearDevices();
+            return;
+        }
+
     // Get the hardware platform's information...
     const int PlatformID            = CurrentRow[m_TreeColumns_Hardware_Platform.m_Column_ID];
     const string PlatformProfile    = CurrentRow[m_TreeColumns_Hardware_Platform.m_Column_Profile];
@@ -527,39 +560,48 @@ void PreferencesDialog::OnHardwarePlatformChanged()
 
     // Populate the list of devices...
 
-        // Clear old ones...
-        m_ListStore_Hardware_Devices = Gtk::ListStore::create(m_TreeColumns_Hardware_Devices);
-        m_ComboBoxText_Hardware_Devices->set_model(m_ListStore_Hardware_Devices);
-
         // Get the list of hardware platforms since we need to query the
         //  selected one for its available devices...
         vector<cl::Platform> Platforms;
-        cl::Platform::get(&Platforms);
-        
+        try
+        {
+            cl::Platform::get(&Platforms);
+        }
+
+            // Failed...
+            catch(const cl::Error &RuntimeError)
+            {
+                // If the implementation wasn't simply trying to tell us it
+                //  couldn't find any platforms, then this is a real problem
+                //  and we should propagate up...
+                if(Platforms.empty() && (RuntimeError.what() != string("clGetPlatformIDs")))
+                    throw RuntimeError;
+            }
+
         // Find the selected platform...
         const cl::Platform &SelectedPlatform = Platforms.at(PlatformID);
 
         // Storage for list of devices...
         vector<cl::Device> Devices;
         
-        // Try to query its devices. Some implementations have a bug where if
-        //  no devices are detected, CL_HPP_ENABLE_EXCEPTIONS is defined and
-        //  CL_SUCCESS is returned instead of CL_DEVICE_NOT_FOUND a nasty
-        //  unexpected exception is thrown...
-        cl_int GetDevicesStatus = 0;
+        // Try to query its devices...
         try
         {
             // Perform query...
-            GetDevicesStatus = SelectedPlatform.getDevices(CL_DEVICE_TYPE_ALL, &Devices);
+            SelectedPlatform.getDevices(CL_DEVICE_TYPE_ALL, &Devices);
         }
             // Failed...
-            catch(const cl::Error &Exception)
+            catch(const cl::Error &RuntimeError)
             {
-                // This isn't an implementation bug we recognize, so pass up
-                //  the exception handler chain...
-                if((GetDevicesStatus != CL_SUCCESS) || (Exception.what() != string("clGetDeviceIDs")))
-                    throw Exception;
+                // If the implementation wasn't simply trying to tell us it
+                //  couldn't find any devices, then this is a real exception
+                //  and we should propagate up...
+                if(Devices.empty() && (RuntimeError.what() != string("clGetDeviceIDs")))
+                    throw RuntimeError;
             }
+
+        // Any usable devices?
+        m_AnyDeviceUsable = !Devices.empty();
 
         // Add each device OpenCL provided us...
         for(size_t Index = 0; Index < Devices.size(); ++Index)
@@ -589,19 +631,7 @@ void PreferencesDialog::OnHardwarePlatformChanged()
         
         // No devices on this hardware platform...
         else
-        {
-            // De-select, though not sure if this is necessary... 
-            m_ComboBoxText_Hardware_Devices->set_active(-1);
-
-            // Clear the device information textview back to default...
-
-                // Get the text buffer...
-                Glib::RefPtr<Gtk::TextBuffer> TextBuffer =
-                    m_TextView_Hardware_DeviceInfo->get_buffer();
-
-                // Clear the device information back to default...
-                TextBuffer->property_text() = m_Hardware_DeviceInfo_DefaultText;
-        }
+            ClearDevices();
 }
 
 // Help button clicked...
@@ -614,11 +644,25 @@ void PreferencesDialog::OnHelpButton()
 void PreferencesDialog::OnRefreshHardware()
 {
     // Query settings backend for user's selected hardware platform ID...
-    const int SelectedPlatformID = m_Settings->get_int("hardware-platform-id");
+    const string SelectedPlatformName = m_Settings->get_string("hardware-platform-name");
 
-    // Get the list of hardware platforms...
+    // Get the list of hardware platforms since we need to query the
+    //  selected one for its available devices...
     vector<cl::Platform> Platforms;
-    cl::Platform::get(&Platforms);
+    try
+    {
+        cl::Platform::get(&Platforms);
+    }
+
+        // Failed...
+        catch(const cl::Error &RuntimeError)
+        {
+            // If the implementation wasn't simply trying to tell us it
+            //  couldn't find any platforms, then this is a real problem
+            //  and we should propagate up...
+            if(Platforms.empty() && (RuntimeError.what() != string("clGetPlatformIDs")))
+                throw RuntimeError;
+        }
 
     // Populate model with the list of platforms...
     
@@ -645,7 +689,8 @@ void PreferencesDialog::OnRefreshHardware()
             NewRow[m_TreeColumns_Hardware_Platform.m_Column_Vendor]     = CurrentPlatform.getInfo<CL_PLATFORM_VENDOR>();
         }
 
-        // Select the one that was stored in the settings backend...
-        m_ComboBoxText_Hardware_Platform->set_active(SelectedPlatformID);
+        // Select the one that was stored in the settings backend which calls
+        //  OnHardwarePlatformChanged()...
+        m_ComboBoxText_Hardware_Platform->set_active_id(SelectedPlatformName);
 }
 
