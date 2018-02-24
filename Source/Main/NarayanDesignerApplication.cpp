@@ -10,10 +10,10 @@
 
     // Our headers...
     #include "NarayanDesignerApplication.h"
-    #include "MainWindow.h"
-    #include "AboutDialog.h"
-    #include "PreferencesDialog.h"
-    #include "Resources.h"
+    #include "GUI/MainWindow.h"
+    #include "GUI/AboutDialog.h"
+    #include "GUI/PreferencesDialog.h"
+    #include "GUI/Resources.h"
 
     // Giomm...
     #include <giomm/application.h>

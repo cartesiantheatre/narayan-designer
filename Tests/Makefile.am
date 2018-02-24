@@ -41,18 +41,18 @@ NL_LOG_COMPILER  = $(top_builddir)/Tests/TestNarayanLogic
 # Preprocessor flags for all tests. Note that the include search paths are
 #  paired between source and build directory as per Automake §8.7 to facilitate
 #  VPATH builds...
-AM_CPPFLAGS =                               \
-    -DSYSCONFDIR='"$(sysconfdir)"'          \
-    -I$(top_srcdir)/Source                  \
-    -I$(top_builddir)/Source                \
-    -I$(top_srcdir)/Source/Compiler         \
-    -I$(top_builddir)/Source/Compiler       \
-    -I$(top_srcdir)/Source/Main             \
-    -I$(top_builddir)/Source/Main
+AM_CPPFLAGS =                                                                   \
+    -DSYSCONFDIR='"$(sysconfdir)"'                                              \
+    -I$(top_srcdir)/Source/                                                     \
+    -I$(top_builddir)/Source/                                                   \
+    -I$(top_srcdir)/Source/Compiler/                                            \
+    -I$(top_builddir)/Source/Compiler/                                          \
+    -I$(top_srcdir)/Source/Main/                                                \
+    -I$(top_builddir)/Source/Main/
 
 # Libraries to add for all tests. For some reason Automake doesn't have an
 #  AM_LDADD, so we use LDADD per Automake §8.1.2...
-LDADD = $(top_builddir)/Source/liblexerparser.la
+LDADD = $(top_builddir)/liblexerparser.la
 
 # Test lexer program...
 TestLexer_CFLAGS    = $(AM_CFLAGS)
@@ -81,7 +81,7 @@ EXTRA_DIST =                                \
 CLEANFILES =                                \
     TestDesktopFileValidate                 \
     TestLexer                               \
-	TestNarayanLogic                        \
+    TestNarayanLogic                        \
     TestParser                              \
     TestRuntimeSane
 
@@ -95,25 +95,25 @@ TESTS = $(check_SCRIPTS)
 
 # Test script to validate our desktop file entry...
 TestDesktopFileValidate: Makefile.am $(top_builddir)/Data/com.cartesiantheatre.narayan-designer.desktop
-	@echo 'set -e -u' > $@
-	@echo 'echo "$$(DESKTOP_FILE_VALIDATE) $$(top_builddir)/$$(desktop_DATA) || exit 1"' >> $@
-	@$(CHMOD) +x $@
+	$(AM_V_GEN)echo 'set -e -u' > $@; \
+	echo "$(DESKTOP_FILE_VALIDATE) $(top_builddir)/$(desktop_DATA) || exit 1" >> $@; \
+	$(CHMOD) +x $@
 
 # This script is used as a test harness for each Narayan Logic script to test.
 #  It runs the latter through both the lexer and parser to verify successful
 #  consumption...
 TestNarayanLogic: TestLexer TestParser
-	@echo 'set -e -u' > $@
-	@echo 'echo "./TestLexer $$1"' >> $@
-	@echo './TestLexer "$$1"' >> $@
-	@echo 'echo "./TestParser $$1"' >> $@
-	@echo './TestParser "$$1"' >> $@
-	@$(CHMOD) +x $@
+	$(AM_V_GEN)echo 'set -e -u' > $@; \
+	echo 'echo "./TestLexer $$1"' >> $@; \
+	echo './TestLexer "$$1"' >> $@; \
+	echo 'echo "./TestParser $$1"' >> $@; \
+	echo './TestParser "$$1"' >> $@; \
+	$(CHMOD) +x $@
 
 # Test script to verify the runtime works by just testing to see it compiled and
 #  linked correctly...
 TestRuntimeSane: Makefile.am
-	@echo 'set -e -u' > $@
-	@echo 'GSETTINGS_SCHEMA_DIR=$(top_builddir)/Data $(XVFB_RUN) $(top_builddir)/Source/narayan-designer --version | $(GREP) -q "@PACKAGE_NAME@"' >> $@
-	@$(CHMOD) +x $@
+	$(AM_V_GEN)echo 'set -e -u' > $@; \
+	echo 'GSETTINGS_SCHEMA_DIR=$(top_builddir)/Data $(XVFB_RUN) $(top_builddir)/Source/narayan-designer --version | $(GREP) -q "@PACKAGE_NAME@"' >> $@; \
+	$(CHMOD) +x $@
 

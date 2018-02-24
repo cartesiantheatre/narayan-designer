@@ -664,6 +664,9 @@ VALGRIND_ENABLED
 VALGRIND_ENABLED_FALSE
 VALGRIND_ENABLED_TRUE
 VALGRIND
+UPDATE_MIME_DATABASE
+UPDATE_ICON_CACHES
+UPDATE_DESKTOP_DATABASE
 SORT
 RMDIR
 MKTEMP
@@ -675,6 +678,7 @@ PKG_CONFIG_PATH
 PKG_CONFIG
 GSETTINGS_DISABLE_SCHEMAS_COMPILE
 FLEXCPP
+DESKTOP_FILE_VALIDATE
 HAVE_CXX14
 CXXCPP
 am__fastdepCXX_FALSE
@@ -702,6 +706,8 @@ GMSGFMT
 MSGFMT
 GETTEXT_MACRO_VERSION
 USE_NLS
+UPDATE_CACHES_FALSE
+UPDATE_CACHES_TRUE
 ENABLE_TESTS_FALSE
 ENABLE_TESTS_TRUE
 USE_BASH_COMPLETION_FALSE
@@ -841,6 +847,7 @@ with_sysroot
 enable_libtool_lock
 enable_bash_completion
 enable_tests
+enable_caches
 enable_nls
 enable_rpath
 with_libiconv_prefix
@@ -1526,6 +1533,10 @@ Optional Features:
   --enable-bash-completion
                           enable bash completion [default: yes]
   --enable-tests          enable unit tests [default: yes]
+  --enable-caches         run
+                          update-{desktop-database,mime-database,icon-cache}
+                          to update caches when installing and uninstalling
+                          [default: yes]
   --disable-nls           do not use Native Language Support
   --disable-rpath         do not hardcode runtime library paths
   --disable-schemas-compile
@@ -13023,10 +13034,10 @@ if test "${enable_bash_completion+set}" = set; then :
   enableval=$enable_bash_completion; # Quadrigraph escaped
         enable_bash_completion=${enableval}
 else
-  enable_bash_completion=yes
+  enable_bash_completion="yes"
 fi
 
-     if test x"$enable_bash_completion" = xyes; then
+     if test x"$enable_bash_completion" = "xyes"; then
   USE_BASH_COMPLETION_TRUE=
   USE_BASH_COMPLETION_FALSE='#'
 else
@@ -13041,15 +13052,33 @@ if test "${enable_tests+set}" = set; then :
   enableval=$enable_tests; # Quadrigraph escaped
         enable_tests=${enableval}
 else
-  enable_tests=yes
+  enable_tests="yes"
 fi
 
-     if test x"$enable_tests" = xyes; then
+     if test x"$enable_tests" = "xyes"; then
   ENABLE_TESTS_TRUE=
   ENABLE_TESTS_FALSE='#'
 else
   ENABLE_TESTS_TRUE='#'
   ENABLE_TESTS_FALSE=
+fi
+
+
+    # Update caches for desktop entries, mime, and icons...
+    # Check whether --enable-caches was given.
+if test "${enable_caches+set}" = set; then :
+  enableval=$enable_caches; # Quadrigraph escaped
+        enable_caches=${enableval}
+else
+  enable_caches="yes"
+fi
+
+     if test x"$enable_caches" = "xyes"; then
+  UPDATE_CACHES_TRUE=
+  UPDATE_CACHES_FALSE='#'
+else
+  UPDATE_CACHES_TRUE='#'
+  UPDATE_CACHES_FALSE=
 fi
 
 
@@ -20071,6 +20100,51 @@ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
+    # desktop-file-validate(1) tool to validate Desktop Entry files...
+    # Extract the first word of "desktop-file-validate", so it can be a program name with args.
+set dummy desktop-file-validate; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_DESKTOP_FILE_VALIDATE+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $DESKTOP_FILE_VALIDATE in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_DESKTOP_FILE_VALIDATE="$DESKTOP_FILE_VALIDATE" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_DESKTOP_FILE_VALIDATE="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+DESKTOP_FILE_VALIDATE=$ac_cv_path_DESKTOP_FILE_VALIDATE
+if test -n "$DESKTOP_FILE_VALIDATE"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $DESKTOP_FILE_VALIDATE" >&5
+$as_echo "$DESKTOP_FILE_VALIDATE" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    if test "x$DESKTOP_FILE_VALIDATE" = "x"; then
+        as_fn_error $? "desktop-file-validate required, but unavailable..." "$LINENO" 5
+    fi
+
     # Flex C++ lexer generator...
 
 
@@ -20397,7 +20471,7 @@ endif
 
 
 
-    # Grep required for test suite...
+    # grep(1) required for test suite...
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for grep that handles long lines and -e" >&5
 $as_echo_n "checking for grep that handles long lines and -e... " >&6; }
 if ${ac_cv_path_GREP+:} false; then :
@@ -20462,13 +20536,13 @@ $as_echo "$ac_cv_path_GREP" >&6; }
 
 
 
-    # Install utility to copy files and set attributes...
+    # install(1) utility to copy files and set attributes...
 
 
     # mkdir -p functionality required in several places...
 
 
-    # mktemp tool required to perform test suite...
+    # mktemp(1) tool required to perform test suite...
     # Extract the first word of "mktemp", so it can be a program name with args.
 set dummy mktemp; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -20513,7 +20587,7 @@ fi
         as_fn_error $? "mktemp tool is required to perform test suite..." "$LINENO" 5
     fi
 
-    # rmdir necessary in various places...
+    # rmdir(1) necessary in various places...
     # Extract the first word of "rmdir", so it can be a program name with args.
 set dummy rmdir; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -20558,7 +20632,7 @@ fi
         as_fn_error $? "rmdir required, but unavailable..." "$LINENO" 5
     fi
 
-    # Sed tool...
+    # sed(1) tool...
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for a sed that does not truncate output" >&5
 $as_echo_n "checking for a sed that does not truncate output... " >&6; }
 if ${ac_cv_path_SED+:} false; then :
@@ -20629,7 +20703,7 @@ $as_echo "$ac_cv_path_SED" >&6; }
   rm -f conftest.sed
 
 
-    # Sort command...
+    # sort(1) command...
     # Extract the first word of "sort", so it can be a program name with args.
 set dummy sort; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -20672,6 +20746,142 @@ fi
 
     if test "x$SORT" = "x"; then
         as_fn_error $? "sort required, but unavailable..." "$LINENO" 5
+    fi
+
+    # update-desktop-database(1) tool to update cache database of MIME types
+    #  handled by Desktop Entries...
+    # Extract the first word of "update-desktop-database", so it can be a program name with args.
+set dummy update-desktop-database; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_UPDATE_DESKTOP_DATABASE+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $UPDATE_DESKTOP_DATABASE in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_UPDATE_DESKTOP_DATABASE="$UPDATE_DESKTOP_DATABASE" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_UPDATE_DESKTOP_DATABASE="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+UPDATE_DESKTOP_DATABASE=$ac_cv_path_UPDATE_DESKTOP_DATABASE
+if test -n "$UPDATE_DESKTOP_DATABASE"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $UPDATE_DESKTOP_DATABASE" >&5
+$as_echo "$UPDATE_DESKTOP_DATABASE" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    if test "x$UPDATE_DESKTOP_DATABASE" = "x"; then
+        as_fn_error $? "update-desktop-database required, but unavailable..." "$LINENO" 5
+    fi
+
+    # update-icon-caches(1) tool to update icon caches...
+    # Extract the first word of "update-icon-caches", so it can be a program name with args.
+set dummy update-icon-caches; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_UPDATE_ICON_CACHES+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $UPDATE_ICON_CACHES in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_UPDATE_ICON_CACHES="$UPDATE_ICON_CACHES" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_UPDATE_ICON_CACHES="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+UPDATE_ICON_CACHES=$ac_cv_path_UPDATE_ICON_CACHES
+if test -n "$UPDATE_ICON_CACHES"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $UPDATE_ICON_CACHES" >&5
+$as_echo "$UPDATE_ICON_CACHES" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    if test "x$UPDATE_ICON_CACHES" = "x"; then
+        as_fn_error $? "update-icon-caches required, but unavailable..." "$LINENO" 5
+    fi
+
+    # update-mime-database(1) tool to update shared MIME-Info database cache...
+    # Extract the first word of "update-mime-database", so it can be a program name with args.
+set dummy update-mime-database; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_UPDATE_MIME_DATABASE+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $UPDATE_MIME_DATABASE in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_UPDATE_MIME_DATABASE="$UPDATE_MIME_DATABASE" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_UPDATE_MIME_DATABASE="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+UPDATE_MIME_DATABASE=$ac_cv_path_UPDATE_MIME_DATABASE
+if test -n "$UPDATE_MIME_DATABASE"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $UPDATE_MIME_DATABASE" >&5
+$as_echo "$UPDATE_MIME_DATABASE" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    if test "x$UPDATE_MIME_DATABASE" = "x"; then
+        as_fn_error $? "update-mime-database required, but unavailable..." "$LINENO" 5
     fi
 
     # Valgrind optional, but used in unit testing if enabled by default...
@@ -21133,6 +21343,12 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
 
 # Substitute autoconfig macros in various non-make related files...
+
+    # Desktop entry. Note that ...desktop.in.in requires substitution.
+    #  ...desktop.in requires no variable substitution, but needs to pass
+    #  through msgfmt to generate the translated Desktop Entry...
+    ac_config_files="$ac_config_files Data/com.cartesiantheatre.narayan-designer.desktop.in"
+
 
     # System manual...
     ac_config_files="$ac_config_files Manual/narayan-designer.man"
@@ -23309,7 +23525,7 @@ done
 
 # Generate makefiles from templates containing Autoconf substitution variables
 #  for root makefile...
-ac_config_files="$ac_config_files Makefile Data/com.cartesiantheatre.narayan-designer.desktop Source/Makefile Tests/Makefile Translations/Makefile.in"
+ac_config_files="$ac_config_files Makefile Tests/Makefile Translations/Makefile.in"
 
 
 # Generates config.status which generates all files from templates...
@@ -23456,6 +23672,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${ENABLE_TESTS_TRUE}" && test -z "${ENABLE_TESTS_FALSE}"; then
   as_fn_error $? "conditional \"ENABLE_TESTS\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${UPDATE_CACHES_TRUE}" && test -z "${UPDATE_CACHES_FALSE}"; then
+  as_fn_error $? "conditional \"UPDATE_CACHES\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then
@@ -24452,11 +24672,10 @@ do
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "Source/Main/config.h") CONFIG_HEADERS="$CONFIG_HEADERS Source/Main/config.h" ;;
     "po-directories") CONFIG_COMMANDS="$CONFIG_COMMANDS po-directories" ;;
+    "Data/com.cartesiantheatre.narayan-designer.desktop.in") CONFIG_FILES="$CONFIG_FILES Data/com.cartesiantheatre.narayan-designer.desktop.in" ;;
     "Manual/narayan-designer.man") CONFIG_FILES="$CONFIG_FILES Manual/narayan-designer.man" ;;
     "Source/Main/Version.h") CONFIG_FILES="$CONFIG_FILES Source/Main/Version.h" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "Data/com.cartesiantheatre.narayan-designer.desktop") CONFIG_FILES="$CONFIG_FILES Data/com.cartesiantheatre.narayan-designer.desktop" ;;
-    "Source/Makefile") CONFIG_FILES="$CONFIG_FILES Source/Makefile" ;;
     "Tests/Makefile") CONFIG_FILES="$CONFIG_FILES Tests/Makefile" ;;
     "Translations/Makefile.in") CONFIG_FILES="$CONFIG_FILES Translations/Makefile.in" ;;
 
@@ -26019,6 +26238,7 @@ $copyright_notice
 Prefix........................: $prefix
 
 Optional package features:
+    Update caches.............: $enable_caches
     Bash completion...........: $enable_bash_completion
     Native language support...: $USE_NLS
     Valgrind unit test........: $enable_valgrind

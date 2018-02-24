@@ -6,14 +6,15 @@ Standards-Version: 4.1.1
 Build-Depends:
     autoconf-archive (>= 20170321),
     autopoint (>= 0.19.8.1),
-    autotools-dev (>= 20161112.1),
     bash-completion (>= 1:2.1),
     bisonc++ (>= 6.01.01-git20180123-kip),
     debhelper (>= 10.7.2),
+    desktop-file-utils,
     dh-exec,
     flexc++ (>= 2.06.02-2kip),
     gawk,
     gettext (>= 0.19.8.1),
+    gtk-update-icon-cache,
     libcanberra-gtk3-dev (>= 0.30),
     libgtkmm-3.0-dev (>= 3.22.2),
     libgtksourceviewmm-3.0-dev (>= 3.21.3),
@@ -27,7 +28,9 @@ Build-Depends:
     libstdc++6 (>= 7.2.0),
     lintian,
     po-debconf,
+    shared-mime-info,
     tzdata,
+    desktop-file-utils,
     valgrind,
     xvfb
 Vcs-Git: https://github.com/cartesiantheatre/narayan-designer.git

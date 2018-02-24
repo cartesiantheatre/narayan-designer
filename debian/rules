@@ -42,11 +42,13 @@ SOURCE_DIR  = $(abspath $(PACKAGE_DIR)/../)
 # Main packaging script based on debhelper 7 syntax. The % is an implicit
 #  pattern rule that acts as a universal target...
 %:
-	dh $@  --with autotools-dev,bash-completion
+	dh $@  --parallel --with bash-completion
 
 # Configure source...
 override_dh_auto_configure:
-	dh_auto_configure --
+	dh_auto_configure -- \
+		--disable-caches \
+		$(CONFFLAGS)
 
 # Prepare an upstream vanilla distribution tarball as per DPM § 4.9...
 #  http://wiki.debian.org/onlyjob/get-orig-source

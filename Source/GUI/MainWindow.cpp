@@ -9,10 +9,10 @@
     #include <config.h>
 
     // Our headers...
-    #include "NarayanDesignerApplication.h"
-    #include "MainWindow.h"
-    #include "PreferencesDialog.h"
-    #include "UnitEditorDialog.h"
+    #include "Main/NarayanDesignerApplication.h"
+    #include "GUI/MainWindow.h"
+    #include "GUI/PreferencesDialog.h"
+    #include "GUI/UnitEditorDialog.h"
 
     // Gdkmm...
     #include <gdkmm/pixbuf.h>
@@ -31,7 +31,7 @@
     #include <stdexcept>
 
     // i18n...
-    #include "gettext.h"
+    #include "Main/gettext.h"
     #define _(str) gettext (str)
     #define N_(str) gettext_noop (str)
 
@@ -171,13 +171,19 @@ void MainWindow::OnActionOpen()
     OpenFileDialog.add_button(_("_Cancel"), Gtk::RESPONSE_CANCEL);
     OpenFileDialog.add_button(_("Open"), Gtk::RESPONSE_OK);
 
+    /*
+        TODO: 
+            (1) Bind current folder to "bookmark-last-directory"
+            (2) add_shortcut_folder() to examples directory.
+    */
+
     // Prepare and add filters...
         
         // Narayan simulation model source...
         Glib::RefPtr<Gtk::FileFilter> ModelSourceFilter =
             Gtk::FileFilter::create();
-        ModelSourceFilter->set_name(_("Narayan simulation model source"));
-        ModelSourceFilter->add_mime_type("application/narayan-model-source");
+        ModelSourceFilter->set_name(_("Narayan simulation model project"));
+        ModelSourceFilter->add_mime_type("application/narayan-simulation-model-project");
         OpenFileDialog.add_filter(ModelSourceFilter);
         
         // Everything else...

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: narayan-designer 0.0.001\n"
 "Report-Msgid-Bugs-To: \"Cartesian Theatre <info@cartesiantheatre.com>\"\n"
-"POT-Creation-Date: 2018-02-20 00:14-0800\n"
+"POT-Creation-Date: 2018-02-23 22:03-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,34 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: Data/MainWindow.ui:32
+msgid "Welcome to Narayan Designer..."
+msgstr ""
+
 #. Set the program name...
 #. Set the application name...
-#: Data/com.cartesiantheatre.narayan-designer.desktop.in:5
 #: Data/MainWindow.ui:37 Source/GUI/AboutDialog.cpp:37
 #: Source/Main/NarayanDesignerApplication.cpp:61
 msgid "Narayan Designer"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.desktop.in:6
-msgid "Agent Based Simulation Model Designer"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.desktop.in:7
-msgid "Create agent based simulation models for the Narayan simulation engine"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.desktop.in:8
-msgid "com.cartesiantheatre.narayan-designer"
-msgstr ""
-
-#: Data/com.cartesiantheatre.narayan-designer.desktop.in:13
-msgid ""
-"science;development;simulation;artificial intelligence;computer science;data "
-"visualization;parallel computing;building;avaneya;game;gaming;opencl;"
-msgstr ""
-
-#: Data/MainWindow.ui:32
-msgid "Welcome to Narayan Designer..."
 msgstr ""
 
 #: Data/MainWindow.ui:92
@@ -370,12 +351,12 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: Source/GUI/MainWindow.cpp:179
-msgid "Narayan simulation model source"
+#: Source/GUI/MainWindow.cpp:185
+msgid "Narayan simulation model project"
 msgstr ""
 
-#: Source/GUI/MainWindow.cpp:186
-msgid "All Files"
+#: Source/GUI/MainWindow.cpp:192
+msgid "All files"
 msgstr ""
 
 #: Source/GUI/PreferencesDialog.cpp:61

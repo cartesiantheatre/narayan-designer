@@ -16,7 +16,7 @@
     #include "NarayanLogicLexer.h"
 
     // Lexer requires the token symbols to be defined. The parser has these...
-    #include "Compiler/NarayanLogicParserBase.h"
+    #include "NarayanLogicParserBase.h"
 
     // i18n...
     #include "gettext.h"

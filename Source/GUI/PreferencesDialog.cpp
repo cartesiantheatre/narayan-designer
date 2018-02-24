@@ -9,7 +9,7 @@
     #include <config.h>
 
     // Our headers...
-    #include "PreferencesDialog.h"
+    #include "GUI/PreferencesDialog.h"
 
     // Standard C++ / POSIX system headers...
     #include <sstream>
@@ -26,7 +26,7 @@
     #include <gtksourceviewmm/styleschemechooser.h>
 
     // i18n...
-    #include "gettext.h"
+    #include "Main/gettext.h"
     #define _(str) gettext (str)
     #define N_(str) gettext_noop (str)
 

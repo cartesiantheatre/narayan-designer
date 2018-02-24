@@ -9,8 +9,8 @@
     #include <config.h>
 
     // Our headers...
-    #include "AboutDialog.h"
-    #include "NarayanDesignerApplication.h"
+    #include "GUI/AboutDialog.h"
+    #include "Main/NarayanDesignerApplication.h"
 
     // Standard C++ / POSIX system headers...
     #include <vector>
@@ -19,7 +19,7 @@
     #include <gdkmm/pixbuf.h>
 
     // i18n...
-    #include "gettext.h"
+    #include "Main/gettext.h"
     #define _(str) gettext (str)
     #define N_(str) gettext_noop (str)
 

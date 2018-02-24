@@ -1,0 +1,2 @@
+application/narayan-simulation-model-project; narayan-designer '%s'; edit=narayan-designer '%s'; test=test "$DISPLAY" != ""; priority=2
+

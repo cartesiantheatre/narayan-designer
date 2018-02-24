@@ -71,6 +71,12 @@
             <description>The selected hardware platform name the simulation will execute on.</description>
         </key>
 
+        <key name="bookmark-last-directory" type="s">
+            <default>"/usr/share/doc/narayan-designer/examples/"</default>
+            <summary>Last directory project file loaded from</summary>
+            <description>The last directory a Narayan simulation model project was loaded from.</description>
+        </key>
+
     </schema>
 
 </schemalist>

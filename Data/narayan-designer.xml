@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
+  <mime-type type="application/narayan-simulation-model-project">
+    <sub-class-of type="application/yaml"/>
+    <comment>Narayan simulation model project</comment>
+    <magic priority="50">
+      <match type="string" offset="0" value="NarayanSimulationModelProject"/>
+    </magic>
+    <glob pattern="*.narayan"/>
+    <icon name="com.cartesiantheatre.narayan-designer"/>
+  </mime-type>
+</mime-info>
+

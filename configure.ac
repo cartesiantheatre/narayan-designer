@@ -104,16 +104,24 @@ AC_CANONICAL_HOST
         [AS_HELP_STRING([--enable-bash-completion],
             [enable bash completion @<:@default: yes@:>@])], # Quadrigraph escaped
         [enable_bash_completion=${enableval}],
-        [enable_bash_completion=yes])
-    AM_CONDITIONAL(USE_BASH_COMPLETION, [test x"$enable_bash_completion" = xyes])
+        [enable_bash_completion="yes"])
+    AM_CONDITIONAL(USE_BASH_COMPLETION, [test x"$enable_bash_completion" = "xyes"])
 
     # Unit tests...
     AC_ARG_ENABLE([tests],
         [AS_HELP_STRING([--enable-tests],
             [enable unit tests @<:@default: yes@:>@])], # Quadrigraph escaped
         [enable_tests=${enableval}],
-        [enable_tests=yes])
-    AM_CONDITIONAL(ENABLE_TESTS, [test x"$enable_tests" = xyes])
+        [enable_tests="yes"])
+    AM_CONDITIONAL(ENABLE_TESTS, [test x"$enable_tests" = "xyes"])
+
+    # Update caches for desktop entries, mime, and icons...
+    AC_ARG_ENABLE([caches],
+        [AS_HELP_STRING([--enable-caches],
+            [run update-{desktop-database,mime-database,icon-cache} to update caches when installing and uninstalling @<:@default: yes@:>@])], # Quadrigraph escaped
+        [enable_caches=${enableval}],
+        [enable_caches="yes"])
+    AM_CONDITIONAL(UPDATE_CACHES, [test x"$enable_caches" = "xyes"])
 
 # Initialize i18n from GNU gettext...
 
@@ -169,6 +177,12 @@ AM_GNU_GETTEXT_VERSION([0.19.8])
     # C++ preprocessor...
     AC_PROG_CXXCPP
 
+    # desktop-file-validate(1) tool to validate Desktop Entry files...
+    AC_PATH_PROG([DESKTOP_FILE_VALIDATE], [desktop-file-validate])
+    if test "x$DESKTOP_FILE_VALIDATE" = "x"; then
+        AC_MSG_ERROR([desktop-file-validate required, but unavailable...])
+    fi
+
     # Flex C++ lexer generator...
     AX_PROG_FLEXCPP([2.06.02])
     AC_PATH_PROG([FLEXCPP], [flexc++])
@@ -176,34 +190,53 @@ AM_GNU_GETTEXT_VERSION([0.19.8])
     # GSettings schema to binary compilation tool...
     GLIB_GSETTINGS
 
-    # Grep required for test suite...
+    # grep(1) required for test suite...
     AC_PROG_GREP
 
-    # Install utility to copy files and set attributes...
+    # install(1) utility to copy files and set attributes...
     AC_PROG_INSTALL
 
     # mkdir -p functionality required in several places...
     AC_PROG_MKDIR_P
 
-    # mktemp tool required to perform test suite...
+    # mktemp(1) tool required to perform test suite...
     AC_PATH_PROG([MKTEMP], [mktemp])
     if test "x$MKTEMP" = "x"; then
         AC_MSG_ERROR([mktemp tool is required to perform test suite...])
     fi
 
-    # rmdir necessary in various places...
+    # rmdir(1) necessary in various places...
     AC_PATH_PROG([RMDIR], [rmdir])
     if test "x$RMDIR" = "x"; then
         AC_MSG_ERROR([rmdir required, but unavailable...])
     fi
 
-    # Sed tool...
+    # sed(1) tool...
     AC_PROG_SED
 
-    # Sort command...
+    # sort(1) command...
     AC_PATH_PROG([SORT], [sort])
     if test "x$SORT" = "x"; then
         AC_MSG_ERROR([sort required, but unavailable...])
+    fi
+
+    # update-desktop-database(1) tool to update cache database of MIME types
+    #  handled by Desktop Entries...
+    AC_PATH_PROG([UPDATE_DESKTOP_DATABASE], [update-desktop-database])
+    if test "x$UPDATE_DESKTOP_DATABASE" = "x"; then
+        AC_MSG_ERROR([update-desktop-database required, but unavailable...])
+    fi
+
+    # update-icon-caches(1) tool to update icon caches...
+    AC_PATH_PROG([UPDATE_ICON_CACHES], [update-icon-caches])
+    if test "x$UPDATE_ICON_CACHES" = "x"; then
+        AC_MSG_ERROR([update-icon-caches required, but unavailable...])
+    fi
+
+    # update-mime-database(1) tool to update shared MIME-Info database cache...
+    AC_PATH_PROG([UPDATE_MIME_DATABASE], [update-mime-database])
+    if test "x$UPDATE_MIME_DATABASE" = "x"; then
+        AC_MSG_ERROR([update-mime-database required, but unavailable...])
     fi
 
     # Valgrind optional, but used in unit testing if enabled by default...
@@ -220,6 +253,11 @@ AM_GNU_GETTEXT_VERSION([0.19.8])
 AC_LANG([C++])
 
 # Substitute autoconfig macros in various non-make related files...
+
+    # Desktop entry. Note that ...desktop.in.in requires substitution. 
+    #  ...desktop.in requires no variable substitution, but needs to pass
+    #  through msgfmt to generate the translated Desktop Entry...
+    AC_CONFIG_FILES([Data/com.cartesiantheatre.narayan-designer.desktop.in])
 
     # System manual...
     AC_CONFIG_FILES([Manual/narayan-designer.man])
@@ -380,11 +418,9 @@ AC_LANG([C++])
 
 # Generate makefiles from templates containing Autoconf substitution variables
 #  for root makefile...
-AC_CONFIG_FILES([                                       \
-    Makefile                                            \
-    Data/com.cartesiantheatre.narayan-designer.desktop  \
-    Source/Makefile                                     \
-    Tests/Makefile                                      \
+AC_CONFIG_FILES([                                                               \
+    Makefile                                                                    \
+    Tests/Makefile                                                              \
     Translations/Makefile.in])
 
 # Generates config.status which generates all files from templates...
@@ -400,6 +436,7 @@ $copyright_notice
 Prefix........................: $prefix
 
 Optional package features:
+    Update caches.............: $enable_caches
     Bash completion...........: $enable_bash_completion
     Native language support...: $USE_NLS
     Valgrind unit test........: $enable_valgrind
