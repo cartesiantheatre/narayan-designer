@@ -9,11 +9,11 @@
 
   <gresource prefix="/com/cartesiantheatre/narayan-designer">
     <file>Artwork/AboutDialog.png</file>
-    <file compressed="true" preprocess="xml-stripblanks">AboutDialog.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">MainWindow.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">Menus.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">PreferencesDialog.ui</file>
-    <file compressed="true" preprocess="xml-stripblanks">UnitEditorDialog.ui</file>
+    <file alias="AboutDialog.ui" compressed="true" preprocess="xml-stripblanks">GtkBuilder/AboutDialog.ui</file>
+    <file alias="MainWindow.ui" compressed="true" preprocess="xml-stripblanks">GtkBuilder/MainWindow.ui</file>
+    <file alias="Menus.ui" compressed="true" preprocess="xml-stripblanks">GtkBuilder/Menus.ui</file>
+    <file alias="PreferencesDialog.ui" compressed="true" preprocess="xml-stripblanks">GtkBuilder/PreferencesDialog.ui</file>
+    <file alias="UnitEditorDialog.ui" compressed="true" preprocess="xml-stripblanks">GtkBuilder/UnitEditorDialog.ui</file>
   </gresource>
 
   <gresource prefix="/com/cartesiantheatre/narayan-designer/icons/48x48/apps">

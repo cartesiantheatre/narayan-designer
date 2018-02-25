@@ -46,7 +46,7 @@ MainWindow::MainWindow(
  :  Gtk::ApplicationWindow(CTypeObject),
     m_Builder(Builder),
     m_Settings(Settings),
-    m_ToolPalette(nullptr),
+    m_Toolbar(nullptr),
     m_Stack(nullptr),
     m_Notebook_Documents(nullptr),
     m_Image_Welcome(nullptr),
@@ -61,9 +61,9 @@ MainWindow::MainWindow(
 
     // Find widgets and dialogs...
 
-        // Tool palette...
-        m_Builder->get_widget("MainWindow_ToolPalette", m_ToolPalette);
-        g_assert(m_ToolPalette);
+        // Toolbar...
+        m_Builder->get_widget("MainWindow_Toolbar", m_Toolbar);
+        g_assert(m_Toolbar);
 
         // Stack containing welcome, work space, and error pages...
         m_Builder->get_widget("MainWindow_Stack", m_Stack);
@@ -171,20 +171,24 @@ void MainWindow::OnActionOpen()
     OpenFileDialog.add_button(_("_Cancel"), Gtk::RESPONSE_CANCEL);
     OpenFileDialog.add_button(_("Open"), Gtk::RESPONSE_OK);
 
-    /*
-        TODO: 
-            (1) Bind current folder to "bookmark-last-directory"
-            (2) add_shortcut_folder() to examples directory.
-    */
+    // Set its current folder to whatever was last used...
+    OpenFileDialog.set_current_folder(
+        m_Settings->get_string("bookmark-last-directory"));
+
+    // Add a shortcut to the location the examples were installed to...
+    OpenFileDialog.add_shortcut_folder(DOCDIR "/examples");
+
+    // For the time being, local files only...
+    OpenFileDialog.set_local_only();
 
     // Prepare and add filters...
         
-        // Narayan simulation model source...
-        Glib::RefPtr<Gtk::FileFilter> ModelSourceFilter =
+        // Narayan simulation model project files...
+        Glib::RefPtr<Gtk::FileFilter> ModelProjectFilter =
             Gtk::FileFilter::create();
-        ModelSourceFilter->set_name(_("Narayan simulation model project"));
-        ModelSourceFilter->add_mime_type("application/narayan-simulation-model-project");
-        OpenFileDialog.add_filter(ModelSourceFilter);
+        ModelProjectFilter->set_name(_("Narayan simulation model project"));
+        ModelProjectFilter->add_mime_type("application/narayan-simulation-model-project");
+        OpenFileDialog.add_filter(ModelProjectFilter);
         
         // Everything else...
         Glib::RefPtr<Gtk::FileFilter> AllFilesFilter =
@@ -197,8 +201,15 @@ void MainWindow::OnActionOpen()
     if(OpenFileDialog.run() != Gtk::RESPONSE_OK)
         return;
     
+    // Save the current folder in the GSettings backend...
+    m_Settings->set_string(
+        "bookmark-last-directory", OpenFileDialog.get_current_folder());
+    
     // Load the file...
     cout << OpenFileDialog.get_filename() << endl;
+    
+    // Show the workspace...
+    m_Stack->set_visible_child("workspace");
 }
 
 // Action to report a bug...

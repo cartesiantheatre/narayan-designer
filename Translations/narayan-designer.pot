@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: narayan-designer 0.0.001\n"
 "Report-Msgid-Bugs-To: \"Cartesian Theatre <info@cartesiantheatre.com>\"\n"
-"POT-Creation-Date: 2018-02-23 22:03-0800\n"
+"POT-Creation-Date: 2018-02-24 19:50-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,44 +17,63 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Data/MainWindow.ui:32
-msgid "Welcome to Narayan Designer..."
-msgstr ""
-
 #. Set the program name...
 #. Set the application name...
-#: Data/MainWindow.ui:37 Source/GUI/AboutDialog.cpp:37
+#: Data/com.cartesiantheatre.narayan-designer.desktop.in.in:5
+#: Data/GtkBuilder/MainWindow.ui:37 Source/GUI/AboutDialog.cpp:37
 #: Source/Main/NarayanDesignerApplication.cpp:61
 msgid "Narayan Designer"
 msgstr ""
 
-#: Data/MainWindow.ui:92
+#: Data/com.cartesiantheatre.narayan-designer.desktop.in.in:6
+msgid "Agent Based Simulation Model Designer"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.desktop.in.in:7
+msgid "Create agent based simulation models for the Narayan simulation engine"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.desktop.in.in:8
+msgid "com.cartesiantheatre.narayan-designer"
+msgstr ""
+
+#: Data/com.cartesiantheatre.narayan-designer.desktop.in.in:13
+msgid ""
+"science;development;simulation;artificial intelligence;computer science;data "
+"visualization;parallel computing;building;avaneya;game;gaming;opencl;"
+msgstr ""
+
+#: Data/GtkBuilder/MainWindow.ui:32
+msgid "Welcome to Narayan Designer..."
+msgstr ""
+
+#: Data/GtkBuilder/MainWindow.ui:93
 msgid "Ready"
 msgstr ""
 
-#: Data/MainWindow.ui:109
+#: Data/GtkBuilder/MainWindow.ui:110
 msgid ""
 "Create an agent based model of artificial life in your city for the Narayan "
 "simulation engine."
 msgstr ""
 
-#: Data/MainWindow.ui:124
+#: Data/GtkBuilder/MainWindow.ui:125
 msgid "page1"
 msgstr ""
 
-#: Data/MainWindow.ui:206
+#: Data/GtkBuilder/MainWindow.ui:207
 msgid "Log"
 msgstr ""
 
-#: Data/MainWindow.ui:231 Data/MainWindow.ui:298
+#: Data/GtkBuilder/MainWindow.ui:232 Data/GtkBuilder/MainWindow.ui:299
 msgid "page0"
 msgstr ""
 
-#: Data/MainWindow.ui:260
+#: Data/GtkBuilder/MainWindow.ui:261
 msgid "No dice, Mildred"
 msgstr ""
 
-#: Data/MainWindow.ui:276
+#: Data/GtkBuilder/MainWindow.ui:277
 msgid ""
 "Don't panic, but I couldn't detect any usable OpenCL devices on your system. "
 "You might well have them, but you just don't have any compatible drivers "
@@ -73,226 +92,226 @@ msgid ""
 "software based, free)"
 msgstr ""
 
-#: Data/Menus.ui:25 Data/Menus.ui:210
+#: Data/GtkBuilder/Menus.ui:25 Data/GtkBuilder/Menus.ui:210
 msgid "_Documentation"
 msgstr ""
 
-#: Data/Menus.ui:31 Data/Menus.ui:223
+#: Data/GtkBuilder/Menus.ui:31 Data/GtkBuilder/Menus.ui:223
 msgid "_About"
 msgstr ""
 
-#: Data/Menus.ui:36 Data/Menus.ui:103
+#: Data/GtkBuilder/Menus.ui:36 Data/GtkBuilder/Menus.ui:103
 msgid "_Quit"
 msgstr ""
 
-#: Data/Menus.ui:53
+#: Data/GtkBuilder/Menus.ui:53
 msgid "_File"
 msgstr ""
 
-#: Data/Menus.ui:56
+#: Data/GtkBuilder/Menus.ui:56
 msgid "_New"
 msgstr ""
 
-#: Data/Menus.ui:62
+#: Data/GtkBuilder/Menus.ui:62
 msgid "_Open"
 msgstr ""
 
-#: Data/Menus.ui:70
+#: Data/GtkBuilder/Menus.ui:70
 msgid "_Save"
 msgstr ""
 
-#: Data/Menus.ui:76
+#: Data/GtkBuilder/Menus.ui:76
 msgid "Save _As"
 msgstr ""
 
-#: Data/Menus.ui:82
+#: Data/GtkBuilder/Menus.ui:82
 msgid "Revert"
 msgstr ""
 
-#: Data/Menus.ui:89
+#: Data/GtkBuilder/Menus.ui:89
 msgid "Print Previe_w"
 msgstr ""
 
-#: Data/Menus.ui:95
+#: Data/GtkBuilder/Menus.ui:95
 msgid "_Print"
 msgstr ""
 
-#: Data/Menus.ui:112
+#: Data/GtkBuilder/Menus.ui:112
 msgid "_Edit"
 msgstr ""
 
-#: Data/Menus.ui:115
+#: Data/GtkBuilder/Menus.ui:115
 msgid "_Preferences"
 msgstr ""
 
-#: Data/Menus.ui:125
+#: Data/GtkBuilder/Menus.ui:125
 msgid "_View"
 msgstr ""
 
-#: Data/Menus.ui:128
+#: Data/GtkBuilder/Menus.ui:128
 msgid "_Toolbar"
 msgstr ""
 
-#: Data/Menus.ui:133
+#: Data/GtkBuilder/Menus.ui:133
 msgid "_Log"
 msgstr ""
 
-#: Data/Menus.ui:141
+#: Data/GtkBuilder/Menus.ui:141
 msgid "_Full Screen"
 msgstr ""
 
-#: Data/Menus.ui:151
+#: Data/GtkBuilder/Menus.ui:151
 msgid "_Tools"
 msgstr ""
 
-#: Data/Menus.ui:155
+#: Data/GtkBuilder/Menus.ui:155
 msgid "_Simulators"
 msgstr ""
 
-#: Data/Menus.ui:159
+#: Data/GtkBuilder/Menus.ui:159
 msgid "_Cellular Automata"
 msgstr ""
 
-#: Data/Menus.ui:165
+#: Data/GtkBuilder/Menus.ui:165
 msgid "_Transport Handler"
 msgstr ""
 
-#: Data/Menus.ui:175
+#: Data/GtkBuilder/Menus.ui:175
 msgid "_Editors"
 msgstr ""
 
-#: Data/Menus.ui:178
+#: Data/GtkBuilder/Menus.ui:178
 msgid "_Units"
 msgstr ""
 
-#: Data/Menus.ui:184
+#: Data/GtkBuilder/Menus.ui:184
 msgid "_Resource Maps"
 msgstr ""
 
-#: Data/Menus.ui:190
+#: Data/GtkBuilder/Menus.ui:190
 msgid "_Events"
 msgstr ""
 
-#: Data/Menus.ui:196
+#: Data/GtkBuilder/Menus.ui:196
 msgid "_Transport Paths"
 msgstr ""
 
-#: Data/Menus.ui:207
+#: Data/GtkBuilder/Menus.ui:207
 msgid "_Help"
 msgstr ""
 
-#: Data/Menus.ui:216
+#: Data/GtkBuilder/Menus.ui:216
 msgid "Report Bug"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:34
+#: Data/GtkBuilder/PreferencesDialog.ui:34
 msgid "Narayan Preferences"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:105
+#: Data/GtkBuilder/PreferencesDialog.ui:105
 msgid "<b>Startup</b>"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:124
+#: Data/GtkBuilder/PreferencesDialog.ui:124
 msgid "Show splash screen"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:138
+#: Data/GtkBuilder/PreferencesDialog.ui:138
 msgid "Show usage tips"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:175
+#: Data/GtkBuilder/PreferencesDialog.ui:175
 msgid "<b>Feedback</b>"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:194
+#: Data/GtkBuilder/PreferencesDialog.ui:194
 msgid "Play sound effects"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:246
+#: Data/GtkBuilder/PreferencesDialog.ui:246
 msgid "<b>Font</b>"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:265
+#: Data/GtkBuilder/PreferencesDialog.ui:265
 #, c-format
 msgid "Use the system's monospace font (%s)"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:286
+#: Data/GtkBuilder/PreferencesDialog.ui:286
 msgid "Editor font: "
 msgstr ""
 
-#: Data/PreferencesDialog.ui:302
+#: Data/GtkBuilder/PreferencesDialog.ui:302
 msgid "Pick Editor Font"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:343
+#: Data/GtkBuilder/PreferencesDialog.ui:343
 msgid "<b>Colour Scheme</b>"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:361
+#: Data/GtkBuilder/PreferencesDialog.ui:361
 msgid "Use dark theme variant, if available"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:427
+#: Data/GtkBuilder/PreferencesDialog.ui:427
 msgid "<b>OpenCL Platform</b>"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:471
+#: Data/GtkBuilder/PreferencesDialog.ui:471
 msgid "Profile:"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:483
+#: Data/GtkBuilder/PreferencesDialog.ui:483
 msgid "Version:"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:495
+#: Data/GtkBuilder/PreferencesDialog.ui:495
 msgid "Vendor:"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:598
+#: Data/GtkBuilder/PreferencesDialog.ui:598
 msgid "<b>Query Device</b>"
 msgstr ""
 
-#: Data/PreferencesDialog.ui:682
+#: Data/GtkBuilder/PreferencesDialog.ui:682
 msgid "Copy the device's information to the clipboard."
 msgstr ""
 
-#: Data/PreferencesDialog.ui:697
+#: Data/GtkBuilder/PreferencesDialog.ui:697
 msgid ""
 "Click to refresh the list of OpenCL platforms and available computing "
 "devices."
 msgstr ""
 
-#: Data/UnitEditorDialog.ui:88
+#: Data/GtkBuilder/UnitEditorDialog.ui:88
 msgid "Name:"
 msgstr ""
 
-#: Data/UnitEditorDialog.ui:102
+#: Data/GtkBuilder/UnitEditorDialog.ui:102
 msgid "new_unit_name"
 msgstr ""
 
-#: Data/UnitEditorDialog.ui:103
+#: Data/GtkBuilder/UnitEditorDialog.ui:103
 msgid "The name of the new unit. Letters and numbers only with no spaces."
 msgstr ""
 
-#: Data/UnitEditorDialog.ui:138
+#: Data/GtkBuilder/UnitEditorDialog.ui:138
 msgid "Unit Editor"
 msgstr ""
 
-#: Data/UnitEditorDialog.ui:204
+#: Data/GtkBuilder/UnitEditorDialog.ui:204
 msgid "<b>Selected Unit</b>"
 msgstr ""
 
-#: Data/UnitEditorDialog.ui:236
+#: Data/GtkBuilder/UnitEditorDialog.ui:236
 msgid "Create a new unit."
 msgstr ""
 
-#: Data/UnitEditorDialog.ui:250
+#: Data/GtkBuilder/UnitEditorDialog.ui:250
 msgid "Rename currently selected unit."
 msgstr ""
 
-#: Data/UnitEditorDialog.ui:264
+#: Data/GtkBuilder/UnitEditorDialog.ui:264
 msgid "Delete the currently selected unit."
 msgstr ""
 
@@ -351,11 +370,11 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: Source/GUI/MainWindow.cpp:185
+#: Source/GUI/MainWindow.cpp:189
 msgid "Narayan simulation model project"
 msgstr ""
 
-#: Source/GUI/MainWindow.cpp:192
+#: Source/GUI/MainWindow.cpp:196
 msgid "All files"
 msgstr ""
 

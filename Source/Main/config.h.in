@@ -15,6 +15,9 @@
 /* Upstream vendor's copyright notice. */
 #undef COPYRIGHT_NOTICE
 
+/* Location documentation for this package was installed to. */
+#undef DOCDIR
+
 /* Define to 1 if translation of program messages to the user's native
    language is requested. */
 #undef ENABLE_NLS

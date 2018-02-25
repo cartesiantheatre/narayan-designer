@@ -3,9 +3,6 @@
 #   Copyright (C) 2017-2018 Cartesian Theatre. All rights reserved.
 #
 
-# Options for aclocal so it can find our custom M4 macros...
-ACLOCAL_AMFLAGS = -I Macros
-
 # Run the requested make target recursively on child makefiles. By default
 #  Automake generates Makefiles that recurse in depth-first postfix order, but
 #  we need to build current directory first, so the . changes to prefix
@@ -219,11 +216,11 @@ GRESOURCE_LIST =                                                                
     $(srcdir)/Data/Artwork/Icons/48x48/actions/report-bug.png                   \
     $(srcdir)/Data/Artwork/Icons/scalable/categories/broken-heart.svg           \
     $(srcdir)/Data/Artwork/AboutDialog.png                                      \
-    $(srcdir)/Data/AboutDialog.ui                                               \
-    $(srcdir)/Data/MainWindow.ui                                                \
-    $(srcdir)/Data/Menus.ui                                                     \
-    $(srcdir)/Data/PreferencesDialog.ui                                         \
-    $(srcdir)/Data/UnitEditorDialog.ui
+    $(srcdir)/Data/GtkBuilder/AboutDialog.ui                                    \
+    $(srcdir)/Data/GtkBuilder/MainWindow.ui                                     \
+    $(srcdir)/Data/GtkBuilder/Menus.ui                                          \
+    $(srcdir)/Data/GtkBuilder/PreferencesDialog.ui                              \
+    $(srcdir)/Data/GtkBuilder/UnitEditorDialog.ui
 
 # GSettings schema. Note that for some reason the expansion of the
 #  GLIB_GSETTINGS macro seems to know to find this within the srcdir and not
@@ -268,7 +265,7 @@ BUILT_SOURCES =                                                                 
     Source/GUI/Resources.h                                                      \
     Source/Main/Version.h
 
-# Manually add these things to distribution package when dist target is run...
+# Manually add these non-source files to distribution package when dist target is run...
 EXTRA_DIST =                                                                    \
     Data/com.cartesiantheatre.narayan-designer.desktop.in.in                    \
     Data/com.cartesiantheatre.narayan-designer.gresource.xml                    \

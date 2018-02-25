@@ -47,10 +47,9 @@ Author: Cartesian Theatre
         <property name="orientation">vertical</property>
         <property name="spacing">3</property>
         <child>
-          <object class="GtkToolPalette" id="MainWindow_ToolPalette">
+          <object class="GtkToolbar" id="MainWindow_Toolbar">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -62,6 +61,7 @@ Author: Cartesian Theatre
           <object class="GtkStack" id="MainWindow_Stack">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="transition_duration">500</property>
             <property name="transition_type">crossfade</property>
             <child>
               <object class="GtkBox" id="MainWindow_Box_WecomePage">

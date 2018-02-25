@@ -1,9 +1,10 @@
-Data/AboutDialog.ui
+Data/com.cartesiantheatre.narayan-designer.desktop.in.in
 Data/com.cartesiantheatre.narayan-designer.gschema.xml
-Data/MainWindow.ui
-Data/Menus.ui
-Data/PreferencesDialog.ui
-Data/UnitEditorDialog.ui
+Data/GtkBuilder/AboutDialog.ui
+Data/GtkBuilder/MainWindow.ui
+Data/GtkBuilder/Menus.ui
+Data/GtkBuilder/PreferencesDialog.ui
+Data/GtkBuilder/UnitEditorDialog.ui
 Source/Compiler/NarayanLogicLexer.h
 Source/Compiler/NarayanLogicLexer.ih
 Source/Compiler/NarayanLogicLexer.lpp

@@ -252,6 +252,15 @@ AM_GNU_GETTEXT_VERSION([0.19.8])
 #  otherwise later...
 AC_LANG([C++])
 
+# Define some other preprocessor symbols of things our source needs...
+
+    # Documentation directory...
+    package_docdir=${prefix}/share/doc/${PACKAGE_TARNAME}
+    AC_DEFINE_UNQUOTED(
+        [DOCDIR],
+        ["$package_docdir"],
+        [Location documentation for this package was installed to.])
+
 # Substitute autoconfig macros in various non-make related files...
 
     # Desktop entry. Note that ...desktop.in.in requires substitution. 

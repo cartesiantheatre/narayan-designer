@@ -21,7 +21,7 @@
     #include <gtkmm/expander.h>
     #include <gtkmm/notebook.h>
     #include <gtkmm/stack.h>
-    #include <gtkmm/toolpalette.h>
+    #include <gtkmm/toolbar.h>
 
     // i18n...
     #include "Main/gettext.h"
@@ -84,8 +84,8 @@ class MainWindow : public Gtk::ApplicationWindow
         
         // Widgets...
             
-            // Tool palette...
-            Gtk::ToolPalette       *m_ToolPalette;
+            // Toolbar...
+            Gtk::Toolbar           *m_Toolbar;
             
             // Stack containing welcome, work space, and error pages...
             Gtk::Stack             *m_Stack;

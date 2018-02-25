@@ -4,9 +4,8 @@
     <sub-class-of type="application/yaml"/>
     <comment>Narayan simulation model project</comment>
     <magic priority="50">
-      <match type="string" offset="0" value="NarayanSimulationModelProject"/>
+      <match type="string" offset="0" value="--- # NarayanSimulationModelProject"/>
     </magic>
-    <glob pattern="*.narayan"/>
     <icon name="com.cartesiantheatre.narayan-designer"/>
   </mime-type>
 </mime-info>
