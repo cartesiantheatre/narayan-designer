@@ -24,7 +24,7 @@
     #include <gtkmm/toolbar.h>
 
     // i18n...
-    #include "Main/gettext.h"
+    #include "gettext.h"
     #define _(str) gettext (str)
     #define N_(str) gettext_noop (str)
 

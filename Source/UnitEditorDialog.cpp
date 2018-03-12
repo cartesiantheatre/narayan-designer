@@ -9,11 +9,11 @@
     #include <config.h>
 
     // Our headers...
-    #include "GUI/UnitEditorDialog.h"
-    #include "Main/NarayanDesignerApplication.h"
+    #include "UnitEditorDialog.h"
+    #include "NarayanDesignerApplication.h"
 
     // i18n...
-    #include "Main/gettext.h"
+    #include "gettext.h"
     #define _(str) gettext (str)
     #define N_(str) gettext_noop (str)
 

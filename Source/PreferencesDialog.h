@@ -13,7 +13,7 @@
     #include <config.h>
 
     // Our headers...
-    #include "Main/NarayanDesignerApplication.h"
+    #include "NarayanDesignerApplication.h"
 
     // OpenCL C++...
 
@@ -48,7 +48,7 @@
     #include <string>
 
     // i18n...
-    #include "Main/gettext.h"
+    #include "gettext.h"
     #define _(str) gettext (str)
     #define N_(str) gettext_noop (str)
 

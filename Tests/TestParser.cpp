@@ -9,14 +9,14 @@
     #include <config.h>
 
     // Our headers...
-    #include "Compiler/NarayanLogicParser.h"
+    #include "NarayanLogicParser.h"
 
     // Standard C++ / POSIX system headers...
     #include <cstdlib>
     #include <iostream>
 
     // i18n...
-    #include "Main/gettext.h"
+    #include "gettext.h"
     #define _(str) gettext (str)
     #define N_(str) gettext_noop (str)
 

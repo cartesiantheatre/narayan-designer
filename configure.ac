@@ -28,7 +28,7 @@ AC_CONFIG_MACRO_DIR([Macros])
 # Sanity check to ensure generated ./configure script knows the directory on
 #  which it is being executed is actually the project directory by providing any
 #  unique source file...
-AC_CONFIG_SRCDIR([Source/Main/Main.cpp])
+AC_CONFIG_SRCDIR([Source/Main.cpp])
 
 # Preserve all arguments for products that want them into config.h...
 config_flags="$0 $*"
@@ -95,7 +95,7 @@ AC_CANONICAL_HOST
 
     # Location to generate headers from templates containing Autoconf
     #  substitution variables...
-    AC_CONFIG_HEADERS([Source/Main/config.h])
+    AC_CONFIG_HEADERS([Source/config.h])
 
 # Check for command-line options...
 
@@ -272,7 +272,7 @@ AC_LANG([C++])
     AC_CONFIG_FILES([Manual/narayan-designer.man])
 
     # Update version string...
-    AC_CONFIG_FILES([Source/Main/Version.h])
+    AC_CONFIG_FILES([Source/Version.h])
 
 # Checks for system headers and features...
 

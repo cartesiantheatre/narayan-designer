@@ -9,7 +9,7 @@
     #include <config.h>
 
     // Our headers...
-    #include "Compiler/NarayanLogicLexer.h"
+    #include "NarayanLogicLexer.h"
 
     // Standard C++ / POSIX system headers...
     #include <cstdlib>
@@ -17,7 +17,7 @@
     #include <fstream>
 
     // i18n...
-    #include "Main/gettext.h"
+    #include "gettext.h"
     #define _(str) gettext (str)
     #define N_(str) gettext_noop (str)
 

@@ -44,11 +44,7 @@ NL_LOG_COMPILER  = $(top_builddir)/Tests/TestNarayanLogic
 AM_CPPFLAGS =                                                                   \
     -DSYSCONFDIR='"$(sysconfdir)"'                                              \
     -I$(top_srcdir)/Source/                                                     \
-    -I$(top_builddir)/Source/                                                   \
-    -I$(top_srcdir)/Source/Compiler/                                            \
-    -I$(top_builddir)/Source/Compiler/                                          \
-    -I$(top_srcdir)/Source/Main/                                                \
-    -I$(top_builddir)/Source/Main/
+    -I$(top_builddir)/Source/
 
 # Libraries to add for all tests. For some reason Automake doesn't have an
 #  AM_LDADD, so we use LDADD per Automake §8.1.2...

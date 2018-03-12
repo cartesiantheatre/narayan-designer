@@ -126,18 +126,16 @@ DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_HEADER = $(top_builddir)/Source/Main/config.h
+CONFIG_HEADER = $(top_builddir)/Source/config.h
 CONFIG_CLEAN_FILES =  \
 	Data/com.cartesiantheatre.narayan-designer.desktop.in \
-	Manual/narayan-designer.man Source/Main/Version.h
+	Manual/narayan-designer.man Source/Version.h
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 liblexerparser_la_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
-am__objects_1 =  \
-	Source/Compiler/liblexerparser_la-NarayanLogicLexerBase.lo
-am__objects_2 =  \
-	Source/Compiler/liblexerparser_la-NarayanLogicParser.lo
+am__objects_1 = Source/liblexerparser_la-NarayanLogicLexerBase.lo
+am__objects_2 = Source/liblexerparser_la-NarayanLogicParser.lo
 am_liblexerparser_la_OBJECTS = $(am__objects_1) $(am__objects_2)
 liblexerparser_la_OBJECTS = $(am_liblexerparser_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -156,14 +154,15 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)" \
 PROGRAMS = $(bin_PROGRAMS)
 am__objects_3 =
 am_narayan_designer_OBJECTS = $(am__objects_3) $(am__objects_3) \
-	Source/GUI/narayan_designer-AboutDialog.$(OBJEXT) \
-	Source/GUI/narayan_designer-MainWindow.$(OBJEXT) \
-	Source/GUI/narayan_designer-PreferencesDialog.$(OBJEXT) \
-	Source/GUI/narayan_designer-UnitEditorDialog.$(OBJEXT) \
-	Source/Main/narayan_designer-Main.$(OBJEXT) \
-	Source/Main/narayan_designer-NarayanDesignerApplication.$(OBJEXT)
+	Source/narayan_designer-AboutDialog.$(OBJEXT) \
+	Source/narayan_designer-EditorSourceCodePage.$(OBJEXT) \
+	Source/narayan_designer-MainWindow.$(OBJEXT) \
+	Source/narayan_designer-PreferencesDialog.$(OBJEXT) \
+	Source/narayan_designer-UnitEditorDialog.$(OBJEXT) \
+	Source/narayan_designer-Main.$(OBJEXT) \
+	Source/narayan_designer-NarayanDesignerApplication.$(OBJEXT)
 nodist_narayan_designer_OBJECTS =  \
-	Source/GUI/narayan_designer-Resources.$(OBJEXT)
+	Source/narayan_designer-Resources.$(OBJEXT)
 narayan_designer_OBJECTS = $(am_narayan_designer_OBJECTS) \
 	$(nodist_narayan_designer_OBJECTS)
 narayan_designer_DEPENDENCIES = liblexerparser.la
@@ -183,7 +182,7 @@ AM_V_at = $(am__v_at_@AM_V@)
 am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
 am__v_at_1 = 
-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/Source/Main
+DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/Source
 depcomp = $(SHELL) $(top_srcdir)/Auxiliary/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
@@ -314,9 +313,9 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/Auxiliary/ar-lib \
 	$(top_srcdir)/Auxiliary/missing \
 	$(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.desktop.in.in \
 	$(top_srcdir)/Manual/narayan-designer.man.in \
-	$(top_srcdir)/Source/Main/Version.h.in \
-	$(top_srcdir)/Source/Main/config.h.in ABOUT-NLS \
-	Auxiliary/ar-lib Auxiliary/compile Auxiliary/config.guess \
+	$(top_srcdir)/Source/Version.h.in \
+	$(top_srcdir)/Source/config.h.in ABOUT-NLS Auxiliary/ar-lib \
+	Auxiliary/compile Auxiliary/config.guess \
 	Auxiliary/config.rpath Auxiliary/config.sub Auxiliary/depcomp \
 	Auxiliary/install-sh Auxiliary/ltmain.sh Auxiliary/missing \
 	ChangeLog
@@ -565,26 +564,28 @@ SUBDIRS = \
 narayan_designer_SOURCES = \
     $(lexer_unclobbered_source_full_paths)                                      \
     $(parser_unclobbered_source_full_paths)                                     \
-    Source/GUI/AboutDialog.cpp                                                  \
-    Source/GUI/AboutDialog.h                                                    \
-    Source/GUI/MainWindow.cpp                                                   \
-    Source/GUI/MainWindow.h                                                     \
-    Source/GUI/PreferencesDialog.cpp                                            \
-    Source/GUI/PreferencesDialog.h                                              \
-    Source/GUI/UnitEditorDialog.cpp                                             \
-    Source/GUI/UnitEditorDialog.h                                               \
-    Source/Main/gettext.h                                                       \
-    Source/Main/Main.cpp                                                        \
-    Source/Main/NarayanDesignerApplication.cpp                                  \
-    Source/Main/NarayanDesignerApplication.h                                    \
-    Source/Patterns/ExplicitSingleton.h
+    Source/AboutDialog.cpp                                                      \
+    Source/AboutDialog.h                                                        \
+    Source/EditorSourceCodePage.cpp                                             \
+    Source/EditorSourceCodePage.h                                               \
+    Source/MainWindow.cpp                                                       \
+    Source/MainWindow.h                                                         \
+    Source/PreferencesDialog.cpp                                                \
+    Source/PreferencesDialog.h                                                  \
+    Source/UnitEditorDialog.cpp                                                 \
+    Source/UnitEditorDialog.h                                                   \
+    Source/gettext.h                                                            \
+    Source/Main.cpp                                                             \
+    Source/NarayanDesignerApplication.cpp                                       \
+    Source/NarayanDesignerApplication.h                                         \
+    Source/ExplicitSingleton.h
 
 
 # Don't redistribute the resources files which are large and generated by
 #  glib-compile-resources(1)...
 nodist_narayan_designer_SOURCES = \
-    Source/GUI/Resources.cpp                                                    \
-    Source/GUI/Resources.h
+    Source/Resources.cpp                                                    \
+    Source/Resources.h
 
 
 # Get build flags...
@@ -600,8 +601,6 @@ narayan_designer_CPPFLAGS = \
     -DSYSCONFDIR='"$(sysconfdir)"'                                              \
     -I$(srcdir)/Source/                                                         \
     -I$(builddir)/Source/                                                       \
-    -I$(srcdir)/Source/Compiler/                                                \
-    -I$(builddir)/Source/Compiler/                                              \
     $(AM_CPPFLAGS)
 
 
@@ -612,8 +611,8 @@ lexer_clobbered_source_files_only = \
     NarayanLogicLexerBase.h
 
 lexer_clobbered_source_full_paths = \
-    Source/Compiler/NarayanLogicLexerBase.cpp                                   \
-    Source/Compiler/NarayanLogicLexerBase.h
+    Source/NarayanLogicLexerBase.cpp                                            \
+    Source/NarayanLogicLexerBase.h
 
 
 # Source files for NarayanLogic lexer generated once by flexc++(1), but
@@ -624,8 +623,8 @@ lexer_unclobbered_source_files_only = \
     NarayanLogicLexer.ih
 
 lexer_unclobbered_source_full_paths = \
-    Source/Compiler/NarayanLogicLexer.h                                         \
-    Source/Compiler/NarayanLogicLexer.ih
+    Source/NarayanLogicLexer.h                                                  \
+    Source/NarayanLogicLexer.ih
 
 
 # Source files for NarayanLogic parser clobbered by each bisonc++(1) invocation.
@@ -635,8 +634,8 @@ parser_clobbered_source_files_only = \
     NarayanLogicParser.cpp
 
 parser_clobbered_source_full_paths = \
-    Source/Compiler/NarayanLogicParserBase.h                                    \
-    Source/Compiler/NarayanLogicParser.cpp
+    Source/NarayanLogicParserBase.h                                             \
+    Source/NarayanLogicParser.cpp
 
 
 # Source files for NarayanLogic parser generated once by bisonc++(1), but
@@ -647,8 +646,8 @@ parser_unclobbered_source_files_only = \
     NarayanLogicParser.ih
 
 parser_unclobbered_source_full_paths = \
-    Source/Compiler/NarayanLogicParser.h                                        \
-    Source/Compiler/NarayanLogicParser.ih
+    Source/NarayanLogicParser.h                                                 \
+    Source/NarayanLogicParser.ih
 
 
 # Both flexc++(1) and bisonc++(1) at the time of writing emit code that can
@@ -670,10 +669,8 @@ liblexerparser_la_SOURCES = \
 liblexerparser_la_CXXFLAGS = -Wimplicit-fallthrough=0 -Wno-unused-parameter
 liblexerparser_la_CPPFLAGS = \
     -DSYSCONFDIR='"$(sysconfdir)"'                                              \
-    -I$(srcdir)/Source/Compiler/                                                \
-    -I$(builddir)/Source/Compiler/                                              \
-    -I$(srcdir)/Source/Main/                                                    \
-    -I$(builddir)/Source/Main/                                                  \
+    -I$(srcdir)/Source/                                                         \
+    -I$(builddir)/Source/                                                       \
     $(AM_CPPFLAGS)
 
 
@@ -696,7 +693,7 @@ AX_V_BISONCPP_ = $(AX_V_BISONCPP_@AM_DEFAULT_V@)
 AX_V_BISONCPP_0 = @echo "  BISONCPP $(parser_clobbered_source_full_paths)";
 
 # Temporary directory to place flexc++(1) and bisonc++(1) generated files...
-COMPILER_TMP = $(builddir)/Source/Compiler/tmp
+COMPILER_TMP = $(builddir)/Source/tmp
 
 # Location for application data...
 applicationsdir = $(datarootdir)/applications
@@ -780,10 +777,10 @@ CLEANFILES = \
     Data/com.cartesiantheatre.narayan-designer.desktop.in                       \
     Data/com.cartesiantheatre.narayan-designer.desktop                          \
     Data/gschemas.compiled                                                      \
-    Source/GUI/Resources.cpp                                                    \
-    Source/GUI/Resources.h                                                      \
-    Source/Compiler/lexer.stamp                                                 \
-    Source/Compiler/parser.stamp                                                \
+    Source/Resources.cpp                                                    \
+    Source/Resources.h                                                      \
+    Source/lexer.stamp                                                 \
+    Source/parser.stamp                                                \
     $(lexer_clobbered_source_full_paths)                                        \
     $(parser_clobbered_source_full_paths)                                       \
 	Translations/*.gmo
@@ -791,10 +788,10 @@ CLEANFILES = \
 
 # Additional files left behind during dist target that need to be cleaned...
 DISTCLEANFILES = \
-    Source/Compiler/lexer.stamp                                                 \
-    Source/Compiler/parser.stamp                                                \
-    Source/GUI/Resources.cpp                                                    \
-    Source/GUI/Resources.h                                                      \
+    Source/lexer.stamp                                                          \
+    Source/parser.stamp                                                         \
+    Source/Resources.cpp                                                        \
+    Source/Resources.h                                                          \
 	_configs.sed                                                                \
     $(PACKAGE_TARNAME)-$(PACKAGE_VERSION).tar.*
 
@@ -803,13 +800,13 @@ DISTCLEANFILES = \
 #  generated...
 BUILT_SOURCES = \
     Data/gschemas.compiled                                                      \
-    Source/Compiler/lexer.stamp                                                 \
-    Source/Compiler/parser.stamp                                                \
+    Source/lexer.stamp                                                          \
+    Source/parser.stamp                                                         \
     $(lexer_clobbered_source_full_paths)                                        \
     $(parser_clobbered_source_full_paths)                                       \
-    Source/GUI/Resources.cpp                                                    \
-    Source/GUI/Resources.h                                                      \
-    Source/Main/Version.h
+    Source/Resources.cpp                                                        \
+    Source/Resources.h                                                          \
+    Source/Version.h
 
 
 # Manually add these non-source files to distribution package when dist target is run...
@@ -819,8 +816,8 @@ EXTRA_DIST = \
     $(examples_DATA)                                                            \
     Data/narayan-designer.xml                                                   \
 	Manual/narayan-designer                                                     \
-    Source/Compiler/NarayanLogicLexer.lpp                                       \
-    Source/Compiler/NarayanLogicParser.ypp                                      \
+    Source/NarayanLogicLexer.lpp                                                \
+    Source/NarayanLogicParser.ypp                                               \
     Authors                                                                     \
     ChangeLog                                                                   \
     Copying                                                                     \
@@ -869,25 +866,25 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
 
-Source/Main/config.h: Source/Main/stamp-h1
-	@test -f $@ || rm -f Source/Main/stamp-h1
-	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) Source/Main/stamp-h1
+Source/config.h: Source/stamp-h1
+	@test -f $@ || rm -f Source/stamp-h1
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) Source/stamp-h1
 
-Source/Main/stamp-h1: $(top_srcdir)/Source/Main/config.h.in $(top_builddir)/config.status
-	@rm -f Source/Main/stamp-h1
-	cd $(top_builddir) && $(SHELL) ./config.status Source/Main/config.h
-$(top_srcdir)/Source/Main/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps) 
+Source/stamp-h1: $(top_srcdir)/Source/config.h.in $(top_builddir)/config.status
+	@rm -f Source/stamp-h1
+	cd $(top_builddir) && $(SHELL) ./config.status Source/config.h
+$(top_srcdir)/Source/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps) 
 	($(am__cd) $(top_srcdir) && $(AUTOHEADER))
-	rm -f Source/Main/stamp-h1
+	rm -f Source/stamp-h1
 	touch $@
 
 distclean-hdr:
-	-rm -f Source/Main/config.h Source/Main/stamp-h1
+	-rm -f Source/config.h Source/stamp-h1
 Data/com.cartesiantheatre.narayan-designer.desktop.in: $(top_builddir)/config.status $(top_srcdir)/Data/com.cartesiantheatre.narayan-designer.desktop.in.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 Manual/narayan-designer.man: $(top_builddir)/config.status $(top_srcdir)/Manual/narayan-designer.man.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
-Source/Main/Version.h: $(top_builddir)/config.status $(top_srcdir)/Source/Main/Version.h.in
+Source/Version.h: $(top_builddir)/config.status $(top_srcdir)/Source/Version.h.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 clean-noinstLTLIBRARIES:
@@ -900,18 +897,16 @@ clean-noinstLTLIBRARIES:
 	  echo rm -f $${locs}; \
 	  rm -f $${locs}; \
 	}
-Source/Compiler/$(am__dirstamp):
-	@$(MKDIR_P) Source/Compiler
-	@: > Source/Compiler/$(am__dirstamp)
-Source/Compiler/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) Source/Compiler/$(DEPDIR)
-	@: > Source/Compiler/$(DEPDIR)/$(am__dirstamp)
-Source/Compiler/liblexerparser_la-NarayanLogicLexerBase.lo:  \
-	Source/Compiler/$(am__dirstamp) \
-	Source/Compiler/$(DEPDIR)/$(am__dirstamp)
-Source/Compiler/liblexerparser_la-NarayanLogicParser.lo:  \
-	Source/Compiler/$(am__dirstamp) \
-	Source/Compiler/$(DEPDIR)/$(am__dirstamp)
+Source/$(am__dirstamp):
+	@$(MKDIR_P) Source
+	@: > Source/$(am__dirstamp)
+Source/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) Source/$(DEPDIR)
+	@: > Source/$(DEPDIR)/$(am__dirstamp)
+Source/liblexerparser_la-NarayanLogicLexerBase.lo:  \
+	Source/$(am__dirstamp) Source/$(DEPDIR)/$(am__dirstamp)
+Source/liblexerparser_la-NarayanLogicParser.lo:  \
+	Source/$(am__dirstamp) Source/$(DEPDIR)/$(am__dirstamp)
 
 liblexerparser.la: $(liblexerparser_la_OBJECTS) $(liblexerparser_la_DEPENDENCIES) $(EXTRA_liblexerparser_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(liblexerparser_la_LINK)  $(liblexerparser_la_OBJECTS) $(liblexerparser_la_LIBADD) $(LIBS)
@@ -964,39 +959,22 @@ clean-binPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-Source/GUI/$(am__dirstamp):
-	@$(MKDIR_P) Source/GUI
-	@: > Source/GUI/$(am__dirstamp)
-Source/GUI/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) Source/GUI/$(DEPDIR)
-	@: > Source/GUI/$(DEPDIR)/$(am__dirstamp)
-Source/GUI/narayan_designer-AboutDialog.$(OBJEXT):  \
-	Source/GUI/$(am__dirstamp) \
-	Source/GUI/$(DEPDIR)/$(am__dirstamp)
-Source/GUI/narayan_designer-MainWindow.$(OBJEXT):  \
-	Source/GUI/$(am__dirstamp) \
-	Source/GUI/$(DEPDIR)/$(am__dirstamp)
-Source/GUI/narayan_designer-PreferencesDialog.$(OBJEXT):  \
-	Source/GUI/$(am__dirstamp) \
-	Source/GUI/$(DEPDIR)/$(am__dirstamp)
-Source/GUI/narayan_designer-UnitEditorDialog.$(OBJEXT):  \
-	Source/GUI/$(am__dirstamp) \
-	Source/GUI/$(DEPDIR)/$(am__dirstamp)
-Source/Main/$(am__dirstamp):
-	@$(MKDIR_P) Source/Main
-	@: > Source/Main/$(am__dirstamp)
-Source/Main/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) Source/Main/$(DEPDIR)
-	@: > Source/Main/$(DEPDIR)/$(am__dirstamp)
-Source/Main/narayan_designer-Main.$(OBJEXT):  \
-	Source/Main/$(am__dirstamp) \
-	Source/Main/$(DEPDIR)/$(am__dirstamp)
-Source/Main/narayan_designer-NarayanDesignerApplication.$(OBJEXT):  \
-	Source/Main/$(am__dirstamp) \
-	Source/Main/$(DEPDIR)/$(am__dirstamp)
-Source/GUI/narayan_designer-Resources.$(OBJEXT):  \
-	Source/GUI/$(am__dirstamp) \
-	Source/GUI/$(DEPDIR)/$(am__dirstamp)
+Source/narayan_designer-AboutDialog.$(OBJEXT): Source/$(am__dirstamp) \
+	Source/$(DEPDIR)/$(am__dirstamp)
+Source/narayan_designer-EditorSourceCodePage.$(OBJEXT):  \
+	Source/$(am__dirstamp) Source/$(DEPDIR)/$(am__dirstamp)
+Source/narayan_designer-MainWindow.$(OBJEXT): Source/$(am__dirstamp) \
+	Source/$(DEPDIR)/$(am__dirstamp)
+Source/narayan_designer-PreferencesDialog.$(OBJEXT):  \
+	Source/$(am__dirstamp) Source/$(DEPDIR)/$(am__dirstamp)
+Source/narayan_designer-UnitEditorDialog.$(OBJEXT):  \
+	Source/$(am__dirstamp) Source/$(DEPDIR)/$(am__dirstamp)
+Source/narayan_designer-Main.$(OBJEXT): Source/$(am__dirstamp) \
+	Source/$(DEPDIR)/$(am__dirstamp)
+Source/narayan_designer-NarayanDesignerApplication.$(OBJEXT):  \
+	Source/$(am__dirstamp) Source/$(DEPDIR)/$(am__dirstamp)
+Source/narayan_designer-Resources.$(OBJEXT): Source/$(am__dirstamp) \
+	Source/$(DEPDIR)/$(am__dirstamp)
 
 narayan-designer$(EXEEXT): $(narayan_designer_OBJECTS) $(narayan_designer_DEPENDENCIES) $(EXTRA_narayan_designer_DEPENDENCIES) 
 	@rm -f narayan-designer$(EXEEXT)
@@ -1004,23 +982,22 @@ narayan-designer$(EXEEXT): $(narayan_designer_OBJECTS) $(narayan_designer_DEPEND
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
-	-rm -f Source/Compiler/*.$(OBJEXT)
-	-rm -f Source/Compiler/*.lo
-	-rm -f Source/GUI/*.$(OBJEXT)
-	-rm -f Source/Main/*.$(OBJEXT)
+	-rm -f Source/*.$(OBJEXT)
+	-rm -f Source/*.lo
 
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@Source/Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicLexerBase.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@Source/Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@Source/GUI/$(DEPDIR)/narayan_designer-AboutDialog.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@Source/GUI/$(DEPDIR)/narayan_designer-MainWindow.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@Source/GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@Source/GUI/$(DEPDIR)/narayan_designer-Resources.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@Source/GUI/$(DEPDIR)/narayan_designer-UnitEditorDialog.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@Source/Main/$(DEPDIR)/narayan_designer-Main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@Source/Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Source/$(DEPDIR)/liblexerparser_la-NarayanLogicLexerBase.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Source/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Source/$(DEPDIR)/narayan_designer-AboutDialog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Source/$(DEPDIR)/narayan_designer-EditorSourceCodePage.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Source/$(DEPDIR)/narayan_designer-Main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Source/$(DEPDIR)/narayan_designer-MainWindow.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Source/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Source/$(DEPDIR)/narayan_designer-PreferencesDialog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Source/$(DEPDIR)/narayan_designer-Resources.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Source/$(DEPDIR)/narayan_designer-UnitEditorDialog.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -1046,124 +1023,138 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LTCXXCOMPILE) -c -o $@ $<
 
-Source/Compiler/liblexerparser_la-NarayanLogicLexerBase.lo: Source/Compiler/NarayanLogicLexerBase.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblexerparser_la_CPPFLAGS) $(CPPFLAGS) $(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) -MT Source/Compiler/liblexerparser_la-NarayanLogicLexerBase.lo -MD -MP -MF Source/Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicLexerBase.Tpo -c -o Source/Compiler/liblexerparser_la-NarayanLogicLexerBase.lo `test -f 'Source/Compiler/NarayanLogicLexerBase.cpp' || echo '$(srcdir)/'`Source/Compiler/NarayanLogicLexerBase.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicLexerBase.Tpo Source/Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicLexerBase.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/Compiler/NarayanLogicLexerBase.cpp' object='Source/Compiler/liblexerparser_la-NarayanLogicLexerBase.lo' libtool=yes @AMDEPBACKSLASH@
+Source/liblexerparser_la-NarayanLogicLexerBase.lo: Source/NarayanLogicLexerBase.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblexerparser_la_CPPFLAGS) $(CPPFLAGS) $(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) -MT Source/liblexerparser_la-NarayanLogicLexerBase.lo -MD -MP -MF Source/$(DEPDIR)/liblexerparser_la-NarayanLogicLexerBase.Tpo -c -o Source/liblexerparser_la-NarayanLogicLexerBase.lo `test -f 'Source/NarayanLogicLexerBase.cpp' || echo '$(srcdir)/'`Source/NarayanLogicLexerBase.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/liblexerparser_la-NarayanLogicLexerBase.Tpo Source/$(DEPDIR)/liblexerparser_la-NarayanLogicLexerBase.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/NarayanLogicLexerBase.cpp' object='Source/liblexerparser_la-NarayanLogicLexerBase.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblexerparser_la_CPPFLAGS) $(CPPFLAGS) $(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) -c -o Source/Compiler/liblexerparser_la-NarayanLogicLexerBase.lo `test -f 'Source/Compiler/NarayanLogicLexerBase.cpp' || echo '$(srcdir)/'`Source/Compiler/NarayanLogicLexerBase.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblexerparser_la_CPPFLAGS) $(CPPFLAGS) $(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) -c -o Source/liblexerparser_la-NarayanLogicLexerBase.lo `test -f 'Source/NarayanLogicLexerBase.cpp' || echo '$(srcdir)/'`Source/NarayanLogicLexerBase.cpp
 
-Source/Compiler/liblexerparser_la-NarayanLogicParser.lo: Source/Compiler/NarayanLogicParser.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblexerparser_la_CPPFLAGS) $(CPPFLAGS) $(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) -MT Source/Compiler/liblexerparser_la-NarayanLogicParser.lo -MD -MP -MF Source/Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Tpo -c -o Source/Compiler/liblexerparser_la-NarayanLogicParser.lo `test -f 'Source/Compiler/NarayanLogicParser.cpp' || echo '$(srcdir)/'`Source/Compiler/NarayanLogicParser.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Tpo Source/Compiler/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/Compiler/NarayanLogicParser.cpp' object='Source/Compiler/liblexerparser_la-NarayanLogicParser.lo' libtool=yes @AMDEPBACKSLASH@
+Source/liblexerparser_la-NarayanLogicParser.lo: Source/NarayanLogicParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblexerparser_la_CPPFLAGS) $(CPPFLAGS) $(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) -MT Source/liblexerparser_la-NarayanLogicParser.lo -MD -MP -MF Source/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Tpo -c -o Source/liblexerparser_la-NarayanLogicParser.lo `test -f 'Source/NarayanLogicParser.cpp' || echo '$(srcdir)/'`Source/NarayanLogicParser.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Tpo Source/$(DEPDIR)/liblexerparser_la-NarayanLogicParser.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/NarayanLogicParser.cpp' object='Source/liblexerparser_la-NarayanLogicParser.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblexerparser_la_CPPFLAGS) $(CPPFLAGS) $(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) -c -o Source/Compiler/liblexerparser_la-NarayanLogicParser.lo `test -f 'Source/Compiler/NarayanLogicParser.cpp' || echo '$(srcdir)/'`Source/Compiler/NarayanLogicParser.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liblexerparser_la_CPPFLAGS) $(CPPFLAGS) $(liblexerparser_la_CXXFLAGS) $(CXXFLAGS) -c -o Source/liblexerparser_la-NarayanLogicParser.lo `test -f 'Source/NarayanLogicParser.cpp' || echo '$(srcdir)/'`Source/NarayanLogicParser.cpp
 
-Source/GUI/narayan_designer-AboutDialog.o: Source/GUI/AboutDialog.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/GUI/narayan_designer-AboutDialog.o -MD -MP -MF Source/GUI/$(DEPDIR)/narayan_designer-AboutDialog.Tpo -c -o Source/GUI/narayan_designer-AboutDialog.o `test -f 'Source/GUI/AboutDialog.cpp' || echo '$(srcdir)/'`Source/GUI/AboutDialog.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/GUI/$(DEPDIR)/narayan_designer-AboutDialog.Tpo Source/GUI/$(DEPDIR)/narayan_designer-AboutDialog.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/GUI/AboutDialog.cpp' object='Source/GUI/narayan_designer-AboutDialog.o' libtool=no @AMDEPBACKSLASH@
+Source/narayan_designer-AboutDialog.o: Source/AboutDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-AboutDialog.o -MD -MP -MF Source/$(DEPDIR)/narayan_designer-AboutDialog.Tpo -c -o Source/narayan_designer-AboutDialog.o `test -f 'Source/AboutDialog.cpp' || echo '$(srcdir)/'`Source/AboutDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-AboutDialog.Tpo Source/$(DEPDIR)/narayan_designer-AboutDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/AboutDialog.cpp' object='Source/narayan_designer-AboutDialog.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/GUI/narayan_designer-AboutDialog.o `test -f 'Source/GUI/AboutDialog.cpp' || echo '$(srcdir)/'`Source/GUI/AboutDialog.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-AboutDialog.o `test -f 'Source/AboutDialog.cpp' || echo '$(srcdir)/'`Source/AboutDialog.cpp
 
-Source/GUI/narayan_designer-AboutDialog.obj: Source/GUI/AboutDialog.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/GUI/narayan_designer-AboutDialog.obj -MD -MP -MF Source/GUI/$(DEPDIR)/narayan_designer-AboutDialog.Tpo -c -o Source/GUI/narayan_designer-AboutDialog.obj `if test -f 'Source/GUI/AboutDialog.cpp'; then $(CYGPATH_W) 'Source/GUI/AboutDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/GUI/AboutDialog.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/GUI/$(DEPDIR)/narayan_designer-AboutDialog.Tpo Source/GUI/$(DEPDIR)/narayan_designer-AboutDialog.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/GUI/AboutDialog.cpp' object='Source/GUI/narayan_designer-AboutDialog.obj' libtool=no @AMDEPBACKSLASH@
+Source/narayan_designer-AboutDialog.obj: Source/AboutDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-AboutDialog.obj -MD -MP -MF Source/$(DEPDIR)/narayan_designer-AboutDialog.Tpo -c -o Source/narayan_designer-AboutDialog.obj `if test -f 'Source/AboutDialog.cpp'; then $(CYGPATH_W) 'Source/AboutDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/AboutDialog.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-AboutDialog.Tpo Source/$(DEPDIR)/narayan_designer-AboutDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/AboutDialog.cpp' object='Source/narayan_designer-AboutDialog.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/GUI/narayan_designer-AboutDialog.obj `if test -f 'Source/GUI/AboutDialog.cpp'; then $(CYGPATH_W) 'Source/GUI/AboutDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/GUI/AboutDialog.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-AboutDialog.obj `if test -f 'Source/AboutDialog.cpp'; then $(CYGPATH_W) 'Source/AboutDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/AboutDialog.cpp'; fi`
 
-Source/GUI/narayan_designer-MainWindow.o: Source/GUI/MainWindow.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/GUI/narayan_designer-MainWindow.o -MD -MP -MF Source/GUI/$(DEPDIR)/narayan_designer-MainWindow.Tpo -c -o Source/GUI/narayan_designer-MainWindow.o `test -f 'Source/GUI/MainWindow.cpp' || echo '$(srcdir)/'`Source/GUI/MainWindow.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/GUI/$(DEPDIR)/narayan_designer-MainWindow.Tpo Source/GUI/$(DEPDIR)/narayan_designer-MainWindow.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/GUI/MainWindow.cpp' object='Source/GUI/narayan_designer-MainWindow.o' libtool=no @AMDEPBACKSLASH@
+Source/narayan_designer-EditorSourceCodePage.o: Source/EditorSourceCodePage.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-EditorSourceCodePage.o -MD -MP -MF Source/$(DEPDIR)/narayan_designer-EditorSourceCodePage.Tpo -c -o Source/narayan_designer-EditorSourceCodePage.o `test -f 'Source/EditorSourceCodePage.cpp' || echo '$(srcdir)/'`Source/EditorSourceCodePage.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-EditorSourceCodePage.Tpo Source/$(DEPDIR)/narayan_designer-EditorSourceCodePage.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/EditorSourceCodePage.cpp' object='Source/narayan_designer-EditorSourceCodePage.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/GUI/narayan_designer-MainWindow.o `test -f 'Source/GUI/MainWindow.cpp' || echo '$(srcdir)/'`Source/GUI/MainWindow.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-EditorSourceCodePage.o `test -f 'Source/EditorSourceCodePage.cpp' || echo '$(srcdir)/'`Source/EditorSourceCodePage.cpp
 
-Source/GUI/narayan_designer-MainWindow.obj: Source/GUI/MainWindow.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/GUI/narayan_designer-MainWindow.obj -MD -MP -MF Source/GUI/$(DEPDIR)/narayan_designer-MainWindow.Tpo -c -o Source/GUI/narayan_designer-MainWindow.obj `if test -f 'Source/GUI/MainWindow.cpp'; then $(CYGPATH_W) 'Source/GUI/MainWindow.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/GUI/MainWindow.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/GUI/$(DEPDIR)/narayan_designer-MainWindow.Tpo Source/GUI/$(DEPDIR)/narayan_designer-MainWindow.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/GUI/MainWindow.cpp' object='Source/GUI/narayan_designer-MainWindow.obj' libtool=no @AMDEPBACKSLASH@
+Source/narayan_designer-EditorSourceCodePage.obj: Source/EditorSourceCodePage.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-EditorSourceCodePage.obj -MD -MP -MF Source/$(DEPDIR)/narayan_designer-EditorSourceCodePage.Tpo -c -o Source/narayan_designer-EditorSourceCodePage.obj `if test -f 'Source/EditorSourceCodePage.cpp'; then $(CYGPATH_W) 'Source/EditorSourceCodePage.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/EditorSourceCodePage.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-EditorSourceCodePage.Tpo Source/$(DEPDIR)/narayan_designer-EditorSourceCodePage.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/EditorSourceCodePage.cpp' object='Source/narayan_designer-EditorSourceCodePage.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/GUI/narayan_designer-MainWindow.obj `if test -f 'Source/GUI/MainWindow.cpp'; then $(CYGPATH_W) 'Source/GUI/MainWindow.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/GUI/MainWindow.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-EditorSourceCodePage.obj `if test -f 'Source/EditorSourceCodePage.cpp'; then $(CYGPATH_W) 'Source/EditorSourceCodePage.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/EditorSourceCodePage.cpp'; fi`
 
-Source/GUI/narayan_designer-PreferencesDialog.o: Source/GUI/PreferencesDialog.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/GUI/narayan_designer-PreferencesDialog.o -MD -MP -MF Source/GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Tpo -c -o Source/GUI/narayan_designer-PreferencesDialog.o `test -f 'Source/GUI/PreferencesDialog.cpp' || echo '$(srcdir)/'`Source/GUI/PreferencesDialog.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Tpo Source/GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/GUI/PreferencesDialog.cpp' object='Source/GUI/narayan_designer-PreferencesDialog.o' libtool=no @AMDEPBACKSLASH@
+Source/narayan_designer-MainWindow.o: Source/MainWindow.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-MainWindow.o -MD -MP -MF Source/$(DEPDIR)/narayan_designer-MainWindow.Tpo -c -o Source/narayan_designer-MainWindow.o `test -f 'Source/MainWindow.cpp' || echo '$(srcdir)/'`Source/MainWindow.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-MainWindow.Tpo Source/$(DEPDIR)/narayan_designer-MainWindow.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/MainWindow.cpp' object='Source/narayan_designer-MainWindow.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/GUI/narayan_designer-PreferencesDialog.o `test -f 'Source/GUI/PreferencesDialog.cpp' || echo '$(srcdir)/'`Source/GUI/PreferencesDialog.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-MainWindow.o `test -f 'Source/MainWindow.cpp' || echo '$(srcdir)/'`Source/MainWindow.cpp
 
-Source/GUI/narayan_designer-PreferencesDialog.obj: Source/GUI/PreferencesDialog.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/GUI/narayan_designer-PreferencesDialog.obj -MD -MP -MF Source/GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Tpo -c -o Source/GUI/narayan_designer-PreferencesDialog.obj `if test -f 'Source/GUI/PreferencesDialog.cpp'; then $(CYGPATH_W) 'Source/GUI/PreferencesDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/GUI/PreferencesDialog.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Tpo Source/GUI/$(DEPDIR)/narayan_designer-PreferencesDialog.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/GUI/PreferencesDialog.cpp' object='Source/GUI/narayan_designer-PreferencesDialog.obj' libtool=no @AMDEPBACKSLASH@
+Source/narayan_designer-MainWindow.obj: Source/MainWindow.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-MainWindow.obj -MD -MP -MF Source/$(DEPDIR)/narayan_designer-MainWindow.Tpo -c -o Source/narayan_designer-MainWindow.obj `if test -f 'Source/MainWindow.cpp'; then $(CYGPATH_W) 'Source/MainWindow.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/MainWindow.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-MainWindow.Tpo Source/$(DEPDIR)/narayan_designer-MainWindow.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/MainWindow.cpp' object='Source/narayan_designer-MainWindow.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/GUI/narayan_designer-PreferencesDialog.obj `if test -f 'Source/GUI/PreferencesDialog.cpp'; then $(CYGPATH_W) 'Source/GUI/PreferencesDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/GUI/PreferencesDialog.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-MainWindow.obj `if test -f 'Source/MainWindow.cpp'; then $(CYGPATH_W) 'Source/MainWindow.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/MainWindow.cpp'; fi`
 
-Source/GUI/narayan_designer-UnitEditorDialog.o: Source/GUI/UnitEditorDialog.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/GUI/narayan_designer-UnitEditorDialog.o -MD -MP -MF Source/GUI/$(DEPDIR)/narayan_designer-UnitEditorDialog.Tpo -c -o Source/GUI/narayan_designer-UnitEditorDialog.o `test -f 'Source/GUI/UnitEditorDialog.cpp' || echo '$(srcdir)/'`Source/GUI/UnitEditorDialog.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/GUI/$(DEPDIR)/narayan_designer-UnitEditorDialog.Tpo Source/GUI/$(DEPDIR)/narayan_designer-UnitEditorDialog.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/GUI/UnitEditorDialog.cpp' object='Source/GUI/narayan_designer-UnitEditorDialog.o' libtool=no @AMDEPBACKSLASH@
+Source/narayan_designer-PreferencesDialog.o: Source/PreferencesDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-PreferencesDialog.o -MD -MP -MF Source/$(DEPDIR)/narayan_designer-PreferencesDialog.Tpo -c -o Source/narayan_designer-PreferencesDialog.o `test -f 'Source/PreferencesDialog.cpp' || echo '$(srcdir)/'`Source/PreferencesDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-PreferencesDialog.Tpo Source/$(DEPDIR)/narayan_designer-PreferencesDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/PreferencesDialog.cpp' object='Source/narayan_designer-PreferencesDialog.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/GUI/narayan_designer-UnitEditorDialog.o `test -f 'Source/GUI/UnitEditorDialog.cpp' || echo '$(srcdir)/'`Source/GUI/UnitEditorDialog.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-PreferencesDialog.o `test -f 'Source/PreferencesDialog.cpp' || echo '$(srcdir)/'`Source/PreferencesDialog.cpp
 
-Source/GUI/narayan_designer-UnitEditorDialog.obj: Source/GUI/UnitEditorDialog.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/GUI/narayan_designer-UnitEditorDialog.obj -MD -MP -MF Source/GUI/$(DEPDIR)/narayan_designer-UnitEditorDialog.Tpo -c -o Source/GUI/narayan_designer-UnitEditorDialog.obj `if test -f 'Source/GUI/UnitEditorDialog.cpp'; then $(CYGPATH_W) 'Source/GUI/UnitEditorDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/GUI/UnitEditorDialog.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/GUI/$(DEPDIR)/narayan_designer-UnitEditorDialog.Tpo Source/GUI/$(DEPDIR)/narayan_designer-UnitEditorDialog.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/GUI/UnitEditorDialog.cpp' object='Source/GUI/narayan_designer-UnitEditorDialog.obj' libtool=no @AMDEPBACKSLASH@
+Source/narayan_designer-PreferencesDialog.obj: Source/PreferencesDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-PreferencesDialog.obj -MD -MP -MF Source/$(DEPDIR)/narayan_designer-PreferencesDialog.Tpo -c -o Source/narayan_designer-PreferencesDialog.obj `if test -f 'Source/PreferencesDialog.cpp'; then $(CYGPATH_W) 'Source/PreferencesDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/PreferencesDialog.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-PreferencesDialog.Tpo Source/$(DEPDIR)/narayan_designer-PreferencesDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/PreferencesDialog.cpp' object='Source/narayan_designer-PreferencesDialog.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/GUI/narayan_designer-UnitEditorDialog.obj `if test -f 'Source/GUI/UnitEditorDialog.cpp'; then $(CYGPATH_W) 'Source/GUI/UnitEditorDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/GUI/UnitEditorDialog.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-PreferencesDialog.obj `if test -f 'Source/PreferencesDialog.cpp'; then $(CYGPATH_W) 'Source/PreferencesDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/PreferencesDialog.cpp'; fi`
 
-Source/Main/narayan_designer-Main.o: Source/Main/Main.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/Main/narayan_designer-Main.o -MD -MP -MF Source/Main/$(DEPDIR)/narayan_designer-Main.Tpo -c -o Source/Main/narayan_designer-Main.o `test -f 'Source/Main/Main.cpp' || echo '$(srcdir)/'`Source/Main/Main.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/Main/$(DEPDIR)/narayan_designer-Main.Tpo Source/Main/$(DEPDIR)/narayan_designer-Main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/Main/Main.cpp' object='Source/Main/narayan_designer-Main.o' libtool=no @AMDEPBACKSLASH@
+Source/narayan_designer-UnitEditorDialog.o: Source/UnitEditorDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-UnitEditorDialog.o -MD -MP -MF Source/$(DEPDIR)/narayan_designer-UnitEditorDialog.Tpo -c -o Source/narayan_designer-UnitEditorDialog.o `test -f 'Source/UnitEditorDialog.cpp' || echo '$(srcdir)/'`Source/UnitEditorDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-UnitEditorDialog.Tpo Source/$(DEPDIR)/narayan_designer-UnitEditorDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/UnitEditorDialog.cpp' object='Source/narayan_designer-UnitEditorDialog.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/Main/narayan_designer-Main.o `test -f 'Source/Main/Main.cpp' || echo '$(srcdir)/'`Source/Main/Main.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-UnitEditorDialog.o `test -f 'Source/UnitEditorDialog.cpp' || echo '$(srcdir)/'`Source/UnitEditorDialog.cpp
 
-Source/Main/narayan_designer-Main.obj: Source/Main/Main.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/Main/narayan_designer-Main.obj -MD -MP -MF Source/Main/$(DEPDIR)/narayan_designer-Main.Tpo -c -o Source/Main/narayan_designer-Main.obj `if test -f 'Source/Main/Main.cpp'; then $(CYGPATH_W) 'Source/Main/Main.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/Main/Main.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/Main/$(DEPDIR)/narayan_designer-Main.Tpo Source/Main/$(DEPDIR)/narayan_designer-Main.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/Main/Main.cpp' object='Source/Main/narayan_designer-Main.obj' libtool=no @AMDEPBACKSLASH@
+Source/narayan_designer-UnitEditorDialog.obj: Source/UnitEditorDialog.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-UnitEditorDialog.obj -MD -MP -MF Source/$(DEPDIR)/narayan_designer-UnitEditorDialog.Tpo -c -o Source/narayan_designer-UnitEditorDialog.obj `if test -f 'Source/UnitEditorDialog.cpp'; then $(CYGPATH_W) 'Source/UnitEditorDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/UnitEditorDialog.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-UnitEditorDialog.Tpo Source/$(DEPDIR)/narayan_designer-UnitEditorDialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/UnitEditorDialog.cpp' object='Source/narayan_designer-UnitEditorDialog.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/Main/narayan_designer-Main.obj `if test -f 'Source/Main/Main.cpp'; then $(CYGPATH_W) 'Source/Main/Main.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/Main/Main.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-UnitEditorDialog.obj `if test -f 'Source/UnitEditorDialog.cpp'; then $(CYGPATH_W) 'Source/UnitEditorDialog.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/UnitEditorDialog.cpp'; fi`
 
-Source/Main/narayan_designer-NarayanDesignerApplication.o: Source/Main/NarayanDesignerApplication.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/Main/narayan_designer-NarayanDesignerApplication.o -MD -MP -MF Source/Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Tpo -c -o Source/Main/narayan_designer-NarayanDesignerApplication.o `test -f 'Source/Main/NarayanDesignerApplication.cpp' || echo '$(srcdir)/'`Source/Main/NarayanDesignerApplication.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Tpo Source/Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/Main/NarayanDesignerApplication.cpp' object='Source/Main/narayan_designer-NarayanDesignerApplication.o' libtool=no @AMDEPBACKSLASH@
+Source/narayan_designer-Main.o: Source/Main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-Main.o -MD -MP -MF Source/$(DEPDIR)/narayan_designer-Main.Tpo -c -o Source/narayan_designer-Main.o `test -f 'Source/Main.cpp' || echo '$(srcdir)/'`Source/Main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-Main.Tpo Source/$(DEPDIR)/narayan_designer-Main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/Main.cpp' object='Source/narayan_designer-Main.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/Main/narayan_designer-NarayanDesignerApplication.o `test -f 'Source/Main/NarayanDesignerApplication.cpp' || echo '$(srcdir)/'`Source/Main/NarayanDesignerApplication.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-Main.o `test -f 'Source/Main.cpp' || echo '$(srcdir)/'`Source/Main.cpp
 
-Source/Main/narayan_designer-NarayanDesignerApplication.obj: Source/Main/NarayanDesignerApplication.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/Main/narayan_designer-NarayanDesignerApplication.obj -MD -MP -MF Source/Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Tpo -c -o Source/Main/narayan_designer-NarayanDesignerApplication.obj `if test -f 'Source/Main/NarayanDesignerApplication.cpp'; then $(CYGPATH_W) 'Source/Main/NarayanDesignerApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/Main/NarayanDesignerApplication.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Tpo Source/Main/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/Main/NarayanDesignerApplication.cpp' object='Source/Main/narayan_designer-NarayanDesignerApplication.obj' libtool=no @AMDEPBACKSLASH@
+Source/narayan_designer-Main.obj: Source/Main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-Main.obj -MD -MP -MF Source/$(DEPDIR)/narayan_designer-Main.Tpo -c -o Source/narayan_designer-Main.obj `if test -f 'Source/Main.cpp'; then $(CYGPATH_W) 'Source/Main.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/Main.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-Main.Tpo Source/$(DEPDIR)/narayan_designer-Main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/Main.cpp' object='Source/narayan_designer-Main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/Main/narayan_designer-NarayanDesignerApplication.obj `if test -f 'Source/Main/NarayanDesignerApplication.cpp'; then $(CYGPATH_W) 'Source/Main/NarayanDesignerApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/Main/NarayanDesignerApplication.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-Main.obj `if test -f 'Source/Main.cpp'; then $(CYGPATH_W) 'Source/Main.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/Main.cpp'; fi`
 
-Source/GUI/narayan_designer-Resources.o: Source/GUI/Resources.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/GUI/narayan_designer-Resources.o -MD -MP -MF Source/GUI/$(DEPDIR)/narayan_designer-Resources.Tpo -c -o Source/GUI/narayan_designer-Resources.o `test -f 'Source/GUI/Resources.cpp' || echo '$(srcdir)/'`Source/GUI/Resources.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/GUI/$(DEPDIR)/narayan_designer-Resources.Tpo Source/GUI/$(DEPDIR)/narayan_designer-Resources.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/GUI/Resources.cpp' object='Source/GUI/narayan_designer-Resources.o' libtool=no @AMDEPBACKSLASH@
+Source/narayan_designer-NarayanDesignerApplication.o: Source/NarayanDesignerApplication.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-NarayanDesignerApplication.o -MD -MP -MF Source/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Tpo -c -o Source/narayan_designer-NarayanDesignerApplication.o `test -f 'Source/NarayanDesignerApplication.cpp' || echo '$(srcdir)/'`Source/NarayanDesignerApplication.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Tpo Source/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/NarayanDesignerApplication.cpp' object='Source/narayan_designer-NarayanDesignerApplication.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/GUI/narayan_designer-Resources.o `test -f 'Source/GUI/Resources.cpp' || echo '$(srcdir)/'`Source/GUI/Resources.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-NarayanDesignerApplication.o `test -f 'Source/NarayanDesignerApplication.cpp' || echo '$(srcdir)/'`Source/NarayanDesignerApplication.cpp
 
-Source/GUI/narayan_designer-Resources.obj: Source/GUI/Resources.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/GUI/narayan_designer-Resources.obj -MD -MP -MF Source/GUI/$(DEPDIR)/narayan_designer-Resources.Tpo -c -o Source/GUI/narayan_designer-Resources.obj `if test -f 'Source/GUI/Resources.cpp'; then $(CYGPATH_W) 'Source/GUI/Resources.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/GUI/Resources.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/GUI/$(DEPDIR)/narayan_designer-Resources.Tpo Source/GUI/$(DEPDIR)/narayan_designer-Resources.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/GUI/Resources.cpp' object='Source/GUI/narayan_designer-Resources.obj' libtool=no @AMDEPBACKSLASH@
+Source/narayan_designer-NarayanDesignerApplication.obj: Source/NarayanDesignerApplication.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-NarayanDesignerApplication.obj -MD -MP -MF Source/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Tpo -c -o Source/narayan_designer-NarayanDesignerApplication.obj `if test -f 'Source/NarayanDesignerApplication.cpp'; then $(CYGPATH_W) 'Source/NarayanDesignerApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/NarayanDesignerApplication.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Tpo Source/$(DEPDIR)/narayan_designer-NarayanDesignerApplication.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/NarayanDesignerApplication.cpp' object='Source/narayan_designer-NarayanDesignerApplication.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/GUI/narayan_designer-Resources.obj `if test -f 'Source/GUI/Resources.cpp'; then $(CYGPATH_W) 'Source/GUI/Resources.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/GUI/Resources.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-NarayanDesignerApplication.obj `if test -f 'Source/NarayanDesignerApplication.cpp'; then $(CYGPATH_W) 'Source/NarayanDesignerApplication.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/NarayanDesignerApplication.cpp'; fi`
+
+Source/narayan_designer-Resources.o: Source/Resources.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-Resources.o -MD -MP -MF Source/$(DEPDIR)/narayan_designer-Resources.Tpo -c -o Source/narayan_designer-Resources.o `test -f 'Source/Resources.cpp' || echo '$(srcdir)/'`Source/Resources.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-Resources.Tpo Source/$(DEPDIR)/narayan_designer-Resources.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/Resources.cpp' object='Source/narayan_designer-Resources.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-Resources.o `test -f 'Source/Resources.cpp' || echo '$(srcdir)/'`Source/Resources.cpp
+
+Source/narayan_designer-Resources.obj: Source/Resources.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -MT Source/narayan_designer-Resources.obj -MD -MP -MF Source/$(DEPDIR)/narayan_designer-Resources.Tpo -c -o Source/narayan_designer-Resources.obj `if test -f 'Source/Resources.cpp'; then $(CYGPATH_W) 'Source/Resources.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/Resources.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Source/$(DEPDIR)/narayan_designer-Resources.Tpo Source/$(DEPDIR)/narayan_designer-Resources.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Source/Resources.cpp' object='Source/narayan_designer-Resources.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(narayan_designer_CPPFLAGS) $(CPPFLAGS) $(narayan_designer_CXXFLAGS) $(CXXFLAGS) -c -o Source/narayan_designer-Resources.obj `if test -f 'Source/Resources.cpp'; then $(CYGPATH_W) 'Source/Resources.cpp'; else $(CYGPATH_W) '$(srcdir)/Source/Resources.cpp'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
 	-rm -rf .libs _libs
-	-rm -rf Source/Compiler/.libs Source/Compiler/_libs
+	-rm -rf Source/.libs Source/_libs
 
 distclean-libtool:
 	-rm -f libtool config.lt
@@ -1710,12 +1701,8 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
-	-rm -f Source/Compiler/$(DEPDIR)/$(am__dirstamp)
-	-rm -f Source/Compiler/$(am__dirstamp)
-	-rm -f Source/GUI/$(DEPDIR)/$(am__dirstamp)
-	-rm -f Source/GUI/$(am__dirstamp)
-	-rm -f Source/Main/$(DEPDIR)/$(am__dirstamp)
-	-rm -f Source/Main/$(am__dirstamp)
+	-rm -f Source/$(DEPDIR)/$(am__dirstamp)
+	-rm -f Source/$(am__dirstamp)
 	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
@@ -1729,7 +1716,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-libtool \
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf Source/Compiler/$(DEPDIR) Source/GUI/$(DEPDIR) Source/Main/$(DEPDIR)
+	-rm -rf Source/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-tags
@@ -1781,7 +1768,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf Source/Compiler/$(DEPDIR) Source/GUI/$(DEPDIR) Source/Main/$(DEPDIR)
+	-rm -rf Source/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic \
 	maintainer-clean-local
@@ -1901,17 +1888,17 @@ uninstall-hook: update-caches
 # Force a rebuild of all embedded resources...
 rebuild-resources:
 	touch $(srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml
-	$(MAKE) $(AM_MAKEFLAGS) Source/GUI/Resources.cpp Source/GUI/Resources.h
+	$(MAKE) $(AM_MAKEFLAGS) Source/Resources.cpp Source/Resources.h
 
 # Generate the Narayan Logic lexer source from its regular expression token
 #  descriptions via flexc++, using that file as a witness. After that generate
 #  a stamp target for the entire set of derived lexer files...
-$(lexer_clobbered_source_full_paths): Source/Compiler/lexer.stamp
-Source/Compiler/lexer.stamp: Source/Compiler/NarayanLogicLexer.lpp Source/Compiler/parser.stamp
+$(lexer_clobbered_source_full_paths): Source/lexer.stamp
+Source/lexer.stamp: Source/NarayanLogicLexer.lpp Source/parser.stamp
 	@$(MKDIR_P) $(COMPILER_TMP)
 	$(AX_V_FLEXCPP)$(FLEXCPP) --target-directory=$(COMPILER_TMP) $<
 	@for lexer_file in $(lexer_clobbered_source_files_only); do \
-		mv $(COMPILER_TMP)/$$lexer_file Source/Compiler/; \
+		mv $(COMPILER_TMP)/$$lexer_file Source/; \
 	done
 	@rm -Rf $(COMPILER_TMP)
 	@echo "timestamp for $^" > $@
@@ -1919,19 +1906,19 @@ Source/Compiler/lexer.stamp: Source/Compiler/NarayanLogicLexer.lpp Source/Compil
 # Generate the Narayan Logic parser source from its Backus-Naur grammar rules
 #  via bisonc++, using that file as a witness. After that generate a stamp 
 #  target for the entire set of derived lexer files...
-$(parser_clobbered_source_full_paths): Source/Compiler/parser.stamp
-Source/Compiler/parser.stamp: Source/Compiler/NarayanLogicParser.ypp
+$(parser_clobbered_source_full_paths): Source/parser.stamp
+Source/parser.stamp: Source/NarayanLogicParser.ypp
 	@$(MKDIR_P) $(COMPILER_TMP)
 	$(AX_V_BISONCPP)$(BISONCPP) --target-directory=$(COMPILER_TMP) $<
 	@for parser_file in $(parser_clobbered_source_files_only); do \
-		mv $(COMPILER_TMP)/$$parser_file Source/Compiler/; \
+		mv $(COMPILER_TMP)/$$parser_file Source/; \
 	done
 	@rm -Rf $(COMPILER_TMP)
 	@echo "timestamp for $^" > $@
 
 # All user interface related data files compiled into C++ code via
 #  glib-compile-resources(1). Create the source and header file...
-Source/GUI/Resources.cpp Source/GUI/Resources.h: $(srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml $(GRESOURCE_LIST)
+Source/Resources.cpp Source/Resources.h: $(srcdir)/Data/com.cartesiantheatre.narayan-designer.gresource.xml $(GRESOURCE_LIST)
 	@$(MKDIR_P) $(@D)
 	$(AM_V_GEN) glib-compile-resources --target=$@ --sourcedir=$(srcdir)/Data --generate --c-name narayan_designer $<
 

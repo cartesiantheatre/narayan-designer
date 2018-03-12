@@ -598,7 +598,7 @@ PACKAGE_STRING='narayan-designer 0.0.001'
 PACKAGE_BUGREPORT='https://github.com/cartesiantheatre/narayan-designer/issues'
 PACKAGE_URL='https://www.cartesiantheatre.com'
 
-ac_unique_file="Source/Main/Main.cpp"
+ac_unique_file="Source/Main.cpp"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stdio.h>
@@ -13023,7 +13023,7 @@ CC=$lt_save_CC
 
     # Location to generate headers from templates containing Autoconf
     #  substitution variables...
-    ac_config_headers="$ac_config_headers Source/Main/config.h"
+    ac_config_headers="$ac_config_headers Source/config.h"
 
 
 # Check for command-line options...
@@ -21365,7 +21365,7 @@ _ACEOF
 
 
     # Update version string...
-    ac_config_files="$ac_config_files Source/Main/Version.h"
+    ac_config_files="$ac_config_files Source/Version.h"
 
 
 # Checks for system headers and features...
@@ -24680,11 +24680,11 @@ do
   case $ac_config_target in
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
-    "Source/Main/config.h") CONFIG_HEADERS="$CONFIG_HEADERS Source/Main/config.h" ;;
+    "Source/config.h") CONFIG_HEADERS="$CONFIG_HEADERS Source/config.h" ;;
     "po-directories") CONFIG_COMMANDS="$CONFIG_COMMANDS po-directories" ;;
     "Data/com.cartesiantheatre.narayan-designer.desktop.in") CONFIG_FILES="$CONFIG_FILES Data/com.cartesiantheatre.narayan-designer.desktop.in" ;;
     "Manual/narayan-designer.man") CONFIG_FILES="$CONFIG_FILES Manual/narayan-designer.man" ;;
-    "Source/Main/Version.h") CONFIG_FILES="$CONFIG_FILES Source/Main/Version.h" ;;
+    "Source/Version.h") CONFIG_FILES="$CONFIG_FILES Source/Version.h" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "Tests/Makefile") CONFIG_FILES="$CONFIG_FILES Tests/Makefile" ;;
     "Translations/Makefile.in") CONFIG_FILES="$CONFIG_FILES Translations/Makefile.in" ;;

@@ -9,10 +9,10 @@
     #include <config.h>
 
     // Our headers...
-    #include "Main/NarayanDesignerApplication.h"
-    #include "GUI/MainWindow.h"
-    #include "GUI/PreferencesDialog.h"
-    #include "GUI/UnitEditorDialog.h"
+    #include "NarayanDesignerApplication.h"
+    #include "MainWindow.h"
+    #include "PreferencesDialog.h"
+    #include "UnitEditorDialog.h"
 
     // Gdkmm...
     #include <gdkmm/pixbuf.h>
@@ -31,7 +31,7 @@
     #include <stdexcept>
 
     // i18n...
-    #include "Main/gettext.h"
+    #include "gettext.h"
     #define _(str) gettext (str)
     #define N_(str) gettext_noop (str)
 
@@ -131,7 +131,16 @@ MainWindow::MainWindow(
         m_Image_Error->set(Pixbuf_Error);
 
     // Initialize documents notebook...
-    m_Notebook_Documents->remove_page(0);
+    
+        // Clear any pages Glade might have added...
+        m_Notebook_Documents->remove_page(0);
+        
+        // Add a demo editor...
+        
+        // Allocate a page...
+        auto EditorSourceCodePage = m_Builder->get_object("EditorSourceCodePageClass");
+        
+//        m_Notebook_Documents->
 
     // Initialize the main stack...
     
